@@ -1,0 +1,47 @@
+{
+  "reviewer": "fixture-author-exact-literal-labels",
+  "cases": [
+    {
+      "id": "supported",
+      "output_sha256": "2ce480a1d79ce41363bf8b16122c7e64bd74a476c3a725b720df22927b46b5b6",
+      "answer_correct": true,
+      "citation_support": [
+        {
+          "claim_index": 0,
+          "citation_id": "E1",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "wrong_with_valid_citation",
+      "output_sha256": "4966b808a41629e0b9a10803726cffd7089c206220aec8275abea37770912dcf",
+      "answer_correct": false,
+      "citation_support": [
+        {
+          "claim_index": 0,
+          "citation_id": "E1",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "forged_citation",
+      "output_sha256": "f5fe14ed02e110a94052e432f4f00bf356605da1c77f99c0be175c4fa0d6eedb",
+      "answer_correct": false,
+      "citation_support": []
+    },
+    {
+      "id": "correct_abstention",
+      "output_sha256": "7b5740e134a7f6d4701ddb184ded1601acd7f01ca8a93681c44049b2f544e795",
+      "answer_correct": true,
+      "citation_support": []
+    },
+    {
+      "id": "false_abstention",
+      "output_sha256": "ef17470c73af63c2ba388a9bbe0aac64a7f6cb576563961105be3e27dc4d04d7",
+      "answer_correct": false,
+      "citation_support": []
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+services:
+  repolens:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: repolens:v6
+    ports:
+      - "127.0.0.1:8770:8770"
+    environment:
+      REPOLENS_DATA_DIR: /data
+      REPOLENS_CONTAINER: "1"
+      REPOLENS_REPOSITORY_ROOTS: /workspace/repository
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-flash}
+    volumes:
+      - repolens_data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid,nodev
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+volumes:
+  repolens_data:

@@ -1,0 +1,75 @@
+{
+  "schema_version": "repolens.v6-acceptance.v1",
+  "recorded_at": "2026-10-19T09:41:12.8343270Z",
+  "status": "local-acceptance-passed-external-validation-pending",
+  "stage": "V6",
+  "package_version": "4.1.0",
+  "wheel_sha256": "410ac2b30542e0646a812b26ae891ecd4d22b579ea149d4f9a294cd15f9a4c38",
+  "python_tests": {
+    "count": 170,
+    "passed": true,
+    "duration_seconds": 156.437
+  },
+  "browser_tests": {
+    "target": "installed-wheel-pythonw",
+    "duration_ms": 18879.306,
+    "passed": 8,
+    "failed": 0
+  },
+  "retrieval_regression": {
+    "frozen_metrics_unchanged": true,
+    "datasets_unchanged": true,
+    "replayed_queries": 90
+  },
+  "frontend": {
+    "format_check": true,
+    "wheel_files": 15,
+    "stale_assets": 0,
+    "build": true,
+    "typecheck": true
+  },
+  "api_contract_check": true,
+  "pythonw": {
+    "actual_startup_verified": true,
+    "homepage_verified": true,
+    "health_stage": "V6",
+    "url": "http://127.0.0.1:8771/"
+  },
+  "model_evaluation": {
+    "remote_calls_this_run": 0,
+    "real_generation_quality": "not_measured",
+    "fixtures": "curated-validator-replay-not-model-quality"
+  },
+  "docker": {
+    "runtime_executed": false,
+    "cli_available": false,
+    "build_executed": false,
+    "files_implemented": true
+  },
+  "remote_ci": {
+    "configured": true,
+    "executed": false
+  },
+  "git": {
+    "learning_references_modified": false,
+    "learning_references_indexed": false,
+    "commit_created": false,
+    "target_worktree": "existing-236-D-no-checkout-unchanged",
+    "push_performed": false
+  },
+  "artifact_sha256": {
+    "eval/v6-package-build.json": "297fdea11e0bb2ae479023362888bc7a555bf9cd5ccead49e50b232eb302bb45",
+    "eval/v6-policy-manifest.json": "73bda4e4983c451905ba9520493af3bf3ee83370e7e3421000fc895e6162d2bc",
+    "eval/v6-retrieval-regression.json": "8b77fcd94384fb2a946b222e3756c07b6db1a77e288e83d22a5c10418777b8dd",
+    "eval/v6-generation-responses.json": "18de01518fcae754019ca25cfe05506bddc0918d66976a682e67da83ba94a9fb",
+    "eval/v6-generation-judgments.json": "b30bfa959746de0b4726f191e60da1341ae732a5118945f763793af6437a754c",
+    "eval/v6-generation-evaluation.json": "90b8e5dc1830578257a365ea1d86cdb607a1ec64933a562c61a33506a55f642d",
+    "eval/v6-workbench-smoke.json": "eb139024fa32b08aee805c2a316af6973b262097f6cf1e86ce43b1511c113f42",
+    "eval/flask-agent-v6-smoke.json": "e3e32bcc08fe310253aa807f60080b8e9c1c8bd93c37fcc4764e3f0ef2458623",
+    "docs/openapi-v6.json": "e18ab1c36005458e82f86cf03a8f899595aee417ab9872dcb98d2c0b28c5ea66",
+    "docs/screenshots/v6/workspace-desktop.png": "00bc9b5a800576e903470839b31f63122baa205ee265a0b5b94e332d83494cfb",
+    "docs/screenshots/v6/analysis-desktop.png": "b79497460aa1780c35caee757e519cd8e0a186cd2fcb5f97d43f36bf3b8b09be",
+    "docs/screenshots/v6/graph-mobile.png": "2e3d16be52b800914c6ea3f2c07ecd1dd2d0dfb58f29f7213af8e89525ae5115",
+    "docs/screenshots/v6/trace-desktop.png": "114daa6e23961e5b5f924cdcac00c400c20b5e6677cad5d940620f51b9ef352e"
+  }
+}

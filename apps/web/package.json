@@ -1,0 +1,40 @@
+{
+  "name": "repolens-workbench",
+  "private": true,
+  "version": "5.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "test": "playwright test",
+    "api:types": "openapi-typescript ../../docs/openapi-v6.json -o src/api-schema.d.ts && prettier --write src/api-schema.d.ts",
+    "format": "prettier --write src e2e *.config.ts *.json index.html",
+    "format:check": "prettier --check src e2e *.config.ts *.json index.html"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "^1.1.8",
+    "@monaco-editor/react": "^4.7.0",
+    "@tanstack/react-query": "^5.90.0",
+    "@xyflow/react": "^12.9.0",
+    "lucide-react": "^0.468.0",
+    "monaco-editor": "^0.55.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.0",
+    "recharts": "^3.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/dagre": "^0.7.53",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "openapi-typescript": "^7.10.0",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.0"
+  }
+}

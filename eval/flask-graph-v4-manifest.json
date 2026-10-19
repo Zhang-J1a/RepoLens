@@ -1,0 +1,20 @@
+{
+  "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+  "implementation_sha256": {
+    "src/repolens/graph/__init__.py": "f28b15cb772b177776505f754957270cbb60607b31fd5f8c90a4ee941b2ae1ac",
+    "src/repolens/graph/builder.py": "92045b7e9919ef84afea0ffe4db4c7c3f1aefdf5930aadcc2e7c590c4091f26d",
+    "src/repolens/graph/parsing.py": "aaa6d77863fc0095ce767a726affe99d338f46cd1965c417b70676512b899baf",
+    "src/repolens/graph/query.py": "308bacf06285c5e4a8198cee1ce136b7a05de824fdc896b66c28bc0334e9a30d",
+    "src/repolens/graph/schema.py": "fc1b1a3e0f177532da3f186d77cfddda5c0442919c78ad08942e53a4b1277530",
+    "src/repolens/graph/workflow.py": "38fbd571adcb71aafef4b194fad788852edb7b35fb9e0b69b98cbf534e63098e",
+    "src/repolens/index.py": "56bafa84de4cca0647957b01e8a6050e1732bf7db40b01859799f0f4f1a1d29d",
+    "src/repolens/embeddings.py": "4f6a631df588e1d8be91e1c2ab04e2755e61485a2594bcf257ff77a594170fe3",
+    "src/repolens/retrieval.py": "92efff502b976622f8160be918e0e98906b6a84886d97f97ce4c5d4eb9156e35",
+    "src/repolens/evaluation.py": "4b9cdffe076d498d460929e5651d3c10b54374345e18f482143df4e1293afede",
+    "scripts/graph_benchmark.py": "d3064d0004d58fec503cd14c5757c74b68f0372d81704dd9ca394a03ac865b13"
+  },
+  "graph_policy": "python-import-scope-graph-v1",
+  "retrieval_policy": "vector-static-graph-rrf-v1",
+  "primary_acceptance": "graph cross-file macro Recall@10 greater than pure vector; report all regressions",
+  "frozen_before_first_retrieval_utc": "2026-10-19T04:38:14.971789+00:00"
+}

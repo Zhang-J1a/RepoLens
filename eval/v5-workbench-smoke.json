@@ -1,0 +1,21 @@
+{
+  "schema_version": "repolens.workbench-smoke.v1",
+  "ok": true,
+  "package_path": "D:\\RAG\\RepoLens\\data\\v5-acceptance-venv\\Lib\\site-packages\\repolens\\__init__.py",
+  "homepage_status": 200,
+  "fixture": "synthetic-taskboard-two-commits",
+  "provider": "mock",
+  "source_span_verified": true,
+  "answer_status": "answered",
+  "graph_nodes": 12,
+  "graph_edges": 18,
+  "changed_files": 1,
+  "diff_sides_differ": true,
+  "markdown_export_status": 200,
+  "agent_status": "degraded",
+  "agent_stop_reason": "step_budget_exhausted",
+  "agent_trace_events": 14,
+  "sse_resume_verified": true,
+  "frozen_evaluation_views": 6,
+  "note": "Offline installed-package contract smoke, not model or retrieval quality evaluation."
+}

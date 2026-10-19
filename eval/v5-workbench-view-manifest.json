@@ -1,0 +1,12 @@
+{
+  "purpose": "V5 view-only supplement; frozen experiments remain unchanged",
+  "view_sha256": "f7cf270b0addadd22328055bea5fda1c7938735948dc92c1807782862f1e4984",
+  "replayed_cases": 90,
+  "nonempty_retrieval_cases": 80,
+  "source_files": {
+    "flask-graph-v4-scope-v2-evaluation.json": "665b20e706a80c4f918b4911e490a5cba08831162d3db25bc136f41536e573f0",
+    "flask-graph-v4-validation-scope-v2-vector.json": "aa86c43613a443144ce24b2bdd1b24792125165d588c64b4e4f1d4ff0691b361",
+    "flask-graph-v4-validation-scope-v2-hybrid.json": "c4f4dc0e4a9b60232a6727c3f7b39c1e2b69717ca6d5566139dc2e0aaab097a2",
+    "flask-graph-v4-validation-scope-v2-graph.json": "6e2edc25fb4dfe57939b7f32f5c76af13af7b96624ffe545ac9f65376d39e563"
+  }
+}

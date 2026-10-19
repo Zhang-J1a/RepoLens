@@ -1,0 +1,1141 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "RepoLens 分析工作台",
+    "description": "V6 本地只读 Git 分析。任务和 API Key 仅保存在当前进程。",
+    "version": "4.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "summary": "Metrics Json",
+        "operationId": "metrics_json_api_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Metrics Json Api Metrics Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/settings": {
+      "post": {
+        "summary": "Settings",
+        "operationId": "settings_api_settings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "type": "object",
+                  "title": "Response Settings Api Settings Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspaces": {
+      "get": {
+        "summary": "Workspaces",
+        "operationId": "workspaces_api_workspaces_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Workspace"
+                  },
+                  "type": "array",
+                  "title": "Response Workspaces Api Workspaces Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspaces/{identity}": {
+      "get": {
+        "summary": "Workspace",
+        "operationId": "workspace_api_workspaces__identity__get",
+        "parameters": [
+          {
+            "name": "identity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Identity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Workspace Api Workspaces  Identity  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo": {
+      "post": {
+        "summary": "Demo",
+        "operationId": "demo_api_demo_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Demo Api Demo Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "summary": "List Tasks",
+        "operationId": "list_tasks_api_tasks_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TaskView"
+                  },
+                  "type": "array",
+                  "title": "Response List Tasks Api Tasks Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Start Task",
+        "operationId": "start_task_api_tasks_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ImportInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SearchInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AskInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ImpactInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GraphInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AgentInput"
+                  }
+                ],
+                "title": "Payload",
+                "discriminator": {
+                  "propertyName": "action",
+                  "mapping": {
+                    "import": "#/components/schemas/ImportInput",
+                    "search": "#/components/schemas/SearchInput",
+                    "ask": "#/components/schemas/AskInput",
+                    "impact": "#/components/schemas/ImpactInput",
+                    "graph": "#/components/schemas/GraphInput",
+                    "agent": "#/components/schemas/AgentInput"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{identity}": {
+      "get": {
+        "summary": "Task",
+        "operationId": "task_api_tasks__identity__get",
+        "parameters": [
+          {
+            "name": "identity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Identity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{identity}/events": {
+      "get": {
+        "summary": "Events",
+        "operationId": "events_api_tasks__identity__events_get",
+        "parameters": [
+          {
+            "name": "identity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Identity"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "After"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/source": {
+      "post": {
+        "summary": "Source",
+        "operationId": "source_api_source_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Source Api Source Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/diff": {
+      "post": {
+        "summary": "Diff",
+        "operationId": "diff_api_diff_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiffInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Diff Api Diff Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{identity}/export": {
+      "get": {
+        "summary": "Export",
+        "operationId": "export_api_tasks__identity__export_get",
+        "parameters": [
+          {
+            "name": "identity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Identity"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "json",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/evaluations": {
+      "get": {
+        "summary": "Evaluations",
+        "operationId": "evaluations_api_evaluations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array",
+                  "title": "Response Evaluations Api Evaluations Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AgentInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          },
+          "action": {
+            "type": "string",
+            "const": "agent",
+            "title": "Action"
+          },
+          "question": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Question"
+          },
+          "base": {
+            "type": "string",
+            "maxLength": 512,
+            "title": "Base",
+            "default": ""
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "deepseek",
+              "langchain"
+            ],
+            "title": "Provider",
+            "default": "mock"
+          },
+          "max_steps": {
+            "type": "integer",
+            "maximum": 32.0,
+            "minimum": 1.0,
+            "title": "Max Steps",
+            "default": 8
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Timeout Seconds",
+            "default": 120
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "action",
+          "question"
+        ],
+        "title": "AgentInput"
+      },
+      "AskInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          },
+          "action": {
+            "type": "string",
+            "const": "ask",
+            "title": "Action"
+          },
+          "question": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Question"
+          },
+          "retrieval": {
+            "type": "string",
+            "enum": [
+              "keyword",
+              "vector",
+              "hybrid",
+              "graph"
+            ],
+            "title": "Retrieval",
+            "default": "hybrid"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "deepseek",
+              "langchain"
+            ],
+            "title": "Provider",
+            "default": "mock"
+          },
+          "max_follow_ups": {
+            "type": "integer",
+            "maximum": 3.0,
+            "minimum": 0.0,
+            "title": "Max Follow Ups",
+            "default": 1
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "action",
+          "question"
+        ],
+        "title": "AskInput"
+      },
+      "DiffInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "base_snapshot_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Base Snapshot Id"
+          },
+          "head_snapshot_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Head Snapshot Id"
+          },
+          "path": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Path"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "base_snapshot_id",
+          "head_snapshot_id",
+          "path"
+        ],
+        "title": "DiffInput"
+      },
+      "GraphInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          },
+          "action": {
+            "type": "string",
+            "const": "graph",
+            "title": "Action"
+          },
+          "seed_kind": {
+            "type": "string",
+            "enum": [
+              "symbol",
+              "path",
+              "commit"
+            ],
+            "title": "Seed Kind",
+            "default": "symbol"
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 4096,
+            "title": "Seed",
+            "default": ""
+          },
+          "hops": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Hops",
+            "default": 2
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "action"
+        ],
+        "title": "GraphInput"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Health": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "stage": {
+            "type": "string",
+            "const": "V6",
+            "title": "Stage",
+            "default": "V6"
+          },
+          "key_configured": {
+            "type": "boolean",
+            "title": "Key Configured"
+          },
+          "data_dir": {
+            "type": "string",
+            "title": "Data Dir"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ok",
+          "version",
+          "key_configured",
+          "data_dir"
+        ],
+        "title": "Health"
+      },
+      "ImpactInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          },
+          "action": {
+            "type": "string",
+            "const": "impact",
+            "title": "Action"
+          },
+          "base": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Base"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "deepseek",
+              "langchain"
+            ],
+            "title": "Provider",
+            "default": "mock"
+          },
+          "with_graph": {
+            "type": "boolean",
+            "title": "With Graph",
+            "default": true
+          },
+          "diff": {
+            "type": "string",
+            "maxLength": 100000,
+            "title": "Diff",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "action",
+          "base"
+        ],
+        "title": "ImpactInput"
+      },
+      "ImportInput": {
+        "properties": {
+          "action": {
+            "type": "string",
+            "const": "import",
+            "title": "Action"
+          },
+          "repository": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Repository"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "repository"
+        ],
+        "title": "ImportInput"
+      },
+      "KeyInput": {
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "maxLength": 4096,
+            "title": "Api Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "api_key"
+        ],
+        "title": "KeyInput"
+      },
+      "SearchInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Ref",
+            "default": "HEAD"
+          },
+          "action": {
+            "type": "string",
+            "const": "search",
+            "title": "Action"
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Query"
+          },
+          "retrieval": {
+            "type": "string",
+            "enum": [
+              "keyword",
+              "vector",
+              "hybrid",
+              "graph"
+            ],
+            "title": "Retrieval",
+            "default": "hybrid"
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 10
+          },
+          "path_prefix": {
+            "type": "string",
+            "maxLength": 4096,
+            "title": "Path Prefix",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "action",
+          "query"
+        ],
+        "title": "SearchInput"
+      },
+      "SourceInput": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Workspace Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Snapshot Id"
+          },
+          "path": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Path"
+          },
+          "evidence_id": {
+            "type": "string",
+            "maxLength": 512,
+            "title": "Evidence Id",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "snapshot_id",
+          "path"
+        ],
+        "title": "SourceInput"
+      },
+      "TaskView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "workspace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workspace Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "duration_ms": {
+            "type": "integer",
+            "title": "Duration Ms"
+          },
+          "events": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "default": "-"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "action",
+          "workspace_id",
+          "status",
+          "created_at",
+          "duration_ms",
+          "events",
+          "error",
+          "result"
+        ],
+        "title": "TaskView"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Workspace": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "repository": {
+            "type": "string",
+            "title": "Repository"
+          },
+          "snapshots": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Snapshots"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "name",
+          "repository",
+          "snapshots"
+        ],
+        "title": "Workspace"
+      }
+    }
+  }
+}

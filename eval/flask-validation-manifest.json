@@ -1,0 +1,15 @@
+{
+  "dataset": "flask-validation.jsonl",
+  "dataset_sha256": "2950d7b188a3ebaf58fc1623c465ce5edd1e5a8b5cb6f11aac760f45eec7f6fc",
+  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+  "frozen_before_first_retrieval_run": true,
+  "case_count": 20,
+  "locator_count": 28,
+  "categories": {"chinese-natural": 5, "english-natural": 5, "identifier": 5, "multi-evidence": 5},
+  "source_sha256": {
+    "src/repolens/index.py": "8c85055554e39b3bfbcdde14aa1a3d60a86e77d2cfefe27699a9eb299cdf78cb",
+    "src/repolens/retrieval.py": "fbb77702849df1f7b467fb74826d2ca99fd41f2c1d62f0c5adcdd88a9824aa36"
+  },
+  "policy": "Freeze queries, evidence, and ranking before scoring; report failures without tuning against this set.",
+  "limitations": "New questions on previously unused gold symbols in the same Flask commit; not an external blind review or a second-repository benchmark."
+}

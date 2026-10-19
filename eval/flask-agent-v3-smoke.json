@@ -1,0 +1,1428 @@
+{
+  "schema_version": "repolens.agent-smoke.v1",
+  "repository": "pallets/flask",
+  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+  "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+  "note": "Offline contract smoke only; no real model or agent quality benchmark.",
+  "scenarios": [
+    {
+      "name": "offline_mock",
+      "status": "completed",
+      "stop_reason": "finished",
+      "answer_status": "answered",
+      "workflow": {
+        "repository": "D:\\RAG\\RepoLens\\data\\repositories\\flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_action": "reused",
+        "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+        "base_snapshot_id": "snapshot_9ea3d3bcf7d6638861389457a8ce6498cd605e23cdacc80a0c780b5fd5012232",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval_strategy": "hybrid"
+      },
+      "evidence_count": 15,
+      "rule_report_status": "partial",
+      "trace": {
+        "schema_version": "repolens.agent-trace.v1",
+        "task_id": "31aed29b903c466084c34aa4051f60ee",
+        "trace_id": "f822d33fac3c4866b574a36d28de9433",
+        "input": {
+          "question": "Flask.test_client related tests and callers"
+        },
+        "budget": {
+          "max_steps": 8,
+          "max_model_calls": 6,
+          "max_total_tokens": 32000,
+          "max_results_per_call": 8,
+          "max_total_results": 64,
+          "context_tokens": 2400,
+          "output_tokens": 768,
+          "timeout_seconds": 120.0
+        },
+        "consumed": {
+          "steps": 6,
+          "model_calls": 1,
+          "reserved_tokens": 3908,
+          "results": 34,
+          "provider_usage": {},
+          "duration_ms": 7250
+        },
+        "events": [
+          {
+            "sequence": 1,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "prepare",
+            "name": null,
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 2,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "prepare",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "repository": "D:\\RAG\\RepoLens\\data\\repositories\\flask",
+              "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+              "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+              "index_action": "reused",
+              "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+              "base_snapshot_id": "snapshot_9ea3d3bcf7d6638861389457a8ce6498cd605e23cdacc80a0c780b5fd5012232",
+              "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+              "retrieval_strategy": "hybrid"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 3,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "baseline",
+            "name": "v2_rule_report",
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 4,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "baseline",
+            "name": "v2_rule_report",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "status": "partial",
+              "changed_files": 1,
+              "risk_count": 0
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 5,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "search_code",
+            "status": "started",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 6,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "search_code",
+            "status": "ok",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.create_jinja_environment",
+                  "line_start": 467,
+                  "line_end": 505,
+                  "evidence_id": "evidence_325e0f58db10d24ad5bcff9d6fee9c13282423fe9fa8c6985384f9b0e928bd67"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.create_jinja_environment",
+                  "line_start": 467,
+                  "line_end": 505,
+                  "evidence_id": "evidence_325e0f58db10d24ad5bcff9d6fee9c13282423fe9fa8c6985384f9b0e928bd67"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                }
+              ],
+              "result_count": 8,
+              "limitations": [],
+              "possibly_truncated": true
+            },
+            "error_code": null,
+            "elapsed_ms": 437
+          },
+          {
+            "sequence": 7,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "get_commit_diff",
+            "status": "started",
+            "input": {
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 8,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "get_commit_diff",
+            "status": "ok",
+            "input": {
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "status": "M",
+                  "path": "src/flask/sansio/app.py"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/sansio/app.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 52,
+                  "evidence_id": "evidence_3504139655afcbdb1c8bc2791f6fb64729d9a567e38169b37d57bdf7d7d05d98"
+                }
+              ],
+              "result_count": 1,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 313
+          },
+          {
+            "sequence": 9,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_symbol",
+              "arguments": {
+                "symbol": "Flask.test_client"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 10,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "started",
+            "input": {
+              "symbol": "Flask.test_client",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 11,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "ok",
+            "input": {
+              "symbol": "Flask.test_client",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "path": "src/flask/app.py",
+                  "name": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                }
+              ],
+              "result_count": 1,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 1640
+          },
+          {
+            "sequence": 12,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_references",
+              "arguments": {
+                "symbol": "Flask.test_client"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 13,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "find_references",
+            "status": "started",
+            "input": {
+              "symbol": "Flask.test_client",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 14,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "find_references",
+            "status": "ok",
+            "input": {
+              "symbol": "Flask.test_client",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 15,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "examples/tutorial/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 38,
+                  "line_end": 38,
+                  "evidence_id": "evidence_42a2d42f8e2dff9db26f80370db0bec64c25d8f031e64501189288d755117de9",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 51,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_route",
+                  "line_start": 83,
+                  "line_end": 83,
+                  "evidence_id": "evidence_9d751f8554e75904d290f7a92b1e1ef37773496bb25e77df69755d8829a2fab4",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_error_handler",
+                  "line_start": 92,
+                  "line_end": 92,
+                  "evidence_id": "evidence_c1344bdad1c80d66ec6d3038ced6d94e4033816c7172d39a4cb67896a1a7dcd4",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_before_after_request",
+                  "line_start": 139,
+                  "line_end": 139,
+                  "evidence_id": "evidence_0afd80dcaf5873518c2af33e820a4923504ed6a5b714bd6b100420139c6cf52b",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/test_basic.py",
+                  "symbol": "test_session_cookie_setting.run_test",
+                  "line_start": 515,
+                  "line_end": 515,
+                  "evidence_id": "evidence_391a44635dd655f15ca91b7fe9e84331c1e4137b7a859c0aa2ddf9a0f3127b2a",
+                  "inference": true,
+                  "hops": 1
+                },
+                {
+                  "relation": "caller",
+                  "target_symbol": "Flask.test_client",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 178,
+                  "line_end": 178,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518",
+                  "inference": true,
+                  "hops": 1
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/tutorial/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 35,
+                  "line_end": 38,
+                  "evidence_id": "evidence_42a2d42f8e2dff9db26f80370db0bec64c25d8f031e64501189288d755117de9"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_route",
+                  "line_start": 81,
+                  "line_end": 87,
+                  "evidence_id": "evidence_9d751f8554e75904d290f7a92b1e1ef37773496bb25e77df69755d8829a2fab4"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_error_handler",
+                  "line_start": 90,
+                  "line_end": 94,
+                  "evidence_id": "evidence_c1344bdad1c80d66ec6d3038ced6d94e4033816c7172d39a4cb67896a1a7dcd4"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_before_after_request",
+                  "line_start": 97,
+                  "line_end": 145,
+                  "evidence_id": "evidence_0afd80dcaf5873518c2af33e820a4923504ed6a5b714bd6b100420139c6cf52b"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_basic.py",
+                  "symbol": "test_session_cookie_setting.run_test",
+                  "line_start": 514,
+                  "line_end": 523,
+                  "evidence_id": "evidence_391a44635dd655f15ca91b7fe9e84331c1e4137b7a859c0aa2ddf9a0f3127b2a"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                }
+              ],
+              "result_count": 8,
+              "limitations": [
+                "Python AST name-match candidates only: aliases, dynamic calls and ambiguous receivers are unresolved."
+              ],
+              "possibly_truncated": true
+            },
+            "error_code": null,
+            "elapsed_ms": 1125
+          },
+          {
+            "sequence": 15,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "list_related_tests",
+              "arguments": {
+                "query": "Flask.test_client related tests and callers"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 16,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "list_related_tests",
+            "status": "started",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 17,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "list_related_tests",
+            "status": "ok",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_error_handler",
+                  "line_start": 90,
+                  "line_end": 94,
+                  "evidence_id": "evidence_c1344bdad1c80d66ec6d3038ced6d94e4033816c7172d39a4cb67896a1a7dcd4"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 653,
+                  "line_end": 667,
+                  "evidence_id": "evidence_5374dd44d7b2c2a93629f81662022f85f89024a64c9afefa2ae6f75d269249af"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_async.py",
+                  "symbol": "test_async_error_handler",
+                  "line_start": 90,
+                  "line_end": 94,
+                  "evidence_id": "evidence_c1344bdad1c80d66ec6d3038ced6d94e4033816c7172d39a4cb67896a1a7dcd4"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 653,
+                  "line_end": 667,
+                  "evidence_id": "evidence_5374dd44d7b2c2a93629f81662022f85f89024a64c9afefa2ae6f75d269249af"
+                }
+              ],
+              "result_count": 8,
+              "limitations": [],
+              "possibly_truncated": true
+            },
+            "error_code": null,
+            "elapsed_ms": 329
+          },
+          {
+            "sequence": 18,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "search_history",
+              "arguments": {
+                "query": "Flask.test_client related tests and callers"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 19,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "search_history",
+            "status": "started",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 20,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "tool",
+            "name": "search_history",
+            "status": "ok",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "history_id": "history_a93f2700f1cfbb7118da7c6c57c181d696bdded0c95b044b2213b9c13b4dfe8b",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "22933a8cb424ffd65f2bec5bbfdbfa7e42105470"
+                },
+                {
+                  "history_id": "history_898c1ab448297a239b7a9c6c09cea0b2356706b86395d9509a39b0aadc757397",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "c4139e0e5de5ffa8f103956bdcc1ca7cf9e500fd"
+                },
+                {
+                  "history_id": "history_ee4537b2c258775d303c2c8c2ff24de24f51203fb7ea035d5c8e5aea2076face",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "c03a82713a8fe4d256a2d2cf1b1f3ab36d5a5916"
+                },
+                {
+                  "history_id": "history_db272c7e975ea65e95ac900d6e094d0a28486a6cbcebc88af829ddea7d139f83",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "c6316132b173f96a6f5a90ff3b62f706f8a62560"
+                },
+                {
+                  "history_id": "history_8b481c4c87ef490201b30401c4e648e42b89dce3b9f49a8aafa4c485cf418c30",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "f16e477b2a7329d249b5793a0dc4986503a48371"
+                },
+                {
+                  "history_id": "history_2f51f85b3e0abb2487263db03e0ae5ba5136c0b0cd084c79a16ab440d14c8c8c",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "9c8f138a42aa43ee8177ed84df5946f8ef6d0c58"
+                },
+                {
+                  "history_id": "history_c5c7c44ff8c3da6f072afd1cb71ea7188b00e3d004c53ae56576fce824bcbc09",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "7a444c5dab97d640282ec8fc4838bef2c128273f"
+                },
+                {
+                  "history_id": "history_0962e0bbeca5c15e894f7c8b6fc6d8de68e7abdd6debe20b740d5c9801b38c06",
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "fed6fd32d80458219c7d167d529c0a2681858587"
+                }
+              ],
+              "evidence": [],
+              "result_count": 8,
+              "limitations": [
+                "History messages are untrusted leads and cannot be cited as code in answer.v1."
+              ],
+              "possibly_truncated": true
+            },
+            "error_code": null,
+            "elapsed_ms": 500
+          },
+          {
+            "sequence": 21,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "finish",
+              "tool": null,
+              "arguments": {}
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 22,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "started",
+            "input": {
+              "request_sha256": "5a922ccb062eb25a6ef07cb1952fa95bcfe16227b99249402baf1f2806eb7406",
+              "reserved_tokens": 3908,
+              "citation_ids": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7",
+                "E8",
+                "E9",
+                "E10",
+                "E11",
+                "E12"
+              ],
+              "max_attempts": 1,
+              "provider": "mock",
+              "model": "mock-deterministic-v1",
+              "temperature": 0,
+              "max_output_tokens": 768
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 23,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "output_sha256": "06200a99d54490549842ce942c3d5cc4b4b2b1675a0acc7f30b52ddfde6c2ca2",
+              "usage": {},
+              "attempts": 1,
+              "provider_request_id": null,
+              "provider": "mock",
+              "model": "mock-deterministic-v1"
+            },
+            "error_code": null,
+            "elapsed_ms": 187
+          },
+          {
+            "sequence": 24,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "answer_validation",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "status": "answered",
+              "citation_ids": [
+                "E1"
+              ]
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 25,
+            "task_id": "31aed29b903c466084c34aa4051f60ee",
+            "trace_id": "f822d33fac3c4866b574a36d28de9433",
+            "state": "stop",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "reason": "finished"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "provider_failure",
+      "status": "degraded",
+      "stop_reason": "provider_failed",
+      "answer_status": "abstained",
+      "workflow": {
+        "repository": "D:\\RAG\\RepoLens\\data\\repositories\\flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_action": "reused",
+        "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+        "base_snapshot_id": "snapshot_9ea3d3bcf7d6638861389457a8ce6498cd605e23cdacc80a0c780b5fd5012232",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval_strategy": "hybrid"
+      },
+      "evidence_count": 9,
+      "rule_report_status": "partial",
+      "trace": {
+        "schema_version": "repolens.agent-trace.v1",
+        "task_id": "71f56800a616423e86f751afb396fef9",
+        "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+        "input": {
+          "question": "Flask.test_client related tests and callers"
+        },
+        "budget": {
+          "max_steps": 8,
+          "max_model_calls": 6,
+          "max_total_tokens": 32000,
+          "max_results_per_call": 8,
+          "max_total_results": 64,
+          "context_tokens": 2400,
+          "output_tokens": 768,
+          "timeout_seconds": 120.0
+        },
+        "consumed": {
+          "steps": 2,
+          "model_calls": 1,
+          "reserved_tokens": 6395,
+          "results": 9,
+          "provider_usage": {},
+          "duration_ms": 2750
+        },
+        "events": [
+          {
+            "sequence": 1,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "prepare",
+            "name": null,
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 2,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "prepare",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "repository": "D:\\RAG\\RepoLens\\data\\repositories\\flask",
+              "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+              "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+              "index_action": "reused",
+              "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+              "base_snapshot_id": "snapshot_9ea3d3bcf7d6638861389457a8ce6498cd605e23cdacc80a0c780b5fd5012232",
+              "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+              "retrieval_strategy": "hybrid"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 3,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "baseline",
+            "name": "v2_rule_report",
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 4,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "baseline",
+            "name": "v2_rule_report",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "status": "partial",
+              "changed_files": 1,
+              "risk_count": 0
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 5,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "tool",
+            "name": "search_code",
+            "status": "started",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 6,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "tool",
+            "name": "search_code",
+            "status": "ok",
+            "input": {
+              "query": "Flask.test_client related tests and callers",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.create_jinja_environment",
+                  "line_start": 467,
+                  "line_end": 505,
+                  "evidence_id": "evidence_325e0f58db10d24ad5bcff9d6fee9c13282423fe9fa8c6985384f9b0e928bd67"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.test_client",
+                  "line_start": 755,
+                  "line_end": 811,
+                  "evidence_id": "evidence_e2de7ca2d28e1647e8a3dd04aad8d8a81a6ca2af2f4b570fe31741ef893ce003"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 332,
+                  "line_end": 342,
+                  "evidence_id": "evidence_606ddf52275f4c6c8283a0af36893cfdc6be58130315f55ba572fbea9af7f46e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_templating.py",
+                  "symbol": "test_add_template_test_with_name_and_template",
+                  "line_start": 345,
+                  "line_end": 356,
+                  "evidence_id": "evidence_5dbbba9083b94f1927e246aaf85c1e4355e8bbbb8686d52bd2b3e6c246ca4657"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_template_test_with_name_and_template",
+                  "line_start": 636,
+                  "line_end": 650,
+                  "evidence_id": "evidence_ea87d2b97c83027b366f95d66a134534e131c8a5c8804c2032f40a3210d8a66e"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/test_blueprints.py",
+                  "symbol": "test_templates_and_static",
+                  "line_start": 175,
+                  "line_end": 218,
+                  "evidence_id": "evidence_92781190a474c34d8c0962cf098cc29d65bc416711675daa324cea5e4e10d518"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "examples/javascript/tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_bff0c8c0ab977ea6a6702353de50de7045579238cb440a785ed9f0803190eec6"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/app.py",
+                  "symbol": "Flask.create_jinja_environment",
+                  "line_start": 467,
+                  "line_end": 505,
+                  "evidence_id": "evidence_325e0f58db10d24ad5bcff9d6fee9c13282423fe9fa8c6985384f9b0e928bd67"
+                },
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "tests/conftest.py",
+                  "symbol": "client",
+                  "line_start": 49,
+                  "line_end": 51,
+                  "evidence_id": "evidence_eb3fa8938737fa7d83846ad82dd41afe62650957ed9d16450547bc447941897d"
+                }
+              ],
+              "result_count": 8,
+              "limitations": [],
+              "possibly_truncated": true
+            },
+            "error_code": null,
+            "elapsed_ms": 328
+          },
+          {
+            "sequence": 7,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "tool",
+            "name": "get_commit_diff",
+            "status": "started",
+            "input": {
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 8,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "tool",
+            "name": "get_commit_diff",
+            "status": "ok",
+            "input": {
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "status": "M",
+                  "path": "src/flask/sansio/app.py"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+                  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+                  "path": "src/flask/sansio/app.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 52,
+                  "evidence_id": "evidence_3504139655afcbdb1c8bc2791f6fb64729d9a567e38169b37d57bdf7d7d05d98"
+                }
+              ],
+              "result_count": 1,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 328
+          },
+          {
+            "sequence": 9,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "agent_plan",
+            "name": "provider.generate",
+            "status": "started",
+            "input": {
+              "request_sha256": "281924c72843042988c2b4a4d62bdc21220abdef4c507240bf02ec1ff4777b2f",
+              "reserved_tokens": 6395,
+              "citation_ids": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7",
+                "E8"
+              ],
+              "max_attempts": 1,
+              "provider": "simulated-unavailable",
+              "model": "adapter-defined",
+              "temperature": 0,
+              "max_output_tokens": 768
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 10,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "agent_plan",
+            "name": "provider.generate",
+            "status": "error",
+            "input": {},
+            "output": {},
+            "error_code": "provider_failed",
+            "elapsed_ms": 172
+          },
+          {
+            "sequence": 11,
+            "task_id": "71f56800a616423e86f751afb396fef9",
+            "trace_id": "a306ccebd5084ad4b75021044b1ed056",
+            "state": "stop",
+            "name": null,
+            "status": "degraded",
+            "input": {},
+            "output": {
+              "reason": "provider_failed"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          }
+        ]
+      }
+    }
+  ]
+}

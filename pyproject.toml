@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repolens"
+dynamic = ["version"]
+description = "Evidence-first local indexing and retrieval for Git repositories"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+web = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
+web-test = ["httpx>=0.28,<1"]
+langchain = ["langchain-core>=1.6,<2", "langchain-deepseek>=1.1,<2", "langsmith>=0.14.9,<1"]
+
+[project.scripts]
+repolens = "repolens.cli:main"
+repolens-ui = "repolens.webapp:launch"
+repolens-workbench = "repolens.workbench.launcher:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "repolens.__version__"}
+
+[tool.setuptools.package-data]
+"repolens.workbench" = ["static/**/*", "static/*", "fixtures/**/*.py", "fixtures/**/*.md", "fixtures/*.json"]

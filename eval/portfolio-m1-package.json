@@ -1,0 +1,25 @@
+{
+  "stage": "V6",
+  "wheel": "repolens-4.1.0-py3-none-any.whl",
+  "version": "4.1.0",
+  "sha256": "12220ac1ab6324e216e22cc7ff15ab5675d62b31ce0adb8f9889162a63ca52a7",
+  "frontend_files": 15,
+  "stale_assets": 0,
+  "asset_hashes": {
+    "repolens/workbench/static/index.html": "7a5b9f8415055c6e6441a7e8269d6de0e89d8f2d23acf29abb21faaf39392ddc",
+    "repolens/workbench/static/assets/analysis-_UNYMRrP.js": "644dc108b161e094728b41676fa8b5c17b0d2aaec7f36e631aa293bed8864f3b",
+    "repolens/workbench/static/assets/codicon-ngg6Pgfi.ttf": "9d25513c861704be650eacef8c4588aceabdc8b668857747b5e42b299e926918",
+    "repolens/workbench/static/assets/editor.worker-1APKdqmi.js": "0f5568c3b432f1c0ccb1a45f85c5a15be46a383bcdc3d3f6bbbcbe83be9bd6e7",
+    "repolens/workbench/static/assets/editors-D_QQEaOa.js": "98e05c1cef7ec0230c7a249ff514b7997c0dbe9e5d03a73a4cd3a86f9c470dc5",
+    "repolens/workbench/static/assets/editors-WGlpN-0L.css": "86edb56db891be6512922ab73aa7a57094bdbd66606425930c94ced485543957",
+    "repolens/workbench/static/assets/evaluation-DVO0FABG.js": "ab3f18db19a951bb0718563179dcd972d99dc04837c49d4ff609ccf190b6a151",
+    "repolens/workbench/static/assets/graph-os8v18io.js": "6a22aa3f44b1ea7317b082efe46b586aeb4d8916ea8374af66402cc6e82e9774",
+    "repolens/workbench/static/assets/index-BYFGguvt.css": "57705a58b63259301a2dfe7c01d6e4d7362a44f8b7c9ab8ef5e35436f6229675",
+    "repolens/workbench/static/assets/index-C2-FNNwv.js": "19be09bcbcfdb37baf472971282d8ba0b4a27518c3b6bb552b589701d69e6f84",
+    "repolens/workbench/static/assets/markdown-BFxVWTOG.js": "f22ad36fd7b2c5e0b0ab62c8496934cb476d7142e2d4cc258fb712137c8a9946",
+    "repolens/workbench/static/assets/python-1jWCZejv.js": "1faaf1134551eb8a3e5ec199c1419f8f839b6697aab4c33aeaf3263af8266c6c",
+    "repolens/workbench/static/assets/search-D48b0qnV.js": "98be274b6e73fcd02c3bfb21a59e873f4f62ea9b4a293340e8372944597165f2",
+    "repolens/workbench/static/assets/trace-BmTEW-z2.js": "ac00b50168e6ea093134b50a64207f021f321be8ab57d5495c05be7a0fa3523e",
+    "repolens/workbench/static/assets/with-selector-u34m9qIK.js": "b8d6832dbde01ce39fae77b5d0d6e5bc0ef730b3ae03f319680ba059b7411d00"
+  }
+}

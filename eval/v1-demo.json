@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "version": "1.0.0",
+  "fixture": "taskboard-v0 (synthetic)",
+  "commit_sha": "5be075d64fe92fdbd0615f0fb9727fa4e2e1029d",
+  "stats": {
+    "inventory_files": 9,
+    "indexed_files": 9,
+    "symbols": 28,
+    "chunks": 39,
+    "source_bytes": 4402,
+    "statuses": {
+      "indexed": 9
+    },
+    "diagnostics": []
+  },
+  "snapshot_count": 1,
+  "query": "TaskService.create_task",
+  "retrieval": "fts5-bm25-coverage-rerank-v1",
+  "evidence": {
+    "path": "src/taskboard/service.py",
+    "symbol": "TaskService.create_task",
+    "line_start": 9,
+    "line_end": 13,
+    "text": "    def create_task(self, task: Task) -> Task:\n        self.repository.add(task)\n        if task.notify:\n            self.notifier.send(task)\n        return task\n"
+  },
+  "worktree_unchanged": true,
+  "temporary_files_cleaned_on_exit": true
+}

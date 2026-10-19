@@ -1,0 +1,23 @@
+{
+  "schema_version": "repolens.impact-eval.v1",
+  "dataset": "flask-impact-v2-gold.json",
+  "dataset_sha256": "c07b8d6b0045b56da8b415bb7a817845c4b406b3f0d7e36e8ea0478d359b9b99",
+  "repository": "pallets/flask",
+  "case_count": 10,
+  "successful_cases": 10,
+  "error_cases": 0,
+  "metrics": {
+    "changed_files": {"precision": 1.0, "recall": 1.0, "f1": 1.0},
+    "changed_symbols": {"precision": 1.0, "recall": 1.0, "f1": 1.0},
+    "related_tests": {"precision": 1.0, "recall": 1.0, "f1": 1.0},
+    "related_docs": {"precision": 1.0, "recall": 1.0, "f1": 1.0},
+    "risk_severities": {"precision": 1.0, "recall": 1.0, "f1": 1.0}
+  },
+  "quality": {
+    "schema_valid_rate": 1.0,
+    "snapshot_binding_rate": 1.0,
+    "evidence_valid_rate": 1.0,
+    "reference_binding_rate": 1.0
+  },
+  "status_counts": {"complete": 6, "partial": 4}
+}

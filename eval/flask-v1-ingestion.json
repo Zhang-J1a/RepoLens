@@ -1,0 +1,21 @@
+{
+  "snapshot_id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+  "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+  "root": "D:\\RAG\\RepoLens\\data\\repositories\\flask",
+  "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+  "policy": "git-objects-v1_ast-md-atx_lines80-overlap15",
+  "created_at": "2026-10-17T06:48:56.995214+00:00",
+  "stats": {
+    "inventory_files": 236,
+    "indexed_files": 89,
+    "symbols": 1622,
+    "chunks": 2256,
+    "source_bytes": 593455,
+    "statuses": {
+      "indexed": 89,
+      "unsupported_type": 147
+    },
+    "diagnostics": []
+  },
+  "elapsed_seconds": 0.557595
+}

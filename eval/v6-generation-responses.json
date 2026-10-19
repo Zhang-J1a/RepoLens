@@ -1,0 +1,146 @@
+{
+  "scope": "curated-validator-replay-not-model-quality",
+  "model": "scripted-fixtures",
+  "cases": [
+    {
+      "id": "supported",
+      "question": "What is the timeout?",
+      "answerable": true,
+      "evidence": [
+        {
+          "evidence_id": "unit-evidence",
+          "snapshot_id": "unit-snapshot",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "path": "settings.py",
+          "symbol": "timeout",
+          "line_start": 1,
+          "line_end": 2,
+          "text": "def timeout():\n    return 30\n"
+        }
+      ],
+      "output": {
+        "status": "answered",
+        "summary": "Timeout is 30.",
+        "claims": [
+          {
+            "text": "Timeout is 30.",
+            "citation_ids": [
+              "E1"
+            ]
+          }
+        ],
+        "unknowns": []
+      }
+    },
+    {
+      "id": "wrong_with_valid_citation",
+      "question": "What is the timeout?",
+      "answerable": true,
+      "evidence": [
+        {
+          "evidence_id": "unit-evidence",
+          "snapshot_id": "unit-snapshot",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "path": "settings.py",
+          "symbol": "timeout",
+          "line_start": 1,
+          "line_end": 2,
+          "text": "def timeout():\n    return 30\n"
+        }
+      ],
+      "output": {
+        "status": "answered",
+        "summary": "Timeout is 60.",
+        "claims": [
+          {
+            "text": "Timeout is 60.",
+            "citation_ids": [
+              "E1"
+            ]
+          }
+        ],
+        "unknowns": []
+      }
+    },
+    {
+      "id": "forged_citation",
+      "question": "What is the timeout?",
+      "answerable": true,
+      "evidence": [
+        {
+          "evidence_id": "unit-evidence",
+          "snapshot_id": "unit-snapshot",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "path": "settings.py",
+          "symbol": "timeout",
+          "line_start": 1,
+          "line_end": 2,
+          "text": "def timeout():\n    return 30\n"
+        }
+      ],
+      "output": {
+        "status": "answered",
+        "summary": "Timeout is 30.",
+        "claims": [
+          {
+            "text": "Timeout is 30.",
+            "citation_ids": [
+              "E999"
+            ]
+          }
+        ],
+        "unknowns": []
+      }
+    },
+    {
+      "id": "correct_abstention",
+      "question": "What is the timeout?",
+      "answerable": false,
+      "evidence": [
+        {
+          "evidence_id": "unit-evidence",
+          "snapshot_id": "unit-snapshot",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "path": "settings.py",
+          "symbol": "timeout",
+          "line_start": 1,
+          "line_end": 2,
+          "text": "def timeout():\n    return 30\n"
+        }
+      ],
+      "output": {
+        "status": "abstained",
+        "summary": "No deployment evidence.",
+        "claims": [],
+        "unknowns": [
+          "Deployment is not documented."
+        ]
+      }
+    },
+    {
+      "id": "false_abstention",
+      "question": "What is the timeout?",
+      "answerable": true,
+      "evidence": [
+        {
+          "evidence_id": "unit-evidence",
+          "snapshot_id": "unit-snapshot",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "path": "settings.py",
+          "symbol": "timeout",
+          "line_start": 1,
+          "line_end": 2,
+          "text": "def timeout():\n    return 30\n"
+        }
+      ],
+      "output": {
+        "status": "abstained",
+        "summary": "No timeout evidence.",
+        "claims": [],
+        "unknowns": [
+          "Unknown."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": "repolens.impact-eval.v1",
+  "repository": "pallets/flask",
+  "commit": "d086db856be187255b8ec61ef409357393020f32",
+  "labeling_note": "Reviewed structural contract labels for ten fixed local Flask commits. This dataset evaluates report structure and evidence binding; it is not an independent dynamic-call or risk-recall benchmark.",
+  "cases": [
+    {
+      "id": "flask-impact-v2-001",
+      "base_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+      "head_sha": "d086db856be187255b8ec61ef409357393020f32",
+      "expected_changed_files": ["src/flask/sansio/app.py"],
+      "expected_changed_symbols": [{"path": "src/flask/sansio/app.py", "name": "App", "change": "modified"}],
+      "expected_related_tests": ["tests/conftest.py", "tests/test_blueprints.py", "tests/test_cli.py"],
+      "expected_related_docs": [],
+      "expected_risk_severities": []
+    },
+    {
+      "id": "flask-impact-v2-002",
+      "base_sha": "41cb747cd5a9b43da43bf809ad974722542603db",
+      "head_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+      "expected_changed_files": ["src/flask/app.py", "tests/test_testing.py"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/app.py", "name": "Flask", "change": "modified"},
+        {"path": "tests/test_testing.py", "name": "test_environ_base_default", "change": "modified"},
+        {"path": "tests/test_testing.py", "name": "test_environ_base_default.index", "change": "modified"},
+        {"path": "tests/test_testing.py", "name": "test_environ_base_modified", "change": "modified"},
+        {"path": "tests/test_testing.py", "name": "test_environ_base_modified.index", "change": "modified"}
+      ],
+      "expected_related_tests": ["tests/test_config.py", "tests/test_testing.py", "tests/type_check/typing_error_handler.py"],
+      "expected_related_docs": ["README.md"],
+      "expected_risk_severities": ["low"]
+    },
+    {
+      "id": "flask-impact-v2-003",
+      "base_sha": "728c5e440af704a786384159184f695cf04ecbe7",
+      "head_sha": "41cb747cd5a9b43da43bf809ad974722542603db",
+      "expected_changed_files": ["CHANGES.rst"],
+      "expected_changed_symbols": [],
+      "expected_related_tests": [],
+      "expected_related_docs": [".github/ISSUE_TEMPLATE/feature-request.md", ".github/pull_request_template.md"],
+      "expected_risk_severities": []
+    },
+    {
+      "id": "flask-impact-v2-004",
+      "base_sha": "d73fa1cdcbd8b1465c151db8924ba58b1dd14e35",
+      "head_sha": "728c5e440af704a786384159184f695cf04ecbe7",
+      "expected_changed_files": [".github/workflows/tests.yaml", "CHANGES.rst", "docs/installation.rst", "pyproject.toml", "src/flask/cli.py", "src/flask/helpers.py", "src/flask/sessions.py", "tests/test_appctx.py", "tests/test_basic.py", "tests/test_config.py", "tests/test_json_tag.py", "uv.lock"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/cli.py", "name": "SeparatedPathType", "change": "modified"},
+        {"path": "src/flask/cli.py", "name": "SeparatedPathType.convert", "change": "modified"},
+        {"path": "src/flask/helpers.py", "name": "_CollectErrors", "change": "modified"},
+        {"path": "src/flask/helpers.py", "name": "_CollectErrors.raise_any", "change": "modified"},
+        {"path": "src/flask/sessions.py", "name": "SessionInterface", "change": "modified"},
+        {"path": "src/flask/sessions.py", "name": "SessionInterface.get_expiration_time", "change": "modified"},
+        {"path": "tests/test_appctx.py", "name": "test_robust_teardown", "change": "modified"},
+        {"path": "tests/test_basic.py", "name": "test_session_expiration", "change": "modified"},
+        {"path": "tests/test_basic.py", "name": "test_session_special_types", "change": "modified"},
+        {"path": "tests/test_config.py", "name": "test_config_from_file_toml", "change": "modified"},
+        {"path": "tests/test_json_tag.py", "name": "test_dump_load_unchanged", "change": "modified"}
+      ],
+      "expected_related_tests": ["examples/tutorial/tests/conftest.py", "tests/test_appctx.py", "tests/test_async.py", "tests/test_basic.py", "tests/test_blueprints.py", "tests/test_cli.py", "tests/test_helpers.py", "tests/test_regression.py", "tests/test_reqctx.py", "tests/test_session_interface.py", "tests/test_signals.py", "tests/test_testing.py"],
+      "expected_related_docs": [".github/ISSUE_TEMPLATE/feature-request.md", ".github/pull_request_template.md"],
+      "expected_risk_severities": ["low", "medium"]
+    },
+    {
+      "id": "flask-impact-v2-005",
+      "base_sha": "d73fa1cdcbd8b1465c151db8924ba58b1dd14e35",
+      "head_sha": "7689f98403e2c0b0bc8d1031e60f8cff2620e86a",
+      "expected_changed_files": [".github/workflows/tests.yaml", "CHANGES.rst", "docs/installation.rst", "pyproject.toml", "src/flask/cli.py", "src/flask/helpers.py", "src/flask/sessions.py", "tests/test_appctx.py", "tests/test_basic.py", "tests/test_config.py", "tests/test_json_tag.py", "uv.lock"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/cli.py", "name": "SeparatedPathType", "change": "modified"},
+        {"path": "src/flask/cli.py", "name": "SeparatedPathType.convert", "change": "modified"},
+        {"path": "src/flask/helpers.py", "name": "_CollectErrors", "change": "modified"},
+        {"path": "src/flask/helpers.py", "name": "_CollectErrors.raise_any", "change": "modified"},
+        {"path": "src/flask/sessions.py", "name": "SessionInterface", "change": "modified"},
+        {"path": "src/flask/sessions.py", "name": "SessionInterface.get_expiration_time", "change": "modified"},
+        {"path": "tests/test_appctx.py", "name": "test_robust_teardown", "change": "modified"},
+        {"path": "tests/test_basic.py", "name": "test_session_expiration", "change": "modified"},
+        {"path": "tests/test_basic.py", "name": "test_session_special_types", "change": "modified"},
+        {"path": "tests/test_config.py", "name": "test_config_from_file_toml", "change": "modified"},
+        {"path": "tests/test_json_tag.py", "name": "test_dump_load_unchanged", "change": "modified"}
+      ],
+      "expected_related_tests": ["examples/tutorial/tests/conftest.py", "tests/test_appctx.py", "tests/test_async.py", "tests/test_basic.py", "tests/test_blueprints.py", "tests/test_cli.py", "tests/test_helpers.py", "tests/test_regression.py", "tests/test_reqctx.py", "tests/test_session_interface.py", "tests/test_signals.py", "tests/test_testing.py"],
+      "expected_related_docs": [".github/ISSUE_TEMPLATE/feature-request.md", ".github/pull_request_template.md"],
+      "expected_risk_severities": ["low", "medium"]
+    },
+    {
+      "id": "flask-impact-v2-006",
+      "base_sha": "d318b683471101618febed18996405ad26462110",
+      "head_sha": "d73fa1cdcbd8b1465c151db8924ba58b1dd14e35",
+      "expected_changed_files": ["src/flask/app.py"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/app.py", "name": "Flask", "change": "modified"},
+        {"path": "src/flask/app.py", "name": "Flask.request_context", "change": "modified"},
+        {"path": "src/flask/app.py", "name": "Flask.test_request_context", "change": "modified"}
+      ],
+      "expected_related_tests": ["tests/test_appctx.py", "tests/test_reqctx.py", "tests/test_templating.py"],
+      "expected_related_docs": ["README.md"],
+      "expected_risk_severities": []
+    },
+    {
+      "id": "flask-impact-v2-007",
+      "base_sha": "2a8a38b051fc248865730bf3511bf2e2ea325e81",
+      "head_sha": "d318b683471101618febed18996405ad26462110",
+      "expected_changed_files": ["src/flask/helpers.py"],
+      "expected_changed_symbols": [{"path": "src/flask/helpers.py", "name": "send_file", "change": "modified"}],
+      "expected_related_tests": ["tests/test_blueprints.py", "tests/test_helpers.py"],
+      "expected_related_docs": [],
+      "expected_risk_severities": []
+    },
+    {
+      "id": "flask-impact-v2-008",
+      "base_sha": "d8eaaba824655046958d1a97f11780de460c3271",
+      "head_sha": "2a8a38b051fc248865730bf3511bf2e2ea325e81",
+      "expected_changed_files": ["src/flask/views.py"],
+      "expected_changed_symbols": [],
+      "expected_related_tests": ["tests/test_basic.py", "tests/test_views.py"],
+      "expected_related_docs": [],
+      "expected_risk_severities": []
+    },
+    {
+      "id": "flask-impact-v2-009",
+      "base_sha": "3596b1ab61cea85edb8970e83ff61daa073facf8",
+      "head_sha": "d8eaaba824655046958d1a97f11780de460c3271",
+      "expected_changed_files": ["CHANGES.rst", "src/flask/sansio/scaffold.py", "tests/test_basic.py"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold", "change": "modified"},
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold.get", "change": "modified"},
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold.query", "change": "added"},
+        {"path": "tests/test_basic.py", "name": "test_method_route", "change": "modified"}
+      ],
+      "expected_related_tests": ["tests/test_basic.py", "tests/test_helpers.py", "tests/test_json.py", "tests/test_views.py"],
+      "expected_related_docs": [".github/ISSUE_TEMPLATE/feature-request.md", ".github/pull_request_template.md"],
+      "expected_risk_severities": ["low"]
+    },
+    {
+      "id": "flask-impact-v2-010",
+      "base_sha": "3596b1ab61cea85edb8970e83ff61daa073facf8",
+      "head_sha": "89992954ec71b594b1b911f98977cdc8ad46a057",
+      "expected_changed_files": ["CHANGES.rst", "src/flask/sansio/scaffold.py", "tests/test_basic.py"],
+      "expected_changed_symbols": [
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold", "change": "modified"},
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold.get", "change": "modified"},
+        {"path": "src/flask/sansio/scaffold.py", "name": "Scaffold.query", "change": "added"},
+        {"path": "tests/test_basic.py", "name": "test_method_route", "change": "modified"}
+      ],
+      "expected_related_tests": ["tests/test_basic.py", "tests/test_helpers.py", "tests/test_json.py", "tests/test_views.py"],
+      "expected_related_docs": [".github/ISSUE_TEMPLATE/feature-request.md", ".github/pull_request_template.md"],
+      "expected_risk_severities": ["low"]
+    }
+  ]
+}

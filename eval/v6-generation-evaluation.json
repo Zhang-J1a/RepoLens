@@ -1,0 +1,58 @@
+{
+  "schema_version": "repolens.generation-evaluation.v1",
+  "scope": "curated-validator-replay-not-model-quality",
+  "model": "scripted-fixtures",
+  "reviewer": "fixture-author-exact-literal-labels",
+  "case_count": 5,
+  "metrics": {
+    "structured_output_pass_rate": 0.8,
+    "answer_accuracy": 0.4,
+    "citation_precision_valid_outputs": 0.5,
+    "claim_support_coverage_valid_outputs": 0.5,
+    "abstention_precision": 0.5,
+    "abstention_recall": 1.0,
+    "latency_ms": {
+      "measured_count": 0,
+      "p50": null,
+      "p95": null
+    },
+    "total_tokens": null
+  },
+  "cases": [
+    {
+      "id": "supported",
+      "schema_and_citation_valid": true,
+      "answer_correct": true,
+      "status": "answered"
+    },
+    {
+      "id": "wrong_with_valid_citation",
+      "schema_and_citation_valid": true,
+      "answer_correct": false,
+      "status": "answered"
+    },
+    {
+      "id": "forged_citation",
+      "schema_and_citation_valid": false,
+      "answer_correct": false,
+      "status": "rejected"
+    },
+    {
+      "id": "correct_abstention",
+      "schema_and_citation_valid": true,
+      "answer_correct": true,
+      "status": "abstained"
+    },
+    {
+      "id": "false_abstention",
+      "schema_and_citation_valid": true,
+      "answer_correct": false,
+      "status": "abstained"
+    }
+  ],
+  "limitations": "Support/correctness depend on supplied review labels; invalid outputs counted as failures. Citation precision denominator includes valid outputs only. No automatic semantic judging.",
+  "provenance": {
+    "responses_sha256": "18de01518fcae754019ca25cfe05506bddc0918d66976a682e67da83ba94a9fb",
+    "judgments_sha256": "b30bfa959746de0b4726f191e60da1341ae732a5118945f763793af6437a754c"
+  }
+}

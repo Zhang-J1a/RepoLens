@@ -1,0 +1,131 @@
+{
+  "schema_version": "repolens.v6-regression.v1",
+  "contract": {
+    "view_sha256": "f7cf270b0addadd22328055bea5fda1c7938735948dc92c1807782862f1e4984",
+    "source_hashes": {
+      "flask-graph-v4-scope-v2-evaluation.json": "665b20e706a80c4f918b4911e490a5cba08831162d3db25bc136f41536e573f0",
+      "flask-graph-v4-validation-scope-v2-vector.json": "aa86c43613a443144ce24b2bdd1b24792125165d588c64b4e4f1d4ff0691b361",
+      "flask-graph-v4-validation-scope-v2-hybrid.json": "c4f4dc0e4a9b60232a6727c3f7b39c1e2b69717ca6d5566139dc2e0aaab097a2",
+      "flask-graph-v4-validation-scope-v2-graph.json": "6e2edc25fb4dfe57939b7f32f5c76af13af7b96624ffe545ac9f65376d39e563"
+    },
+    "view_count": 6,
+    "case_count": 90,
+    "policy_sha256": "73bda4e4983c451905ba9520493af3bf3ee83370e7e3421000fc895e6162d2bc",
+    "langchain_policy_sha256": "64dbf0b2e23cdd8e7b784a4be785dff04415f36446a16abf6d598a4122696f95",
+    "generation_metrics": "not_measured"
+  },
+  "replay": {
+    "index": "data\\v4-flask-index",
+    "retriever": "langchain",
+    "replayed": [
+      {
+        "id": "crossfile-v4-vector",
+        "strategy": "vector",
+        "metrics": {
+          "recall@5": 0.6,
+          "recall@10": 0.8,
+          "mrr": 0.51,
+          "ndcg@10": 0.5372645308258713,
+          "case_count": 10,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 63.066499999877124,
+            "p95": 75.75658999958249,
+            "mean": 65.31776999981957
+          }
+        }
+      },
+      {
+        "id": "crossfile-v4-hybrid",
+        "strategy": "hybrid",
+        "metrics": {
+          "recall@5": 0.6666666666666667,
+          "recall@10": 0.85,
+          "mrr": 0.8666666666666666,
+          "ndcg@10": 0.7290280157766167,
+          "case_count": 10,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 102.66909999972995,
+            "p95": 106.4785300011863,
+            "mean": 99.6808100004273
+          }
+        }
+      },
+      {
+        "id": "crossfile-v4-graph",
+        "strategy": "graph",
+        "metrics": {
+          "recall@5": 0.95,
+          "recall@10": 0.95,
+          "mrr": 0.95,
+          "ndcg@10": 0.9226294385530917,
+          "case_count": 10,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 110.56155000005674,
+            "p95": 189.15590999868064,
+            "mean": 121.77008999969985
+          }
+        }
+      },
+      {
+        "id": "validation-v4-vector",
+        "strategy": "vector",
+        "metrics": {
+          "recall@5": 0.4583333333333333,
+          "recall@10": 0.5333333333333333,
+          "mrr": 0.38708333333333333,
+          "ndcg@10": 0.403038352732141,
+          "case_count": 20,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 63.500450000901765,
+            "p95": 68.50607999995191,
+            "mean": 49.15486000018063
+          }
+        }
+      },
+      {
+        "id": "validation-v4-hybrid",
+        "strategy": "hybrid",
+        "metrics": {
+          "recall@5": 0.525,
+          "recall@10": 0.6083333333333333,
+          "mrr": 0.5183333333333333,
+          "ndcg@10": 0.5095612207129474,
+          "case_count": 20,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 101.08239999954094,
+            "p95": 112.64701000045535,
+            "mean": 83.96703999987949
+          }
+        }
+      },
+      {
+        "id": "validation-v4-graph",
+        "strategy": "graph",
+        "metrics": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 0.41,
+          "ndcg@10": 0.4250820089719056,
+          "case_count": 20,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 131.87804999961372,
+            "p95": 306.0278849999124,
+            "mean": 157.24918000005346
+          }
+        }
+      }
+    ]
+  }
+}

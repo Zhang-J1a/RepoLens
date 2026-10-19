@@ -1,0 +1,1413 @@
+{
+  "schema_version": "repolens.workbench-smoke.v1",
+  "ok": true,
+  "stage": "V6",
+  "scope": "synthetic-mock-contract-walkthrough-not-model-quality",
+  "package_path": "D:\\RAG\\RepoLens\\data\\v6-langchain-acceptance-venv\\Lib\\site-packages\\repolens\\__init__.py",
+  "homepage_status": 200,
+  "fixture": "synthetic-taskboard-two-commits",
+  "provider": "mock",
+  "source_span_verified": true,
+  "answer_status": "answered",
+  "graph_nodes": 12,
+  "graph_edges": 18,
+  "changed_files": 1,
+  "diff_sides_differ": true,
+  "markdown_export_status": 200,
+  "agent_status": "degraded",
+  "agent_stop_reason": "step_budget_exhausted",
+  "agent_trace_events": 14,
+  "sse_resume_verified": true,
+  "frozen_evaluation_views": 6,
+  "request_id": "0332daefe3874ddd943fa175e53d5e45",
+  "metrics_status": 200,
+  "system_metrics": {
+    "task_count": 7,
+    "task_completion_rate": 1.0,
+    "task_duration_ms": {
+      "p50": 719.0,
+      "p95": 3806.0999999999995
+    },
+    "walkthrough_duration_ms": 10422,
+    "total_tokens": null,
+    "cost": null
+  },
+  "agent_cases": [
+    {
+      "name": "normal_mock",
+      "status": "completed",
+      "stop_reason": "finished",
+      "tool_calls": 5,
+      "successful_tool_calls": 5,
+      "tool_success_rate": 1.0,
+      "repeated_tool_calls": 0,
+      "trace_complete": true,
+      "trace": {
+        "schema_version": "repolens.agent-trace.v1",
+        "task_id": "6d80d1d97881480eaf951a242eba8af6",
+        "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+        "input": {
+          "question": "TaskService.create_task callers and tests"
+        },
+        "budget": {
+          "max_steps": 8,
+          "max_model_calls": 6,
+          "max_total_tokens": 32000,
+          "max_results_per_call": 8,
+          "max_total_results": 64,
+          "context_tokens": 2400,
+          "output_tokens": 768,
+          "timeout_seconds": 120
+        },
+        "consumed": {
+          "steps": 5,
+          "model_calls": 1,
+          "reserved_tokens": 1961,
+          "results": 14,
+          "provider_usage": {},
+          "duration_ms": 3985
+        },
+        "events": [
+          {
+            "sequence": 1,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "prepare",
+            "name": null,
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 2,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "prepare",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "repository": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repolens-v6-demo-4hhutx9z\\index\\demo-repositories\\taskboard-qf8zwzup",
+              "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+              "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+              "index_action": "reused",
+              "base_sha": null,
+              "base_snapshot_id": null,
+              "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+              "retrieval_strategy": "hybrid"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 3,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "search_code",
+            "status": "started",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 4,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "search_code",
+            "status": "ok",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "create_task_endpoint",
+                  "line_start": 18,
+                  "line_end": 19,
+                  "evidence_id": "evidence_9ff2a91bbc091f8a77925db53d9098e2d4091f931a445408abd01f86c1dbd343"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "README.md",
+                  "symbol": "Taskboard 演示仓库",
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_a7a886510150f81175951c8dad1e523cb9aa39874499c4f93f1c94792d4a95d4"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService",
+                  "line_start": 9,
+                  "line_end": 9,
+                  "evidence_id": "evidence_04063001444b8a46589f24ca1d5f213df8c8328cf2b67f109f84d5f66c28d6b8"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "create_task_endpoint",
+                  "line_start": 18,
+                  "line_end": 19,
+                  "evidence_id": "evidence_9ff2a91bbc091f8a77925db53d9098e2d4091f931a445408abd01f86c1dbd343"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "README.md",
+                  "symbol": "Taskboard 演示仓库",
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_a7a886510150f81175951c8dad1e523cb9aa39874499c4f93f1c94792d4a95d4"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService",
+                  "line_start": 9,
+                  "line_end": 9,
+                  "evidence_id": "evidence_04063001444b8a46589f24ca1d5f213df8c8328cf2b67f109f84d5f66c28d6b8"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                }
+              ],
+              "result_count": 7,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 531
+          },
+          {
+            "sequence": 5,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_symbol",
+              "arguments": {
+                "symbol": "TaskService.create_task"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 6,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "started",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 7,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "ok",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "path": "service.py",
+                  "name": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                }
+              ],
+              "result_count": 1,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 516
+          },
+          {
+            "sequence": 8,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_references",
+              "arguments": {
+                "symbol": "TaskService.create_task"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 9,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "find_references",
+            "status": "started",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 10,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "find_references",
+            "status": "ok",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "name": "TaskService.normalize_title",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946",
+                  "distance": 1,
+                  "review_priority": 1.5
+                },
+                {
+                  "id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "name": "TaskRepository",
+                  "path": "service.py",
+                  "symbol": "TaskRepository",
+                  "line_start": 4,
+                  "line_end": 6,
+                  "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71",
+                  "distance": 1,
+                  "review_priority": 1.5
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskRepository",
+                  "line_start": 4,
+                  "line_end": 4,
+                  "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71"
+                }
+              ],
+              "result_count": 3,
+              "limitations": [
+                "Static Python definitions, imports and uniquely resolved calls only; dynamic dispatch and external libraries are unresolved.",
+                "Document edges are explicit qualified-name mentions, marked as inference. Review priority is not a risk severity.",
+                "Commit seeds cover symbols in changed surviving files; deleted-file code requires the base snapshot."
+              ],
+              "possibly_truncated": false,
+              "graph": {
+                "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                "truncated": false,
+                "nodes": [
+                  {
+                    "id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "function",
+                    "name": "TaskService.create_task",
+                    "path": "service.py",
+                    "symbol": "TaskService.create_task",
+                    "line_start": 13,
+                    "line_end": 15,
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 13,
+                      "line_end": 13
+                    },
+                    "distance": 0,
+                    "review_priority": 3.0
+                  },
+                  {
+                    "id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "function",
+                    "name": "TaskService.normalize_title",
+                    "path": "service.py",
+                    "symbol": "TaskService.normalize_title",
+                    "line_start": 10,
+                    "line_end": 11,
+                    "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 10,
+                      "line_end": 10
+                    },
+                    "distance": 1,
+                    "review_priority": 1.5
+                  },
+                  {
+                    "id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "class",
+                    "name": "TaskRepository",
+                    "path": "service.py",
+                    "symbol": "TaskRepository",
+                    "line_start": 4,
+                    "line_end": 6,
+                    "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 4,
+                      "line_end": 4
+                    },
+                    "distance": 1,
+                    "review_priority": 1.5
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "graph_edge_653741bea8c5353f64bb2be17cb1235fe395b668a001fd2926bfa76376a02637",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "source_id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "target_id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                    "kind": "calls",
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "inference": false,
+                    "provenance": {
+                      "source": "static_reference",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 14,
+                      "line_end": 14
+                    }
+                  },
+                  {
+                    "id": "graph_edge_d60f2abae86e90f6d1e7a06227913aa2605463bcddc542fa4176ec04e4928af1",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "source_id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "target_id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                    "kind": "calls",
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "inference": false,
+                    "provenance": {
+                      "source": "static_reference",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 15,
+                      "line_end": 15
+                    }
+                  }
+                ]
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 531
+          },
+          {
+            "sequence": 11,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "list_related_tests",
+              "arguments": {
+                "query": "TaskService.create_task callers and tests"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 12,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "list_related_tests",
+            "status": "started",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 13,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "list_related_tests",
+            "status": "ok",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                }
+              ],
+              "result_count": 2,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 563
+          },
+          {
+            "sequence": 14,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "search_history",
+              "arguments": {
+                "query": "TaskService.create_task callers and tests"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 15,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "search_history",
+            "status": "started",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 16,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "tool",
+            "name": "search_history",
+            "status": "ok",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "history_id": "history_36c8f62e08532d40a2fc1492f9568e677336038170a8e1eef539e3ede6df7674",
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce"
+                }
+              ],
+              "evidence": [],
+              "result_count": 1,
+              "limitations": [
+                "History messages are untrusted leads and cannot be cited as code in answer.v1."
+              ],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 531
+          },
+          {
+            "sequence": 17,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "finish",
+              "tool": null,
+              "arguments": {}
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 18,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "started",
+            "input": {
+              "request_sha256": "044502180b6039762f0d8699128b501baafafea4dc6b50c55c9e2899e64d16d2",
+              "reserved_tokens": 1961,
+              "citation_ids": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7",
+                "E8"
+              ],
+              "max_attempts": 1,
+              "provider": "mock",
+              "model": "mock-deterministic-v1",
+              "temperature": 0,
+              "max_output_tokens": 768
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 19,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "output_sha256": "06200a99d54490549842ce942c3d5cc4b4b2b1675a0acc7f30b52ddfde6c2ca2",
+              "usage": {},
+              "attempts": 1,
+              "provider_request_id": null,
+              "provider": "mock",
+              "model": "mock-deterministic-v1"
+            },
+            "error_code": null,
+            "elapsed_ms": 516
+          },
+          {
+            "sequence": 20,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "answer_validation",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "status": "answered",
+              "citation_ids": [
+                "E1"
+              ]
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 21,
+            "task_id": "6d80d1d97881480eaf951a242eba8af6",
+            "trace_id": "d0d9be5ccb2f481788a24a140af5c2e4",
+            "state": "stop",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "reason": "finished"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "step_budget_degradation",
+      "status": "degraded",
+      "stop_reason": "step_budget_exhausted",
+      "tool_calls": 3,
+      "successful_tool_calls": 3,
+      "tool_success_rate": 1.0,
+      "repeated_tool_calls": 0,
+      "trace_complete": true,
+      "trace": {
+        "schema_version": "repolens.agent-trace.v1",
+        "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+        "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+        "input": {
+          "question": "TaskService.create_task callers and tests"
+        },
+        "budget": {
+          "max_steps": 3,
+          "max_model_calls": 6,
+          "max_total_tokens": 32000,
+          "max_results_per_call": 8,
+          "max_total_results": 64,
+          "context_tokens": 2400,
+          "output_tokens": 768,
+          "timeout_seconds": 120
+        },
+        "consumed": {
+          "steps": 3,
+          "model_calls": 1,
+          "reserved_tokens": 1961,
+          "results": 11,
+          "provider_usage": {},
+          "duration_ms": 2922
+        },
+        "events": [
+          {
+            "sequence": 1,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "prepare",
+            "name": null,
+            "status": "started",
+            "input": {},
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 2,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "prepare",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "repository": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repolens-v6-demo-4hhutx9z\\index\\demo-repositories\\taskboard-qf8zwzup",
+              "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+              "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+              "index_action": "reused",
+              "base_sha": null,
+              "base_snapshot_id": null,
+              "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+              "retrieval_strategy": "hybrid"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 3,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "search_code",
+            "status": "started",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 4,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "search_code",
+            "status": "ok",
+            "input": {
+              "query": "TaskService.create_task callers and tests",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "create_task_endpoint",
+                  "line_start": 18,
+                  "line_end": 19,
+                  "evidence_id": "evidence_9ff2a91bbc091f8a77925db53d9098e2d4091f931a445408abd01f86c1dbd343"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "README.md",
+                  "symbol": "Taskboard 演示仓库",
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_a7a886510150f81175951c8dad1e523cb9aa39874499c4f93f1c94792d4a95d4"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService",
+                  "line_start": 9,
+                  "line_end": 9,
+                  "evidence_id": "evidence_04063001444b8a46589f24ca1d5f213df8c8328cf2b67f109f84d5f66c28d6b8"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": "test_create_task",
+                  "line_start": 4,
+                  "line_end": 5,
+                  "evidence_id": "evidence_63f21f69c550d3e373bae8592a335ed70a872cfbf6de29953fa6ef132b8daf5a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "create_task_endpoint",
+                  "line_start": 18,
+                  "line_end": 19,
+                  "evidence_id": "evidence_9ff2a91bbc091f8a77925db53d9098e2d4091f931a445408abd01f86c1dbd343"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "tests/test_service.py",
+                  "symbol": null,
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_6a8483aa15e2738bc6cd666edf539cee743ee58b417a3b22de27f9549b59aa9a"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "README.md",
+                  "symbol": "Taskboard 演示仓库",
+                  "line_start": 1,
+                  "line_end": 3,
+                  "evidence_id": "evidence_a7a886510150f81175951c8dad1e523cb9aa39874499c4f93f1c94792d4a95d4"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService",
+                  "line_start": 9,
+                  "line_end": 9,
+                  "evidence_id": "evidence_04063001444b8a46589f24ca1d5f213df8c8328cf2b67f109f84d5f66c28d6b8"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                }
+              ],
+              "result_count": 7,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 516
+          },
+          {
+            "sequence": 5,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_symbol",
+              "arguments": {
+                "symbol": "TaskService.create_task"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 6,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "started",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 7,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "find_symbol",
+            "status": "ok",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "path": "service.py",
+                  "name": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.create_task",
+                  "line_start": 13,
+                  "line_end": 15,
+                  "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712"
+                }
+              ],
+              "result_count": 1,
+              "limitations": [],
+              "possibly_truncated": false
+            },
+            "error_code": null,
+            "elapsed_ms": 578
+          },
+          {
+            "sequence": 8,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "agent_plan",
+            "name": "offline_rule_planner",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "action": "tool",
+              "tool": "find_references",
+              "arguments": {
+                "symbol": "TaskService.create_task"
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 9,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "find_references",
+            "status": "started",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 10,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "tool",
+            "name": "find_references",
+            "status": "ok",
+            "input": {
+              "symbol": "TaskService.create_task",
+              "limit": 8
+            },
+            "output": {
+              "items": [
+                {
+                  "id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "name": "TaskService.normalize_title",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946",
+                  "distance": 1,
+                  "review_priority": 1.5
+                },
+                {
+                  "id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "name": "TaskRepository",
+                  "path": "service.py",
+                  "symbol": "TaskRepository",
+                  "line_start": 4,
+                  "line_end": 6,
+                  "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71",
+                  "distance": 1,
+                  "review_priority": 1.5
+                }
+              ],
+              "evidence": [
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskService.normalize_title",
+                  "line_start": 10,
+                  "line_end": 11,
+                  "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946"
+                },
+                {
+                  "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                  "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                  "path": "service.py",
+                  "symbol": "TaskRepository",
+                  "line_start": 4,
+                  "line_end": 4,
+                  "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71"
+                }
+              ],
+              "result_count": 3,
+              "limitations": [
+                "Static Python definitions, imports and uniquely resolved calls only; dynamic dispatch and external libraries are unresolved.",
+                "Document edges are explicit qualified-name mentions, marked as inference. Review priority is not a risk severity.",
+                "Commit seeds cover symbols in changed surviving files; deleted-file code requires the base snapshot."
+              ],
+              "possibly_truncated": false,
+              "graph": {
+                "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                "truncated": false,
+                "nodes": [
+                  {
+                    "id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "function",
+                    "name": "TaskService.create_task",
+                    "path": "service.py",
+                    "symbol": "TaskService.create_task",
+                    "line_start": 13,
+                    "line_end": 15,
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 13,
+                      "line_end": 13
+                    },
+                    "distance": 0,
+                    "review_priority": 3.0
+                  },
+                  {
+                    "id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "function",
+                    "name": "TaskService.normalize_title",
+                    "path": "service.py",
+                    "symbol": "TaskService.normalize_title",
+                    "line_start": 10,
+                    "line_end": 11,
+                    "evidence_id": "evidence_688e100d13691601bdea1cb410184f88d1a01b4e93ed64ffd1f87d994f67d946",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 10,
+                      "line_end": 10
+                    },
+                    "distance": 1,
+                    "review_priority": 1.5
+                  },
+                  {
+                    "id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "kind": "class",
+                    "name": "TaskRepository",
+                    "path": "service.py",
+                    "symbol": "TaskRepository",
+                    "line_start": 4,
+                    "line_end": 6,
+                    "evidence_id": "evidence_208367ed58ebf6c6dd46948f24290686d416ffd8e9587c81cc607732b729ac71",
+                    "provenance": {
+                      "source": "python_ast",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 4,
+                      "line_end": 4
+                    },
+                    "distance": 1,
+                    "review_priority": 1.5
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "graph_edge_653741bea8c5353f64bb2be17cb1235fe395b668a001fd2926bfa76376a02637",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "source_id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "target_id": "graph_node_bb0acc5a06d43c125b85dc0dc7d9832a4d3abd879bb696ede55b53caff0674b8",
+                    "kind": "calls",
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "inference": false,
+                    "provenance": {
+                      "source": "static_reference",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 14,
+                      "line_end": 14
+                    }
+                  },
+                  {
+                    "id": "graph_edge_d60f2abae86e90f6d1e7a06227913aa2605463bcddc542fa4176ec04e4928af1",
+                    "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                    "source_id": "graph_node_dcee1ee8eee0c57b9f03136b7763226299f29660b6d2f0cf9a66e2c24f921c3d",
+                    "target_id": "graph_node_ba1ade92c7edad110092f147a2177d6057b53a939e1bda65c1f7ba4d088380bf",
+                    "kind": "calls",
+                    "evidence_id": "evidence_0d857bf28bb3a9743f8f0c509a55ceb37b347ffa2ff7622d3b2ce16c39bb1712",
+                    "inference": false,
+                    "provenance": {
+                      "source": "static_reference",
+                      "commit_sha": "a935867a071469cb915b8b9e8f35a6501e7456ce",
+                      "snapshot_id": "snapshot_08e86e5b3d4a23604933bac49beb0b35ae429e7e614c886d91b3971d1b4e26d2",
+                      "path": "service.py",
+                      "blob_id": "994efb188da0a130dcf02b6a2a9d28c38a51abe4",
+                      "line_start": 15,
+                      "line_end": 15
+                    }
+                  }
+                ]
+              }
+            },
+            "error_code": null,
+            "elapsed_ms": 531
+          },
+          {
+            "sequence": 11,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "started",
+            "input": {
+              "request_sha256": "e61b4911e1fe1f0c1f172d680ab69245b63f4396a3c19986dfb64516e2ad6bc7",
+              "reserved_tokens": 1961,
+              "citation_ids": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7",
+                "E8"
+              ],
+              "max_attempts": 1,
+              "provider": "mock",
+              "model": "mock-deterministic-v1",
+              "temperature": 0,
+              "max_output_tokens": 768
+            },
+            "output": {},
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 12,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "agent_answer",
+            "name": "provider.generate",
+            "status": "ok",
+            "input": {},
+            "output": {
+              "output_sha256": "06200a99d54490549842ce942c3d5cc4b4b2b1675a0acc7f30b52ddfde6c2ca2",
+              "usage": {},
+              "attempts": 1,
+              "provider_request_id": null,
+              "provider": "mock",
+              "model": "mock-deterministic-v1"
+            },
+            "error_code": null,
+            "elapsed_ms": 500
+          },
+          {
+            "sequence": 13,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "answer_validation",
+            "name": null,
+            "status": "ok",
+            "input": {},
+            "output": {
+              "status": "answered",
+              "citation_ids": [
+                "E1"
+              ]
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          },
+          {
+            "sequence": 14,
+            "task_id": "20783dc422ab469f90f7a65d7ba3f77f",
+            "trace_id": "e59b7ffe927d48589d3dbd28866a937c",
+            "state": "stop",
+            "name": null,
+            "status": "degraded",
+            "input": {},
+            "output": {
+              "reason": "step_budget_exhausted"
+            },
+            "error_code": null,
+            "elapsed_ms": 0
+          }
+        ]
+      }
+    }
+  ],
+  "fixture_hashes": {
+    "README.md": "1a57efaa7842ddb5bc278e596fbc5f8a799eeb637f53b66ed3ee8cf58238aea5",
+    "service.py": "e74f814235673291cf6b4e9e33441342b325f749afed3539db6364de0a89242a",
+    "test_service.py": "be869b749c257f26a7acd3442ad17bbc230a85bec30d35996996e010e5a75c23",
+    "service.cpython-312.pyc": "6012d7a0866488c05ae89a4b1f7e6c956b1a1215b686ffa7339276062aeec85b",
+    "test_service.cpython-312.pyc": "a2c32dadcb065fafccf2e51bc2899bbb6ce65e5b210e830f4420ff65aba29dd8"
+  },
+  "note": "Offline installed-package contract smoke, not model or retrieval quality evaluation."
+}

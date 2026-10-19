@@ -1,0 +1,820 @@
+{
+  "schema_version": "repolens.graph-benchmark.v1",
+  "manifest_sha256": "30072d1d964e054337cd88490e5621bc25262f8cc6b2138468caa5791856f98e",
+  "graph": {
+    "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+    "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+    "graph_policy": "python-import-scope-graph-v1",
+    "stats": {
+      "nodes": 2080,
+      "edges": 4614,
+      "reused_fact_files": 0,
+      "parsed_fact_files": 236,
+      "base_snapshot_id": null,
+      "unresolved_calls": 2718,
+      "unresolved_imports": 418,
+      "parse_errors": 0,
+      "commit_changes_available": true,
+      "base_commit_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+      "deleted_paths": []
+    }
+  },
+  "results": {
+    "vector": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:38:17.790093+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "local-tfidf-cosine-v1",
+        "strategy": "vector",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "fixed-100",
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.6,
+        "recall@10": 0.8,
+        "mrr": 0.51,
+        "ndcg@10": 0.5372645308258713,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 63.76430000000255,
+          "p95": 67.83801499991569,
+          "mean": 64.58140999993702
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 0.5555555555555556,
+          "recall@10": 0.7777777777777778,
+          "mrr": 0.4555555555555555,
+          "ndcg@10": 0.5024778225248843,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 63.70770000012271,
+            "p95": 67.94427999993786,
+            "mean": 64.61224444440934
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 64.30389999968611,
+            "p95": 64.30389999968611,
+            "mean": 64.30389999968611
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 63.44440000066243,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 3,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 63.70770000012271,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 63.68579999980284,
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0,
+          "ndcg@10": 0.0,
+          "evidence_covered@5": 0,
+          "evidence_covered@10": 0
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 63.23840000004566,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.5640920940185894,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 68.79440000011527,
+          "recall@5": 0.0,
+          "recall@10": 0.5,
+          "mrr": 0.1,
+          "ndcg@10": 0.17723928678404774,
+          "evidence_covered@5": 0,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 66.66909999967174,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 66.5802999992593,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 61.56920000012178,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5437713091520254,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 63.820899999882386,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.6240505200038379,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 64.30389999968611,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        }
+      ]
+    },
+    "hybrid": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:38:18.485041+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "hybrid-rrf-keyword-vector-multilingual-v1",
+        "strategy": "hybrid",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "fixed-100",
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.6666666666666667,
+        "recall@10": 0.85,
+        "mrr": 0.8666666666666666,
+        "ndcg@10": 0.7290280157766167,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 100.1799999994546,
+          "p95": 105.10820999975294,
+          "mean": 99.23624999983076
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 0.6851851851851852,
+          "recall@10": 0.8333333333333334,
+          "mrr": 0.8518518518518519,
+          "ndcg@10": 0.7204118401537153,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 99.53919999952632,
+            "p95": 104.80374000017036,
+            "mean": 98.56419999990369
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8065735963827293,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 105.28469999917434,
+            "p95": 105.28469999917434,
+            "mean": 105.28469999917434
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 104.67059999973571,
+          "recall@5": 0.6666666666666666,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7920874914199381,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 103.48869999961607,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7903864795495061,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 100.82079999938287,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.3065735963827292,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 99.53919999952632,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 98.59760000017559,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.3065735963827292,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 104.89250000046013,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 96.28599999996368,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7977228895450266,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 87.44139999998879,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8772153153380493,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 91.34100000028411,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 105.28469999917434,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8065735963827293,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        }
+      ]
+    },
+    "graph": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:38:19.487876+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "vector-static-graph-rrf-v1",
+        "strategy": "graph",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "fixed-100",
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.95,
+        "recall@10": 0.95,
+        "mrr": 0.95,
+        "ndcg@10": 0.8953854606403719,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 108.3791500004736,
+          "p95": 188.67999999984013,
+          "mean": 120.9664399999383
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.9444444444444444,
+          "ndcg@10": 0.9267452681820291,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 107.23510000025271,
+            "p95": 137.08177999942563,
+            "mean": 109.17581111102157
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 227.0821000001888,
+            "p95": 227.0821000001888,
+            "mean": 227.0821000001888
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 130.08829999944282,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 3,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 109.52320000069449,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 141.74409999941417,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.6934264036172708,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 99.64469999977155,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 125.23740000051475,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.9197207891481876,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 94.61769999961689,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 107.23510000025271,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 86.17039999990084,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 88.32139999958599,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8772153153380493,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 227.0821000001888,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        }
+      ]
+    }
+  },
+  "paired_recall@10": [
+    {
+      "id": "flask-graph-v4-001",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-002",
+      "vector_recall@10": 0.5,
+      "graph_recall@10": 1.0,
+      "delta": 0.5
+    },
+    {
+      "id": "flask-graph-v4-003",
+      "vector_recall@10": 0.0,
+      "graph_recall@10": 1.0,
+      "delta": 1.0
+    },
+    {
+      "id": "flask-graph-v4-004",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-005",
+      "vector_recall@10": 0.5,
+      "graph_recall@10": 1.0,
+      "delta": 0.5
+    },
+    {
+      "id": "flask-graph-v4-006",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-007",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-008",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-009",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-010",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 0.5,
+      "delta": -0.5
+    }
+  ],
+  "acceptance_gain": true,
+  "limitations": "Ten authored cross-file cases on one Flask commit; no external blind test or real model evaluation."
+}

@@ -1,0 +1,10 @@
+# Optional explicit mount; the base Compose file works with the built-in Demo.
+services:
+  repolens:
+    volumes:
+      - type: bind
+        source: ${REPOLENS_REPOSITORY_PATH:?Set REPOLENS_REPOSITORY_PATH to an authorized local repository}
+        target: /workspace/repository
+        read_only: true
+        bind:
+          create_host_path: false

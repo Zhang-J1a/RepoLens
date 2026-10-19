@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "run": {
+    "started_at_utc": "2026-10-17T06:49:10.159717+00:00",
+    "dataset": "flask-validation.jsonl",
+    "dataset_sha256": "2950d7b188a3ebaf58fc1623c465ce5edd1e5a8b5cb6f11aac760f45eec7f6fc",
+    "repository": "pallets/flask",
+    "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+    "snapshot_id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+    "index_policy": "git-objects-v1_ast-md-atx_lines80-overlap15",
+    "retrieval": "fts5-bm25-coverage-rerank-v1",
+    "query_policy": "literal-unicode-terms-or-identifier-phrases-v2",
+    "bm25_weights": {
+      "path": 2.0,
+      "symbol": 6.0,
+      "text": 1.0
+    },
+    "candidate_limit": 100,
+    "candidate_policy": "fixed-100",
+    "rerank_weights": {
+      "identifier_coverage": 4.0,
+      "symbol_root": 3.0
+    },
+    "top_k": 10,
+    "metric_cutoffs": [
+      5,
+      10
+    ],
+    "validated_evidence_count": 28,
+    "snapshot_stats": {
+      "inventory_files": 236,
+      "indexed_files": 89,
+      "symbols": 1622,
+      "chunks": 2256,
+      "source_bytes": 593455,
+      "statuses": {
+        "indexed": 89,
+        "unsupported_type": 147
+      },
+      "diagnostics": []
+    },
+    "index_corpus": [
+      {
+        "id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+        "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "policy": "git-objects-v1_ast-md-atx_lines80-overlap15"
+      }
+    ],
+    "environment": {
+      "repolens_version": "1.0.0",
+      "python": "3.12.8",
+      "sqlite": "3.45.3",
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64"
+    }
+  },
+  "metrics": {
+    "recall@5": 0.55,
+    "recall@10": 0.65,
+    "mrr": 0.55,
+    "ndcg@10": 0.5540361792230324,
+    "case_count": 20,
+    "query_error_count": 0,
+    "query_error_rate": 0.0,
+    "latency_ms": {
+      "p50": 3.7931999995635124,
+      "p95": 5.978910000521864,
+      "mean": 3.191639999840845
+    }
+  },
+  "by_category": {
+    "chinese-natural": {
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 0.1269999993382953,
+        "p95": 0.14421999876503833,
+        "mean": 0.12841999923693947
+      }
+    },
+    "english-natural": {
+      "recall@5": 0.4,
+      "recall@10": 0.6,
+      "mrr": 0.33333333333333337,
+      "ndcg@10": 0.39742738813589595,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.121800000779331,
+        "p95": 5.862700000579935,
+        "mean": 5.109620000439463
+      }
+    },
+    "identifier": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.9499999984400347,
+        "p95": 4.455640000014682,
+        "mean": 3.8857799998368137
+      }
+    },
+    "multi-evidence": {
+      "recall@5": 0.8,
+      "recall@10": 1.0,
+      "mrr": 0.8666666666666666,
+      "ndcg@10": 0.8187173287562336,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 2.6818999995157355,
+        "p95": 5.952679999973043,
+        "mean": 3.642739999850164
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "flask-validation-001",
+      "category": "identifier",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.182200000286684,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-002",
+      "category": "identifier",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 3.9499999984400347,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-003",
+      "category": "identifier",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 3.63640000068699,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-004",
+      "category": "identifier",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.523999999946682,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-005",
+      "category": "identifier",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 3.1362999998236774,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-006",
+      "category": "english-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.668499999752385,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-007",
+      "category": "english-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 5.121800000779331,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6309297535714575,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-008",
+      "category": "english-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 5.955000000540167,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-009",
+      "category": "english-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.309300000386429,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-010",
+      "category": "english-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 5.4935000007390045,
+      "recall@5": 0.0,
+      "recall@10": 1.0,
+      "mrr": 0.16666666666666666,
+      "ndcg@10": 0.3562071871080222,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-validation-011",
+      "category": "chinese-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 0,
+      "latency_ms": 0.14819999887549784,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-012",
+      "category": "chinese-natural",
+      "gold_evidence_count": 2,
+      "retrieved_count": 0,
+      "latency_ms": 0.1269999993382953,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-013",
+      "category": "chinese-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 0,
+      "latency_ms": 0.12829999832320027,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-014",
+      "category": "chinese-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 0,
+      "latency_ms": 0.12380000043776818,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-015",
+      "category": "chinese-natural",
+      "gold_evidence_count": 1,
+      "retrieved_count": 0,
+      "latency_ms": 0.11479999920993578,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-validation-016",
+      "category": "multi-evidence",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.4575999996159226,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.7903864795495061,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-validation-017",
+      "category": "multi-evidence",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 2.6818999995157355,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9060254355346823,
+      "evidence_covered@5": 3,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-validation-018",
+      "category": "multi-evidence",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.030599999168771,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-validation-019",
+      "category": "multi-evidence",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 6.433200000174111,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.4911492931622974,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-validation-020",
+      "category": "multi-evidence",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 2.6104000007762806,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9060254355346823,
+      "evidence_covered@5": 3,
+      "evidence_covered@10": 3
+    }
+  ]
+}

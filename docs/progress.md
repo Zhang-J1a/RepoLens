@@ -1,0 +1,277 @@
+# 进度与交接
+
+## 2026-10-19：M2 首次提交审计与授权
+
+### 已完成
+
+- 初审发现 230 个待跟踪候选；此前没有已跟踪文件、`HEAD` 或 remote。Git author name/email 已配置，未发现自定义本地 Git hook。
+- `.gitignore` 明确排除 `data/`、`dist/`、`build/`、`*.egg-info/` 和 node_modules。候选路径检查无 symlink、SQLite、虚拟环境、wheel、可执行文件或密钥文件；仅有 5 个 PNG，均为工作台演示截图。
+- 凭证格式扫描只命中 `tests/test_agent.py` 内 3 个明确用于错误脱敏断言的假 key 字符串；长凭证赋值扫描为 0。没有发现真实 key、env 文件或私钥。
+- 已查看 5 张交付截图；发现的 workspace 本机路径已由 Playwright 脱敏重生成，并通过 1 项截图用例。历史评测 JSON 和 frozen gold 未修改。
+- 230 个候选已暂存；没有未暂存或剩余未跟踪文件。暂存清单中没有 `.env`、数据库、venv、构建产物或其他可执行二进制。
+- 用户明确选择“暂不添加 LICENSE”，并授权直接提交。使用已配置的 Git 身份，以 `chore: audited initial import of RepoLens V6` 形成真实首次提交，不回填日期或伪造 V1-V6 历史。
+- GitHub connector 已核实登录账号为 `Zhang-J1a`；该账号下目前只查到 `paper_manager`，本地尚无 remote。远程提交还需确定 RepoLens 仓库及可见性。
+
+### 验证
+
+- `git -c safe.directory=D:/RAG/RepoLens status --short --untracked-files=all`：230 个未跟踪候选。
+- `git -c safe.directory=D:/RAG/RepoLens rev-parse HEAD`：预期失败，仓库尚无提交；无 remote。
+- `git -c safe.directory=D:/RAG/RepoLens check-ignore -v data dist build src/repolens.egg-info apps/web/node_modules`：所有生成目录均命中忽略规则。
+- `git -c safe.directory=D:/RAG/RepoLens -c core.whitespace=cr-at-eol diff --cached --check`：通过。仓库按 `*.json -text` 保留 JSON 原始 CRLF 字节；对应冻结 manifest 与 M0/M1 回放文件的 index blob hash 均与工作区一致。
+
+### 限制与未执行
+
+- 按用户决定保持没有 `LICENSE` 文件，不授予开源许可。本条记录随首次本地提交保存，提交后的 SHA、根提交和工作树状态由 Git 命令复核。
+- 尚未 push；没有将项目写入无关的 `paper_manager` 仓库，也没有创建远程仓库。
+- 真实模型、Docker 和远程 CI 仍未授权/未验收。
+
+### 下一步
+
+- 复核暂存差异并完成已授权的首次本地提交；随后验证根提交、文件数、干净工作树及 `LICENSE` 不存在。远程 RepoLens 仓库名/地址和公开或私有可见性确定后，再关联并推送。
+
+## 2026-10-19：作品集优化 M1 时效性与文档对齐
+
+### 已完成
+
+- DeepSeek 当前默认模型改为官方推荐名 `deepseek-flash`；CLI help、Compose、README 和对应 provider 测试同步。Web 与 LangChain adapter 继承同一默认值。包版本仍为 4.1.0，路线图阶段仍为 V6。
+- README 明确区分包版本与路线图阶段，并说明 V5 工作台、当前 V6 主工作台及保留的标准库兼容入口。架构表移除不存在的 `workflow.py`/`validation.py` 模块条目，将职责映射到实际 `cli.py`、`pipeline.py`、`answer.py`、`config.py`、`agent/` 和 `workbench/schemas.py`。
+- 冻结门禁最初因 `provider.py` 纳入原始 policy hash 而正确拒绝变更。为不覆盖原 V6/LangChain manifest 或 gold，新增 `eval/v6-provider-model-policy-manifest.json`，仅允许覆盖 `src/repolens/provider.py`，并验证它仍为原策略的子清单。扩展清单 SHA-256 `7207D51AF93B2358ADAB3ABFA7E891D19B22D00416DF0DBEC5A2F022A1DFB5B0`。
+- 工作区演示截图检测到本机绝对路径；Playwright 截图流程现在替换并断言通用示例路径，重新生成的 `docs/screenshots/v6/workspace-desktop.png` 不再暴露本机路径。
+
+### 验证
+
+- 专项：`test_langchain_integration.py` 11 项通过；`test_workbench.py` 8 项通过；`test_v2.py` 26 项通过。
+- 全量：`$env:PYTHONPATH='src'; .\data\v5-web-venv\Scripts\python.exe -m unittest discover -s tests -v`：184 项通过，测试耗时 156.542 秒，退出码 0；完整日志 `data/portfolio-m1-tests.log`，SHA-256 `C197D41405551C5C32D3449951EE05478A3251A6A088872743E848E34AF7DB20`。PowerShell 管道总耗时 159.076 秒。
+- `python -m compileall -q src tests experiments scripts`、`python scripts/export_api.py --check`、`npm run format:check --prefix apps/web`：均通过。
+- `npm run build --prefix apps/web`：通过，退出码 0，15 个静态资源进入构建；既有 Monaco 编辑器 chunk 约 3.69 MB 的 Vite 提示仍存在。
+- `python scripts/v6_regression.py --index data/v4-flask-index --output eval/portfolio-m1-retrieval.json`：90 次固定索引查询通过，query error 为 0。与 M0 报告逐组逐项比较，6 组 × 7 项 Recall/MRR/nDCG/数量/错误指标完全一致；耗时指标按机器运行波动。报告 SHA-256 `0F8807B53DD142A3268558DF23EA2A6F37AB18271673D8F0E5AE10187C06B363`。
+- Playwright 工作区导入与截图用例：1 项通过、退出码 0；截图路径脱敏断言通过。
+- `python scripts/build_release.py --output eval/portfolio-m1-package.json`：通过，wheel SHA-256 `12220ac1ab6324e216e22cc7ff15ab5675d62b31ce0adb8f9889162a63ca52a7`，前端 15 个文件且 stale assets 为 0；报告 SHA-256 `7A8BBE6AD1149390068B641E70C1137F3F96F6ADCFA7761E9EA370D16718F033`。
+
+### 限制与未执行
+
+- 官方当前模型名依据 [DeepSeek 模型文档](https://api-docs.deepseek.com/quick_start/pricing/)；旧名仅保留在有历史语境的 ADR 和历史进度记录。没有改动 SemVer、冻结 gold 或旧验收 JSON。
+- 未读取 API Key、未调用真实/付费 DeepSeek、未运行 Docker、未触发远程 CI，未修改或索引学习参考仓库。
+
+### 下一步
+
+- M2：审阅首次提交候选、暂存精确候选并运行 staged diff/密钥/文件类型检查。用户已授权“首次提交”，未授权 push；需在首次提交前由用户决定 SPDX 开源许可证，或明确选择暂不授予开源许可证。
+
+## 2026-10-19：作品集优化 M0 基线
+
+### 已完成
+
+- 按 `docs/portfolio-optimization-plan.md` 建立本轮可复核基线；包版本仍为 4.1.0，路线图阶段为 V6。
+- Git 根目录为 `D:/RAG/RepoLens`；当前无 `HEAD`、无 remote，基线时 225 个未跟踪路径、0 个已跟踪文件。`data/`、`dist/`、`build/`、`*.egg-info` 和 `node_modules/` 均按规则忽略。
+- 环境为 Python 3.12.8、Git 2.53.0.windows.2、Node 24.16.0、npm 11.13.0；RepoLens doctor 的 Python、Git、SQLite FTS5 检查通过。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; .\data\v5-web-venv\Scripts\python.exe -m unittest discover -s tests -v`：184 项通过，用时 154.508 秒；完整日志 `data/portfolio-baseline-tests.log`，SHA-256 `4862D2E3AAB50A77CFB411BF0538EBC98E0E8BD9E0E537E679B4A499E2F6D3AB`。退出码 0，日志末尾记录总耗时 156.889 秒（含 PowerShell 管道）。
+- `python -m compileall -q src tests experiments scripts`：通过，退出码 0。
+- `npm run format:check --prefix apps/web`：通过，退出码 0。
+- `npm run build --prefix apps/web`：通过，退出码 0；Vite 提示最大编辑器 bundle 约 3.69 MB，作为后续性能观察项，不影响构建。
+- `python scripts/export_api.py --check`：通过，退出码 0。
+- `python scripts/v6_regression.py --index data/v4-flask-index --output eval/portfolio-baseline-retrieval.json`：90 次冻结检索重放通过，query error 为 0；报告 SHA-256 `E5CD6DDEF0227BBD42E2B4EC9CF565F47861F41368EF1480A3D404E21009040B`。未修改冻结 gold。
+- `python scripts/build_release.py --output eval/portfolio-baseline-package.json`：通过；15 个前端静态文件，无 stale assets。wheel `repolens-4.1.0-py3-none-any.whl` SHA-256 `cc72c14e63180f8fd7e6ccaa140e3495d404f163268967b00543cd8b6e215b89`；构建报告 SHA-256 `4D1F5AE65E370A011551BCE71FCCA5958E14B6CE290D9F0ED1B95836E5128DC0`。
+
+### 限制与未执行
+
+- 首次 Python 命令因独立 PowerShell 未继承 `PYTHONPATH` 而失败；在每条命令显式设置后重跑通过，首次失败未计作通过。
+- Docker 实机、远程 CI、真实 DeepSeek 评测未执行；未读取 API Key、未调用付费模型、未访问或修改学习参考仓库，未 commit/push。
+
+### 下一步
+
+- M1：统一当前 DeepSeek 模型默认名，并修正架构文档中不存在的模块映射及 webapp/workbench 主次说明；不改 SemVer、冻结评测或历史 ADR。
+- M1 完成后进入 M2 首次提交候选审计；许可证仍由用户选择。
+
+## 当前检查点：可选 LangChain 接入本地验收完成
+
+2026-10-19：用户确认后接入 Python LangChain Core/DeepSeek adapter，决策见 ADR 0025，完整使用与验收见 `docs/langchain-integration.md`。包仍为 4.1.0；这是已授权的可选框架适配，原路线图的索引、证据、版本、只读权限与受控 Agent 边界保留。
+
+- `RepoLensRetriever` 使用 `BaseRetriever/Document`；`answer/ask/chat` 的 CLI 与 Web 问答已接入。LCEL `ChatPromptTemplate | ChatDeepSeek.with_structured_output(json_mode)` 返回候选，RepoLens 继续负责上下文预算、schema/citation 校验和 canonical source span。
+- impact 与 `ControlledAgent` 可使用 LangChain 模型适配器；Agent 没有替换成任意 LangGraph 工具执行，固定只读工具、共享预算与进程超时保留。模型、timeout、retry 等环境配置与显式覆盖规则对齐原 provider。
+- 适配器显式关闭 LangSmith tracing，覆盖全局 tracing=true 的情况；错误脱敏、有限重试、截断和 SDK 解析后的 4 MiB 结构化输出检查通过。SDK 接收前没有原生 provider 的 streaming 字节截断，边界已写入 ADR。
+- 最终源码全量 184 项通过，160.260 秒；最终安装包 `python -I` 专项 11 项通过；`python -S` 的 8 项 CLI 回归通过。当前包在不安装 extra 时仍能运行核心 CLI，缺少 extra 有明确提示。
+- 原 V6 policy manifest 与 gold 保留；新增 `eval/v6-langchain-policy-manifest.json` 连接原始清单。实际 LangChain Retriever 重放 90 次，逐题 Recall/MRR/nDCG/条数与冻结结果一致，报告 `eval/v6-langchain-retrieval-regression.json`。
+- 前端格式、TypeScript/Vite、OpenAPI、compileall 通过；最终安装包 pythonw 服务的 Playwright 8 项通过，18.119 秒，包括两种 DeepSeek 连接方式的缺 Key 提示。源码/UI/API 的 provider 枚举已同步。
+- 全新 `data/v6-langchain-acceptance-venv` 安装 45 项锁定依赖，pip check 通过；干净 staging wheel 的 15 个静态文件与当前构建一致，无旧资源。最终 wheel SHA-256 为 `9ed70804f7b4ef06bc8ab5e47d46c77cfd891b55310d31bd768716975a5299ed`。独立工作台合成演示通过；汇总 `eval/v6-langchain-acceptance.json`。
+- `apps/api/requirements-langchain.lock`、独立 CI job 和 Docker 可选 build arg 已提供。启动器使用的 `data/v5-web-venv` 已加装同一锁文件并通过依赖/import 检查；uv 只用于隔离环境安装，不是运行依赖。
+- 当前新服务为 `http://127.0.0.1:8772/`，从最终 wheel 的 site-packages 通过 pythonw 运行，默认 Mock、未配置 Key；8771 原服务保留。未调用真实模型、未读取或保存真实 Key、未 commit/push，学习参考项目未被修改或索引。
+
+剩余验收仍是 Docker 实机、远程 CI 与真实 DeepSeek 独立质量评测。当前适配不改变检索策略和冻结指标，也不声称回答质量因此提高。
+
+## V6 原始工程化验收记录（LangChain 接入前）
+
+2026-10-19：对照原始路线图第 10 节增加评测回归、安全、可观测性、部署和演示材料。详细逐项对照与偏离审计见 `docs/v6-release.md`，决策见 ADR 0024。包版本仍为 4.1.0，界面/API 阶段为 V6。
+
+- 第一项已核对：冻结检索题集、来源和 parser/embedding/prompt/Agent 策略 hash 门禁已实现；`python scripts/v6_regression.py --index data/v4-flask-index --output eval/v6-retrieval-regression.json` 实际重放两套题、三种策略共 90 次，逐题 Recall@5/10、MRR、nDCG 和条数均与冻结记录一致。未修改 gold、策略或默认 hybrid。
+- 第二项已核对：独立生成评分器覆盖正确回答、引用有效但语义错误、伪造引用、正确/错误拒答，审阅绑定 output hash；3 项测试通过。5 个 scripted fixture 结果不代表真实 DeepSeek 质量，真实语义支持度/准确率仍未测量。
+- 第三项已核对：request ID、任务/Trace 日志关联、metadata-only JSON、有界 metrics/Prometheus、安全响应头、跨站拒绝、body 上限、授权根目录和历史证据限制已实现。兼容 HTTP 入口也补上跨站/非 JSON 设置限制；中途失败的 SSE 结束流且不输出异常原文。
+- 第四项已核对：最终 `$env:PYTHONPATH='src'; .\data\v5-web-venv\Scripts\python.exe -m unittest discover -s tests -q` 为 170 项通过，156.437 秒。Prettier、TypeScript/Vite、OpenAPI、compileall 通过；Playwright 对最终安装包 pythonw 服务执行 8 项通过，18.9 秒，结果 `data/v6-playwright-results.json`，交付截图 `docs/screenshots/v6`，汇总 `eval/v6-acceptance.json`。
+- 第五项已核对：`python scripts/build_release.py --output eval/v6-package-build.json` 在新 staging 目录构建并核对全部 15 个静态文件，无旧资源残留。新建 `data/v6-acceptance-venv` 离线安装，`python -I` 确认 site-packages 加载，doctor、核心 Demo 和 Web 演示通过；7 个任务完成，正常 Agent 5 次工具调用，预算降级 3 次，SSE、引用和导出通过。报告 `eval/v6-workbench-smoke.json` 只证明合成 Mock 契约。
+- 当前 wheel SHA-256：`410ac2b30542e0646a812b26ae891ecd4d22b579ea149d4f9a294cd15f9a4c38`。旧同版本 wheel hash 仅作历史，不用于校验当前 dist。
+- 第六项已核对：Docker/Compose、非 root/只读根、SQLite 卷和显式只读仓库 overlay、CI 干净构建/安装/浏览器/容器步骤与中文部署排障回滚文档已实现。但本机无 Docker，未触发远程 CI，二者没有运行验收，不能宣布 V6 全平台彻底完成。
+- 偏离残留已修正：README/架构/面试/图与 Agent 使用说明和新任务交接；澄清历史 RRF 负实验与当前 hybrid 不同、包版本不等于路线图阶段、引用验证不等于语义正确。Compose 不再默认依赖 Flask；未修改/索引学习参考仓库，未迁移 Java/LangChain4j。
+- 追加启动审计：修复 pythonw 缺失标准流时 Uvicorn 默认彩色日志初始化失败，加入真实 Config 的无标准流测试；新 wheel 离线重装后用 pythonw 启动，首页、health、Demo、metrics 和 8 项浏览器流程通过。固定 Flask 正常/模拟模型故障 smoke 也通过，报告 `eval/flask-agent-v6-smoke.json`；目标仍为既有 236 个 D 的 no-checkout 状态，未修改工作树。
+- 当前服务：`http://127.0.0.1:8771/`，独立安装包通过 pythonw 无终端运行，默认 Mock；真实 DeepSeek Key 只通过环境/进程内存。没有真实模型调用，也没有 commit/push。下一步为 Docker 实机、远程 CI 与独立真实模型评测，不继续堆新版本掩盖验收缺口。
+
+下方为 V5 及更早的历史验收记录；其中服务地址、包 hash 和阶段状态不代表当前结果。
+
+## V5 收口记录
+
+2026-10-19：按原始路线图第 9 节开始 V5。设计见 `docs/adr/0023-v5-web-workbench.md`。
+
+- 第一项已核对：FastAPI/Pydantic 可选 API、封闭输入、只读源码/diff、单工作线程任务队列、SSE 事件补读、内存 Key、OpenAPI 和生成的 TypeScript 输入类型已实现。7 项离线 API 集成测试通过；修复了负 SSE 事件序号被默认值掩盖的问题。没有复制索引/模型/Agent 业务，没有新增目标仓库写权限。
+- 第二项已核对：React/TypeScript/Vite、TanStack Query、React Router、Tailwind、Monaco、React Flow 和 Recharts 六个页面已实现；仓库导入、变更报告和 diff、关系图、检索问答、Trace、评测对比、代码证据弹窗、Markdown/JSON 导出、空/错/加载态和窄屏布局均已覆盖。diff 编辑器模型释放顺序和关系图初始聚焦问题已修复。
+- 第三项已核对：`$env:PYTHONPATH='src'; .\data\v5-web-venv\Scripts\python.exe -m unittest discover -s tests -q`，152 项通过，147.283 秒（原有 145 + 7 项 V5）；`compileall`、`git diff --check`、Prettier 格式检查、TypeScript 类型检查和 Vite 生产构建通过。Playwright 8 项通过，覆盖桌面六页面、390px 窄屏、源码/证据、diff、导出、图交互、Agent Trace、评测回退样例和错误态。
+- 第四项已核对：V5 wheel 已在独立 `data/v5-acceptance-venv` 中离线重装；`python -I scripts/workbench_demo.py` 返回首页 200、结构化问答 answered、12 个图节点、18 条图边、1 个变更文件、Markdown 200、Agent degraded/step_budget_exhausted 和 SSE 补读通过。wheel SHA-256 为 `e5b08fa6a868b7adf68e6736ba29e1ff4d2018fe0e0359e4f0c237cf395f991f`。
+- 第五项对照原始路线图第 9 节：新用户可以打开合成 Demo 或输入自己的本地 Git 仓库路径，完成索引、分析、查看证据和导出报告；目标仓库仍只读，学习参考项目未被索引。评测页回放冻结 vector/hybrid/graph 结果及 90 条逐题召回，未把 citation schema 通过误报为 citation precision 或回答准确率；这两项仍显示未评测。
+- 当前本地工作台已启动于 `http://127.0.0.1:51654/`。DeepSeek Key 仍只存在当前服务进程内存或环境变量；本轮没有真实模型调用，也没有 commit/push。V6 的 Docker、统一监控和完整生成质量评测仍未完成。
+
+下方是 V4 及更早的历史验收记录；历史 wheel hash 不用于校验当前 V5 wheel。
+
+## V4 收口记录
+
+2026-10-19：V4 增加 SQLite schema 4 的持久化节点/边、增量语法缓存、当前 snapshot 重新连边、导入别名/重导出/作用域/单继承解析、一至两跳有界子图、版本检索 API，以及问答/Agent/impact 的图增强入口。
+
+- 第一项对照：已有图 schema、构建器与缓存复用；图和源码同事务，端点通过复合外键限制在同一 snapshot。未引入新基础设施；AST 无法唯一解析的动态关系保留为 unknown，不生成全局同名猜测。replaces 类型预留，不无依据制造替代关系。
+- 第二项对照：函数、文件和 commit 子图、`/api/graph`、`/api/search`、graph 检索和风险检查排序已接入。删除文件使用独立 base 子图；branch 每次固定为 SHA；`impact` 仍尊重用户选择的实际 base/head 范围。完整 UI 工作台没有提前宣布为 V4 完成项。
+- 第三项对照：最终全量 `$env:PYTHONPATH = "src"; python -m unittest discover -s tests -q` 为 145 项通过，耗时 143.469 秒；其中 20 项图专项、2 项新增 HTTP API 测试，保留 V3 的 123 项回归。覆盖导入/重导出、单继承、方法裸名称与 receiver 遮蔽、歧义、跨版本/跨节点隔离、删除、分支移动、损坏数据、事务回滚、缓存重连和 Agent 节点/边预算。`compileall`、`git diff --check` 通过。
+- 第四项对照：固定 Flask 10 条跨文件任务的 R@10 为 vector 0.80、hybrid 0.85、graph 0.95；R@5 为 0.60、0.6667、0.95。图策略 v2 的 nDCG@10 为 0.9226。3 题提高、1 题回退、6 题相同；同时报告额外图扩展的计算量与更高延迟。原有 20 题 graph R@10 为 0.50，低于 vector 0.5333 和 hybrid 0.6083，因此通用默认检索仍为 hybrid，图增强显式选择。
+- 第五项对照：单 snapshot 的真实图包含 2,080 个节点、4,616 条边；未解析调用/导入单独统计。以第一父提交建立索引再导入 head，复用 235 个文件的语法事实，仅重新提取 1 个文件。`eval/flask-graph-v4-sample.json` 给出两跳有界图（40 节点、68 边、truncated=true），SHA-256 为 `d1a377639d46d12eedc7e051ce1a53a964a2ba15806f203d1d93eb84b3e80da9`，所有证据绑定当前 head。
+- 第六项对照：最新 wheel 已用 `--no-build-isolation --no-index --no-deps` 重建，在新建 `data/v4-acceptance-venv` 中离线安装；`python -I` 确认从 site-packages 加载，doctor 通过。已安装包通过历史父提交的 `graph` 查询、`repolens.exe ask --retrieval graph --provider mock` 和进程隔离的 Agent 流程（completed/answered，5 步、21 个事件）。
+- 当前产物：`dist/repolens-4.1.0-py3-none-any.whl`，SHA-256 为 `538bb09d429e96f8527a1d3c68f77bab8e4545ab57ac907efb25b11c0b4af62a`。包版本未变，安装已存在的同版本包时使用 `--force-reinstall`；下方 V3/V2 hash 是历史记录，不用于验证当前 dist 文件。
+- 质量实验初跑、候选池元数据修正和作用域 v2 修正均保留独立清单与结果；没有覆盖 gold 或依据结果调整排序权重。当前实现 hash 与最终 v2 清单逐文件匹配。详见 `docs/evaluation-graph-v4.md`。
+- 最终审计：42 个本轮源码、文档与生成产物通过额外 whitespace 检查（含未跟踪文件，保留 JSON 原始 CRLF 字节）；`compileall` 与 `git diff --check` 通过。Git 候选文件中没有数据库、环境文件或密钥；源码未发现长 API-key 形式。Flask 目标仍是既有 no-checkout 布局的 236 个 D 状态，无其他条目；未恢复或修改目标工作树。当前 wheel hash 与交接记录一致，所有必要命令已退出。
+
+按原始路线图第 8.3/8.4 节逐项核对：schema、构建与增量、子图 API、版本检索 API、节点/边/证据格式、图增强对比均已交付；函数/commit 的关系查询、历史隔离、跨文件量化收益与来源校验均有对应证据。限制明确：Python 静态图、动态分派/复杂多继承/外部库不保证覆盖；replaces 没有可信来源时只保留类型；文档关系缺少显式提及时不编造。通用默认 hybrid，完整关系图工作台和部署分别属于 V5/V6。本轮未使用真实模型或 API Key，未修改/运行目标仓库代码，未索引学习参考项目，未 commit/push。
+
+设计、使用、评测说明：`docs/adr/0022-versioned-static-code-graph.md`、`docs/v4-graph.md`、`docs/evaluation-graph-v4.md`。下方 V1/V2/V3 和旧包版本记录描述当时状态，当前阶段以本检查点为准。
+
+## V3 收口记录
+
+2026-10-19：继续按原始路线图 V3 实施，V1/V2 验收结论保留。
+
+- 第一项：八个固定只读工具与严格参数、固定 root/base/head snapshot、引用 source-span 校验已实现。对照检查：没有 shell、写文件、网络抓取和版本切换权限；一跳 AST 候选明确标记 inference，不冒充 V4 代码图谱。
+- 第二项：显式状态机、工具/模型共享预算、可终止 spawn 工作进程、重复调用抑制、连续错误停止和 V2 规则报告降级已实现。18 项 Agent 专项测试通过，包含越权、未来版本隔离、非法规划、伪造引用、token/step/result/model-call 限制、模型阻塞超时与进程回收。
+- 第三项：`agent` CLI 与 `/api/agent` 已接入；task/trace ID、工具参数、结果定位、模型输出 hash、耗时和分类错误均进入响应中的 Trace。完整 Web 工作台仍按 V5 实施。
+- 第四项：全量 `$env:PYTHONPATH = "src"; python -m unittest discover -s tests -q` 为 123 项通过，耗时 93.156 秒；包含 HTTP API 和 2 项 DeepSeek JSON 规划协议/序列化测试。`python -m compileall -q src tests experiments scripts`、`git diff --check` 与新建未跟踪文件的额外 whitespace 检查通过。
+- 第五项：固定 Flask commit `d086db856be187255b8ec61ef409357393020f32` 及第一父提交的离线 smoke 通过。Mock 正常场景 completed/answered，6 步、25 个事件、15 条保留证据；模拟 provider 故障场景 degraded/abstained，2 步、11 个事件、9 条保留证据。两者保留 V2 规则报告，样例见 `eval/flask-agent-v3-smoke.json`，SHA-256 为 `6440e99bfb2ad7e6a1a272a2e7f3055dbea3409a59883487e3721b75fb69db02`。
+- 第六项：`python -m pip wheel . --no-deps --no-build-isolation --no-index --disable-pip-version-check --wheel-dir dist` 离线构建通过；当前 `dist/repolens-4.1.0-py3-none-any.whl` 的 SHA-256 为 `d7fc32f50c7edb3d4f2af97d742b6b7691442bc42e87e8b538c07621407497dd`。新建 `data/v3-acceptance-venv` 并离线安装；`python -I` 确认从该环境 site-packages 加载；doctor 通过；已安装包 `python -I -m repolens agent ... --provider mock` 在相同 Flask commit 上返回 completed/answered、6 步、25 个事件并保留规则报告。
+- 最终审计：直接执行安装环境的 `repolens.exe agent ... --max-steps 3` 也通过，预算结束后返回 degraded/step_budget_exhausted，仍在剩余预算内生成经过引用校验的 answered。21 个改动文件通过额外 whitespace 检查（保留 JSON 的原始 CRLF 字节）；当前 wheel hash 与记录一致；Git 候选文件没有数据库、`.env` 或密钥文件。Flask 仍为既有 no-checkout 布局的 236 个 D 状态，无其他条目，未恢复或修改该目录。
+
+逐项对照原始路线图第 7 节：工具白名单、task/trace 关联、可解释失败和有界重试、固定离线配置复现、Agent 不可用时保留基础能力均已有对应验证，V3 按上述边界交付。没有调用真实 DeepSeek API，未使用真实 API Key；不声称真实模型的 Agent 任务成功率、结论支持度或成本已经评测。V4 持久化代码图谱、V5 完整工作台、V6 工程化仍未完成。本轮没有执行、安装或修改目标仓库代码，没有使用学习参考仓库，没有 commit 或 push。
+
+设计、使用和验收说明：`docs/adr/0021-controlled-agent-budget-and-trace.md`、`docs/v3-agent.md`、`docs/evaluation-agent-v3.md`。Trace 不自动持久化，不记录源码或未经校验的模型原文。远程模型配置可重复，不承诺远程生成逐字一致；离线 Mock 不代表真实模型质量。下方 V2/旧包版本记录仅描述当时状态，当前阶段以本检查点为准。
+
+## V2 收口记录
+
+本轮开始修正历史版本职责错位。V4.1.0 的代码和 Web UI 保留，但路线图阶段不再用“包版本号已经增加”代替能力验收。当前完成的 V1 对齐内容如下：
+
+- 新增 `EmbeddingProvider` 契约和标准库实现的 `local-tfidf-v1` 稀疏向量基线；该实现用于离线、可复现检索，不宣称是通用语义 embedding。
+- SQLite schema 升为 2，每个 snapshot 保存独立 vector model 和 chunk vectors；旧 schema 在下一次可写 ingest 时自动创建向量表并回填。
+- 新增 `IndexStore.search_vector` 和加权 RRF `search_hybrid`，CLI `search` 支持 `keyword/vector/hybrid`，`ask/chat` 默认使用 hybrid，可显式指定路径。
+- 新 commit 在父 snapshot 可用时按 blob、路径和语言复用未变化文件的解析结果；新增/修改文件重新解析，并在 stats 中记录 `index_mode`、`base_snapshot_id`、`reused_files`、`parsed_files`。
+- 新增 bounded Git history：每个 snapshot 最多保存 5,000 条可达 commit，独立支持 `history` CLI 和 `search_history`，不把提交记录混入代码 evidence。
+- snapshot stats 记录包含当前 commit 的本地 branch 名称；commit SHA 仍是唯一版本边界。
+- V2 impact hardening 已完成：报告 schema 升为 `repolens.impact.v2`，增加历史/配置分组、有限 Python AST callers/callees、low/medium/high/blocking 风险等级、Markdown renderer、`analyze commit` 入口、evidence 完整性校验和 10 个真实 Flask commit 样例；结构化评测见 `docs/evaluation-impact-v2.md`。动态调用和跨语言图谱仍是明确边界，不属于当前 V2 交付范围。
+- 新增 ADR `docs/adr/0017-roadmap-alignment-v1-vector-retrieval.md`，明确 TF-IDF 基线、snapshot 隔离、迁移和后续外部 provider 的边界。
+
+本轮验证：`$env:PYTHONPATH = "src"; python -m unittest discover -s tests -q`，102 项通过；`python -m compileall -q src tests experiments scripts` 通过；`git diff --check` 通过；真实 Flask 固定 commit 完成 keyword/vector/hybrid 三路评测，结果见 `docs/evaluation-v1.4.md`；schema 2 → 3 迁移、history CLI 和 local branch metadata 通过；impact 专项、`analyze commit`、有限 Python AST callers/callees、10 个真实 commit 样例和 `evaluate-impact` 结构化评测通过。V2 wheel 已重建并完成离线安装验收。V3 白名单 Agent、V4 代码图谱、V5 完整工作台和 V6 工程化评测仍未完成。
+
+本轮完成 V4.0 本地浏览器应用改造。用户可以双击 `RepoLens.pyw`，自动打开本地 Web UI；页面提供代码问答、连续对话和两 commit 影响分析。后端复用既有 pipeline，只绑定 loopback；API Key 设置只存在服务进程内存。V3.2 的追加检索和 V3.3 的 impact 能力继续保留。默认 provider 仍按命令区分：`answer` 使用 Mock，`ask/chat` 使用 DeepSeek，`impact` 和 Web UI 默认使用 Mock；API key 只从进程环境或当前 UI 进程设置读取，不进入源码、日志、错误信息或 Git。
+本轮在 V4.0 本地浏览器应用之上完成 V4.1 多语言检索增强。用户可以直接用中文询问常见代码问题；固定词典会把“入口、读取、写入、书籍”等扩展为有限英文/代码提示，同时保留显式 identifier。后端不调用模型做 query 翻译，不联网，不改变证据和 citation 边界。
+
+### 历史已实现的生成与 Web 能力
+
+- `repolens.provider`：vendor-neutral `ProviderRequest` / `ProviderResponse` / `Provider`，以及不联网的 `MockProvider`。
+- `repolens.context`：按 UTF-8 字节估算 token，保留完整 evidence、不截断源码、去重并报告被预算淘汰的 evidence。
+- `repolens.answer`：严格的 `repolens.answer.v1` JSON schema；每个 answered claim 必须引用已打包的 `E1` 等 citation ID。
+- `repolens.pipeline`：`retrieve -> pack -> provider -> validate` 闭环；没有证据或预算无法容纳证据时，在 provider 调用前直接 abstain。
+- `DeepSeekProvider`：读取 `DEEPSEEK_API_KEY`，默认请求 `https://api.deepseek.com/chat/completions`，默认模型 `deepseek-v4-flash`，使用 JSON mode 输出结构化候选。
+- CLI `answer` 支持 `--provider mock|deepseek`，以及 `--model`、`--timeout`、`--max-retries`。
+- provider 返回未知 citation、无引用 claim 或不符合结构的 JSON 时 fail closed，不把模型文本当作事实。
+- V2.2.0 hardening：CLI 参数 typed range validation；provider context/output/response 上限；回答 claims/citations/unknowns 上限；DeepSeek request id、usage、attempts、耗时 telemetry；错误不暴露服务端原文或 key。
+- V2.3.0：新增 `ask <question> --repository <path>`，默认 `HEAD`、默认 DeepSeek、默认输出 1024 token；结果包含 `workflow` 元数据，记录仓库、commit、snapshot 和索引统计。
+- V2.4.0：相同仓库、commit 和 index policy 命中已有 snapshot 时直接复用；`workflow.index_action` 为 `created` 或 `reused`。
+- V3.1.0：新增 `chat` 交互命令、最近 8 条对话历史、`:help`/`:quit`、每轮当前 evidence citation 约束和最大 20 轮默认限制。
+- V3.2.0：新增 `--max-follow-ups 0..3`；`ask/chat` 默认 1 次追加检索，记录 retrieval/generation rounds、追加次数和全部 retrieval queries；每轮仍使用同一 snapshot 和 citation validator。
+- V3.3.0：新增 `impact --repository <path> --base <ref> --head <ref>`；Git 层读取 bounded diff/hunks，索引层提供 path/symbol/chunk 查询，报告包含 changed files、changed symbols、related tests/docs、规则风险、建议测试、unknowns 和可选一次 `model_answer`。
+- V4.0.0：新增 `repolens.webapp`、`repolens-ui`、`repolens serve` 和根目录 `RepoLens.pyw`；页面复用 ask/chat/impact 逻辑，提供 loopback JSON API、内存 API Key 设置和本地工作区记忆。
+- V4.0.1：修复 Windows Git dubious ownership；仅为用户明确选择的仓库注入命令级 `safe.directory`，不修改全局 Git 配置。
+- V4.0.2：检索层排除只包含空白字符的 evidence chunk，避免旧索引中的空 module chunk 破坏上下文打包。
+- V4.0.3：修复 SQLite 对换行字符的空白判断；实际验证 `Book Manager V1` 的 `ask` 和浏览器问答均返回 `answered`。
+- V4.1.0：新增 bounded multilingual query expansion；纯中文 fixture 和 `Book Manager V1` 真实中文问题均能召回 `main.py`、`book_manager/book_io.py` 等 evidence。
+- 历史 V2 wheel SHA-256 为 `683eaa3fe5e55ac4799b9dcc47ad88ec81f37673090755fda957b68e7eecb70a`；当时安装到 `data/v2-acceptance-venv` 并验证。当前 dist 同版本文件已由上方 V3 wheel 替换，不再使用此历史 hash 校验现有产物。
+
+路线图 V1 和 V2 已完成验收。V1 完成本地索引、keyword/vector/hybrid 检索、证据校验、真实三路评测、bounded history、分支元数据、安装包和演示闭环；V2 完成结构化 impact、有限静态 callers/callees、JSON/Markdown、`analyze commit`、evidence 完整性和 `evaluate-impact`。项目未创建 Git commit，也未发布到外部服务。
+
+### 已交付
+
+- CLI：`doctor / ingest / snapshots / search / answer / evidence / evaluate`。
+- Git commit objects 只读索引，Python AST 与 Markdown 分块，SQLite 事务及 FTS5 检索。
+- 固定 100 候选的词法重排；改变 `--limit` 时保持排名前缀一致。
+- 同名 getter/setter、overload 依据具体包含范围验证；拒绝损坏索引中的空、逆序、越界证据。
+- 包版本由 `src/repolens/__init__.py` 单一维护，wheel 为 `dist/repolens-1.0.0-py3-none-any.whl`。
+- `scripts/demo.py` 在临时 Taskboard 仓库完成已安装包的端到端演示。
+- GitHub Actions 已配置 Windows/Ubuntu、Python 3.12/3.13；未触发远程 CI。
+- 中文验收记录：`docs/v1-release.md`；面试说明：`docs/interview-guide.md`。
+
+### 评测
+
+Flask 固定 commit：`d086db856be187255b8ec61ef409357393020f32`。
+
+Snapshot：`snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656`。
+
+新验收索引：`data/v1-flask-index`；236 个 tree 条目、89 个源码文件、1,622 个符号、2,256 个 chunks。
+
+| 数据集 | 题数 | R@5 | R@10 | MRR@10 | 去重 nDCG@10 |
+|---|---:|---:|---:|---:|---:|
+| 原开发集，参与调参 | 30 | 0.708 | 0.792 | 0.858 | 0.732 |
+| 新冻结验证集 | 20 | 0.550 | 0.650 | 0.550 | 0.554 |
+
+新验证集为 `eval/flask-validation.jsonl`，28 条 locator，四类各 5 题。其 SHA-256 为 `2950d7b188a3ebaf58fc1623c465ce5edd1e5a8b5cb6f11aac760f45eec7f6fc`，冻结清单为 `eval/flask-validation-manifest.json`。在首次检索前记录题集与检索实现 hash，之后没有调权重或改标注。它仍是同仓库验证，不是外部盲评。
+
+纯中文无代码标识符的 5 题全部无命中；英文自然语言 R@10 0.6，精确标识符和带标识符多方法类别均为 1.0。V1 的跨语言语义检索能力不足，不能以其他类别分数掩盖这一点。
+
+### 验证与运行
+
+本机 Python 3.12.8、Git 2.53.0.windows.2、SQLite 3.45.3/FTS5。
+
+- `$env:PYTHONPATH = "src"; python -m unittest discover -s tests -v`：56 项通过。
+- `python -m compileall -q src tests experiments scripts`：通过。
+- wheel 使用 setuptools 81.0.0 离线构建，在 `data/v1-acceptance-venv` 离线安装；`python -I` 确认从 site-packages 导入，版本为 1.0.0。
+- `.\data\v1-acceptance-venv\Scripts\python.exe -I scripts/demo.py`：通过，输出见 `eval/v1-demo.json`。
+- 已安装包重建 Flask 新索引并完成两套数据评测，结果为 `eval/flask-v1-ingestion.json`、`eval/flask-v1-development.json`、`eval/flask-v1-validation.json`。
+- 验收包及文件摘要见 `eval/v1-acceptance.json`。
+- Flask 仓库只读。索引时沙箱账户触发 Git ownership 检查，已获执行批准后以仓库所属用户读取，没有放宽全局 Git 配置。
+
+### V2 验证
+
+- `$env:PYTHONPATH = "src"; python -m unittest discover -s tests -v`：83 项通过。
+- `python -m compileall -q src tests`：通过。
+- 固定 Flask snapshot 上运行 `python -m repolens answer ... --context-tokens 1200`：返回 `answered`，上下文使用 868 token，canonical citation 为 `E1`，包含 snapshot/commit/path/symbol/行号。
+- 空检索和预算不足测试确认 provider 调用次数为 0；未知 citation、无引用 claim 和非法结构均 fail closed。
+- DeepSeek provider 离线 HTTP 测试覆盖 JSON mode、请求体、解析、401 不重试、临时网络错误重试、缺少 key 和非法 JSON；测试未联网、未读取真实 key。
+- V2.2.0 新增离线测试覆盖响应体大小上限、request id/attempts/latency、provider 输出预算、回答输出数量上限和 CLI 参数错误。
+- 真实 DeepSeek smoke test：`provider=deepseek`，`status=answered`，`context.tokens_used=956`，`token_budget=1200`，`citations=E1..E4`，1 条低优先级 evidence 因预算被淘汰；未记录或提交 key。
+- `ask` 离线集成测试：临时 Git 仓库执行 `ask -> ingest -> answer`，确认 workflow snapshot、commit、telemetry 与回答一致。
+- snapshot 复用测试：同一临时仓库连续两次 `ask`，第一次为 `created`，第二次为 `reused`，snapshot ID 一致。
+- chat 离线集成测试：临时 Git 仓库启动 `chat`，完成一轮问题并使用 `:quit` 退出。
+
+### 历史记录
+
+V1.2 未调参基线与 V1.3 开发集结果分别保留在 `eval/flask-baseline.json` 和 `eval/flask-v1.3-baseline.json`。原题集 SHA-256 为 `77cfaea4a405c21716583ad9498715b28ab0b6b2278924eca843b3715503cd37`，未改动。
+
+V1.3 审阅：R@10 有 6 题改善、3 题回退。独立的字面标识符子查询/RRF 实验 R@10 为 0.753，新增两道零命中题，未启用为默认。报告和原始 hash 保留在 `docs/evaluation-review-v1.3.md` 与 `eval/flask-v1.3-review.json`；历史实现 hash 描述当时的文件，不要求与此后的修复文件相同。
+
+### V4 验收
+
+当前确定性回归测试共 93 项，覆盖 V3.2 追加检索、V3.3 impact、V4 Web API 以及 V4.1 中文 query expansion。源码 Web UI 已用浏览器验证纯中文问题返回 `answered` 并引用 `book_manager/book_io.py`；`compileall` 与 `git diff --check` 已通过。V4.1 wheel 离线安装后继续验证 `doctor`、版本、CLI 帮助和真实 `Book Manager V1` 中文问答；不把这组 fixture 结果称为跨仓库语义检索质量。
+
+路线图 V1 只支持 Python/Markdown 的 committed blobs，其他语言另行实现；V2 已完成 DeepSeek provider、离线结构化回答核心、ask/chat、impact v2、有限 Python AST caller/callee、`analyze commit`、10 个真实 commit 样例和结构化质量评测。V2 的调用关系边界是静态 Python AST，不覆盖动态调用、反射或跨语言关系；质量 gold 是结构化契约评测，不代表生产风险召回。V3 的受控 Agent、V4 的代码图谱、V5 的完整工作台和 V6 工程化仍未完成。V4.1 的中文能力仍是有限词典扩展，不是通用语义检索。学习参考仓库 `all-in-rag`、`AgentGuide` 始终不是目标仓库。
+
+## 新任务起始语
+
+读取 `D:\RAG\RepoLens\AGENTS.md`、本文件与 `docs/langchain-integration.md`，核对 Git 状态后继续。V1-V6 原有本地验收保留；用户授权的可选 LangChain Core/DeepSeek adapter 已完成，最终 184 项 Python、11 项安装包专项、8 项浏览器与实际 Retriever 的 90 次重放通过。当前服务 8772、双击环境依赖已准备。Docker 实机、远程 CI 和真实 DeepSeek 质量仍未测。SQLite schema 4、图策略 python-import-scope-graph-v2、默认 hybrid 和 gold 不变；Agent 仍为 RepoLens ControlledAgent。包4.1.0，当前 wheel hash 以顶部检查点为准。不把 fixture 当模型质量，不启动未授权的重写。参考项目 all-in-rag/AgentGuide 不修改、不索引、不评测；未授权 commit/push 或 subagent。

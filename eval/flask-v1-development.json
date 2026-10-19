@@ -1,0 +1,663 @@
+{
+  "schema_version": 1,
+  "run": {
+    "started_at_utc": "2026-10-17T06:49:10.394965+00:00",
+    "dataset": "flask-questions.jsonl",
+    "dataset_sha256": "77cfaea4a405c21716583ad9498715b28ab0b6b2278924eca843b3715503cd37",
+    "repository": "pallets/flask",
+    "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+    "snapshot_id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+    "index_policy": "git-objects-v1_ast-md-atx_lines80-overlap15",
+    "retrieval": "fts5-bm25-coverage-rerank-v1",
+    "query_policy": "literal-unicode-terms-or-identifier-phrases-v2",
+    "bm25_weights": {
+      "path": 2.0,
+      "symbol": 6.0,
+      "text": 1.0
+    },
+    "candidate_limit": 100,
+    "candidate_policy": "fixed-100",
+    "rerank_weights": {
+      "identifier_coverage": 4.0,
+      "symbol_root": 3.0
+    },
+    "top_k": 10,
+    "metric_cutoffs": [
+      5,
+      10
+    ],
+    "validated_evidence_count": 63,
+    "snapshot_stats": {
+      "inventory_files": 236,
+      "indexed_files": 89,
+      "symbols": 1622,
+      "chunks": 2256,
+      "source_bytes": 593455,
+      "statuses": {
+        "indexed": 89,
+        "unsupported_type": 147
+      },
+      "diagnostics": []
+    },
+    "index_corpus": [
+      {
+        "id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+        "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "policy": "git-objects-v1_ast-md-atx_lines80-overlap15"
+      }
+    ],
+    "environment": {
+      "repolens_version": "1.0.0",
+      "python": "3.12.8",
+      "sqlite": "3.45.3",
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64"
+    }
+  },
+  "metrics": {
+    "recall@5": 0.7083333333333334,
+    "recall@10": 0.7916666666666666,
+    "mrr": 0.8584656084656085,
+    "ndcg@10": 0.7318922920297516,
+    "case_count": 30,
+    "query_error_count": 0,
+    "query_error_rate": 0.0,
+    "latency_ms": {
+      "p50": 5.235650000031455,
+      "p95": 6.704084999364568,
+      "mean": 4.908696666825563
+    }
+  },
+  "by_category": {
+    "application-setup": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.38685280723454163,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.507100000613718,
+        "p95": 5.507100000613718,
+        "mean": 5.507100000613718
+      }
+    },
+    "architecture-docs": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.9825000003474997,
+        "p95": 3.9825000003474997,
+        "mean": 3.9825000003474997
+      }
+    },
+    "async-support": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.534300000363146,
+        "p95": 5.534300000363146,
+        "mean": 5.534300000363146
+      }
+    },
+    "blueprints": {
+      "recall@5": 0.5,
+      "recall@10": 0.625,
+      "mrr": 0.75,
+      "ndcg@10": 0.5634696444624298,
+      "case_count": 4,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.5431000005701208,
+        "p95": 4.197489999933168,
+        "mean": 3.6079500005143927
+      }
+    },
+    "configuration": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9593872208972474,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.185999999914202,
+        "p95": 3.956299999845214,
+        "mean": 3.2681799999409122
+      }
+    },
+    "context": {
+      "recall@5": 0.6944444444444445,
+      "recall@10": 0.8055555555555555,
+      "mrr": 1.0,
+      "ndcg@10": 0.7432491616081222,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.297200001019519,
+        "p95": 5.4518100016139215,
+        "mean": 4.5641333344974555
+      }
+    },
+    "exception-handling": {
+      "recall@5": 0.5,
+      "recall@10": 0.75,
+      "mrr": 0.5714285714285714,
+      "ndcg@10": 0.6021911987942431,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.374749999646156,
+        "p95": 5.4606549997515685,
+        "mean": 5.374749999646156
+      }
+    },
+    "helpers": {
+      "recall@5": 0.75,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9157773147918112,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.8896499995171325,
+        "p95": 6.61932499933755,
+        "mean": 5.8896499995171325
+      }
+    },
+    "request-lifecycle": {
+      "recall@5": 0.5,
+      "recall@10": 0.611111111111111,
+      "mrr": 0.7037037037037037,
+      "ndcg@10": 0.5848047218750958,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 6.502000000182306,
+        "p95": 6.68658999948093,
+        "mean": 6.328633333396283
+      }
+    },
+    "resources": {
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8385465274895063,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.977799999323906,
+        "p95": 4.977799999323906,
+        "mean": 4.977799999323906
+      }
+    },
+    "response": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8772153153380493,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.866399998922134,
+        "p95": 5.866399998922134,
+        "mean": 5.866399998922134
+      }
+    },
+    "routing": {
+      "recall@5": 0.8333333333333334,
+      "recall@10": 0.8333333333333334,
+      "mrr": 0.8333333333333334,
+      "ndcg@10": 0.7546893741908637,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.950000000666478,
+        "p95": 6.1584399998537265,
+        "mean": 5.943866666711983
+      }
+    },
+    "static-files": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6797310500037655,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.313800000294577,
+        "p95": 5.313800000294577,
+        "mean": 5.313800000294577
+      }
+    },
+    "testing": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 6.133800000498013,
+        "p95": 6.981420000465732,
+        "mean": 6.133800000498013
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "flask-v1-001",
+      "category": "routing",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 6.181599999763421,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-002",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 6.707099999402999,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-003",
+      "category": "routing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.950000000666478,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6509209298071326,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-004",
+      "category": "routing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.699999999706051,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-005",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.776800000603544,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-006",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 6.502000000182306,
+      "recall@5": 0.0,
+      "recall@10": 0.3333333333333333,
+      "mrr": 0.1111111111111111,
+      "ndcg@10": 0.14126697285982898,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-007",
+      "category": "context",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.580100001679966,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8503449055347546,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-008",
+      "category": "exception-handling",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.470199999763281,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-009",
+      "category": "exception-handling",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.27929999952903,
+      "recall@5": 0.0,
+      "recall@10": 0.5,
+      "mrr": 0.14285714285714285,
+      "ndcg@10": 0.20438239758848611,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-010",
+      "category": "response",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.866399998922134,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8772153153380493,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-011",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.1047000011312775,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8503449055347546,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-012",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.9515000007668277,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-013",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.240899999786052,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.7903864795495061,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-014",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.134700000373414,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-v1-015",
+      "category": "application-setup",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.507100000613718,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.38685280723454163,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-016",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.7229000006627757,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-017",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.2678999996278435,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-018",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.035699999600183,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-019",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.128399999899557,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8772153153380493,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-020",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.185999999914202,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-021",
+      "category": "resources",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 4.977799999323906,
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8385465274895063,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-v1-022",
+      "category": "static-files",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 5.313800000294577,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6797310500037655,
+      "evidence_covered@5": 3,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-v1-023",
+      "category": "context",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 4.297200001019519,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.6666666666666666,
+      "mrr": 1.0,
+      "ndcg@10": 0.6257049680303419,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-024",
+      "category": "context",
+      "gold_evidence_count": 4,
+      "retrieved_count": 10,
+      "latency_ms": 3.8151000007928815,
+      "recall@5": 0.75,
+      "recall@10": 0.75,
+      "mrr": 1.0,
+      "ndcg@10": 0.75369761125927,
+      "evidence_covered@5": 3,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-v1-025",
+      "category": "helpers",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.078899999716668,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8315546295836225,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-026",
+      "category": "helpers",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 6.700399999317597,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-027",
+      "category": "testing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 7.0756000004621455,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-028",
+      "category": "testing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.192000000533881,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-029",
+      "category": "async-support",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.534300000363146,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-030",
+      "category": "architecture-docs",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 3.9825000003474997,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    }
+  ]
+}

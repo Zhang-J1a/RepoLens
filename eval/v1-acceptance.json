@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-17T06:54:06.413506+00:00",
+  "version": "1.0.0",
+  "status": "local_v1_accepted",
+  "runtime_dependencies": [],
+  "wheel": {
+    "path": "dist/repolens-1.0.0-py3-none-any.whl",
+    "sha256": "3ccb2e3b7552bda073f8f542845ae149f2dc5d47ee1d27a7d3483df5cc0a3b75",
+    "installed_in_clean_venv": true,
+    "isolated_import_verified": true,
+    "contents_match_src": true
+  },
+  "verification": {
+    "unittest_count": 56,
+    "unittest_passed": true,
+    "compileall_passed": true,
+    "installed_demo_passed": true,
+    "frozen_validation_manifest_matches": true,
+    "development_case_scores_unchanged": true,
+    "ci_configured": true,
+    "remote_ci_executed": false
+  },
+  "test_command": "PYTHONPATH=src python -m unittest discover -s tests -v",
+  "compile_command": "python -m compileall -q src tests experiments scripts",
+  "development_metrics": {
+    "recall@5": 0.7083333333333334,
+    "recall@10": 0.7916666666666666,
+    "mrr": 0.8584656084656085,
+    "ndcg@10": 0.7318922920297516,
+    "case_count": 30,
+    "query_error_count": 0,
+    "query_error_rate": 0.0,
+    "latency_ms": {
+      "p50": 5.235650000031455,
+      "p95": 6.704084999364568,
+      "mean": 4.908696666825563
+    }
+  },
+  "validation_metrics": {
+    "recall@5": 0.55,
+    "recall@10": 0.65,
+    "mrr": 0.55,
+    "ndcg@10": 0.5540361792230324,
+    "case_count": 20,
+    "query_error_count": 0,
+    "query_error_rate": 0.0,
+    "latency_ms": {
+      "p50": 3.7931999995635124,
+      "p95": 5.978910000521864,
+      "mean": 3.191639999840845
+    }
+  },
+  "artifact_sha256": {
+    "eval/flask-v1-ingestion.json": "76562c57c6b534bf0499322b542c1e0fcee99274551a56348d9ab4cc9bb23103",
+    "eval/flask-v1-development.json": "befb3b6cdbdddaa6a79132a0d0ea08560c55ed8eb2aacb0856da6ae2f1d63d17",
+    "eval/flask-v1-validation.json": "3bed2cce2b3524991c2f242403a8cc53434a53cca8ac8f13a3a649a29230d251",
+    "eval/flask-validation-manifest.json": "90c8a49e3af5dfa4211b470b6616e5816755514cbf2d739d5c62ab8ec165bab8",
+    "eval/v1-demo.json": "66be0b4b0bb31153cfac3ea8c4d5b2f29b7b2bccd71c3605ad5615d9bc50a1dd",
+    "README.md": "2a5d412bdba8f77f99965da99fa48d6d875f538ec902a4d7171049726aae8080",
+    "docs/v1-release.md": "2beacf5f888f6f63ad91ea76151761f9ff18cefe08b7e06c6e0d918e1ab7f4f0",
+    "docs/interview-guide.md": "7b9a1bafe22668f2a101fadf54af3bfb596a2a887e0d2f4deb54371f409f10f9",
+    ".github/workflows/ci.yml": "c01297e5d4d2eec2f00ca84b7ca699e5a71b5f91e439f93671b15131c3a045ac"
+  },
+  "limitations": [
+    "Python and Markdown only",
+    "Validation uses another question set in the same Flask commit, not external blind review",
+    "Chinese-only lexical retrieval recall is zero on this validation set",
+    "No generated answers, model calls, or API keys in V1"
+  ]
+}

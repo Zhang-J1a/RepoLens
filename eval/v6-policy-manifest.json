@@ -1,0 +1,16 @@
+{
+  "reason": "Initial V6 parser embedding prompt and agent regression policy; historical V4 gold and ranking are unchanged.",
+  "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
+  "implementation_sha256_lf": {
+    "src/repolens/domain.py": "c69a447bd6cfb5c5f47a45ee3353994940b7e92c8e0ef6eb1f07d1a162df0188",
+    "src/repolens/parsing.py": "477e85c170260d5a5fa69ea42eea57b368aa193f3fb117b7aef97d49e23becba",
+    "src/repolens/embeddings.py": "4f6a631df588e1d8be91e1c2ab04e2755e61485a2594bcf257ff77a594170fe3",
+    "src/repolens/retrieval.py": "92efff502b976622f8160be918e0e98906b6a84886d97f97ce4c5d4eb9156e35",
+    "src/repolens/provider.py": "7472ab61307fbb10b201a56abff0870b7605070d807bb09ade7d27f72267e2c8",
+    "src/repolens/context.py": "e630579d63eb5088b53e874cd6d37170cd21d7aa0f4a90bca5ae2e99b8de536b",
+    "src/repolens/answer.py": "d562e92ef379255747b0b4d71deb79c54b8f5a295fc269ee8aaa3eb02454fc41",
+    "src/repolens/pipeline.py": "82be531980d6d85cb7a8d6e3a27a8af27a94bee4cc1cbbd1d0b856c3cda6c72f",
+    "src/repolens/agent/runner.py": "b28cc1887d2b1994d50860ca83bc21e7bf7943c82e3d38261fa7e39382019da1",
+    "src/repolens/agent/tools.py": "4dc73921dd46177bba66cb54379dfbcba24b705ce26f61a562072192085d1daf"
+  }
+}

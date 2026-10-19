@@ -1,0 +1,834 @@
+{
+  "schema_version": "repolens.graph-benchmark.v1",
+  "manifest_sha256": "411de906e53a8028ebfb985507165c65883258004f0ccd1fdc238411e3419e08",
+  "graph": {
+    "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+    "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+    "graph_policy": "python-import-scope-graph-v1",
+    "stats": {
+      "nodes": 2080,
+      "edges": 4614,
+      "reused_fact_files": 0,
+      "parsed_fact_files": 236,
+      "base_snapshot_id": null,
+      "unresolved_calls": 2718,
+      "unresolved_imports": 418,
+      "parse_errors": 0,
+      "commit_changes_available": true,
+      "base_commit_sha": "329c32b916938d33fec41f40eb7ed854bf0b3e2b",
+      "deleted_paths": []
+    }
+  },
+  "results": {
+    "vector": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:39:08.614428+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "local-tfidf-cosine-v1",
+        "strategy": "vector",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "fixed-100",
+        "graph_expansion": null,
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.6,
+        "recall@10": 0.8,
+        "mrr": 0.51,
+        "ndcg@10": 0.5372645308258713,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 66.09785000000556,
+          "p95": 71.25354500026333,
+          "mean": 67.25018000006457
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 0.5555555555555556,
+          "recall@10": 0.7777777777777778,
+          "mrr": 0.4555555555555555,
+          "ndcg@10": 0.5024778225248843,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 66.07799999983399,
+            "p95": 71.38754000025074,
+            "mean": 67.08068888898804
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 68.77559999975347,
+            "p95": 68.77559999975347,
+            "mean": 68.77559999975347
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 64.08920000012586,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 3,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 65.77310000011494,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 66.11770000017714,
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0,
+          "ndcg@10": 0.0,
+          "evidence_covered@5": 0,
+          "evidence_covered@10": 0
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 69.54040000073292,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.5640920940185894,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 66.07799999983399,
+          "recall@5": 0.0,
+          "recall@10": 0.5,
+          "mrr": 0.1,
+          "ndcg@10": 0.17723928678404774,
+          "evidence_covered@5": 0,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 69.77960000040184,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 72.45950000015,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 64.29529999968508,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.5437713091520254,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 65.59339999967051,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.6240505200038379,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 68.77559999975347,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        }
+      ]
+    },
+    "hybrid": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:39:09.336513+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "hybrid-rrf-keyword-vector-multilingual-v1",
+        "strategy": "hybrid",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "fixed-100",
+        "graph_expansion": null,
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.6666666666666667,
+        "recall@10": 0.85,
+        "mrr": 0.8666666666666666,
+        "ndcg@10": 0.7290280157766167,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 102.9122500003723,
+          "p95": 108.40883999999278,
+          "mean": 100.88829000023907
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 0.6851851851851852,
+          "recall@10": 0.8333333333333334,
+          "mrr": 0.8518518518518519,
+          "ndcg@10": 0.7204118401537153,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 103.41870000047493,
+            "p95": 108.45508000002155,
+            "mean": 100.71967777801345
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8065735963827293,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 102.40580000026966,
+            "p95": 102.40580000026966,
+            "mean": 102.40580000026966
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 106.004700000085,
+          "recall@5": 0.6666666666666666,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7920874914199381,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 106.87370000050578,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7903864795495061,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 108.82500000025175,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.3065735963827292,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 107.90019999967626,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 100.22430000026361,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg@10": 0.3065735963827292,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 103.41870000047493,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 95.66620000077819,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7977228895450266,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 88.45370000017283,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8772153153380493,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 89.11059999991267,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 102.40580000026966,
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8065735963827293,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 2
+        }
+      ]
+    },
+    "graph": {
+      "schema_version": 1,
+      "run": {
+        "started_at_utc": "2026-10-19T04:39:10.355981+00:00",
+        "dataset": "flask-graph-crossfile-v4.jsonl",
+        "dataset_sha256": "bebcf21be9468d9ddee8383ed257ee55243d88f017fb267270d9dae2810ba857",
+        "repository": "pallets/flask",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "snapshot_id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+        "index_policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1",
+        "retrieval": "vector-static-graph-rrf-v1",
+        "strategy": "graph",
+        "query_policy": "literal-unicode-terms-or-identifier-phrases-multilingual-v3",
+        "bm25_weights": {
+          "path": 2.0,
+          "symbol": 6.0,
+          "text": 1.0
+        },
+        "candidate_limit": 100,
+        "candidate_policy": "vector-100-plus-bounded-static-graph",
+        "graph_expansion": {
+          "max_seed_nodes": 8,
+          "fallback_vector_seeds": 5,
+          "hops": 2,
+          "max_nodes": 120,
+          "max_edges": 300,
+          "chunks_per_node": 2,
+          "vector_weight": 0.4,
+          "graph_weight": 0.6,
+          "exact_seed_weight": 1.0,
+          "rrf_offset": 60
+        },
+        "rerank_weights": {
+          "identifier_coverage": 4.0,
+          "symbol_root": 3.0
+        },
+        "top_k": 10,
+        "metric_cutoffs": [
+          5,
+          10
+        ],
+        "validated_evidence_count": 21,
+        "snapshot_stats": {
+          "inventory_files": 236,
+          "indexed_files": 89,
+          "symbols": 1622,
+          "chunks": 2256,
+          "source_bytes": 593455,
+          "statuses": {
+            "indexed": 89,
+            "unsupported_type": 147
+          },
+          "diagnostics": [],
+          "index_mode": "full",
+          "base_snapshot_id": null,
+          "reused_files": 0,
+          "parsed_files": 236,
+          "history_commits": 5000,
+          "local_branches": [
+            "main"
+          ]
+        },
+        "index_corpus": [
+          {
+            "id": "snapshot_74361af51599db4482b7235a0d9832780863972bb97afc8420abcb32c336889f",
+            "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+            "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+            "policy": "git-objects-v3_ast-md-atx_lines80-overlap15_local-tfidf-v1_history-v1"
+          }
+        ],
+        "environment": {
+          "repolens_version": "4.1.0",
+          "python": "3.12.8",
+          "sqlite": "3.45.3",
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64"
+        }
+      },
+      "metrics": {
+        "recall@5": 0.95,
+        "recall@10": 0.95,
+        "mrr": 0.95,
+        "ndcg@10": 0.8953854606403719,
+        "case_count": 10,
+        "query_error_count": 0,
+        "query_error_rate": 0.0,
+        "latency_ms": {
+          "p50": 108.8315000001785,
+          "p95": 187.01724500047013,
+          "mean": 119.30142000010164
+        }
+      },
+      "by_category": {
+        "cross-file": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.9444444444444444,
+          "ndcg@10": 0.9267452681820291,
+          "case_count": 9,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 107.42740000023332,
+            "p95": 136.16582000013295,
+            "mean": 107.8950444444773
+          }
+        },
+        "cross-file-dynamic-boundary": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "case_count": 1,
+          "query_error_count": 0,
+          "query_error_rate": 0.0,
+          "latency_ms": {
+            "p50": 221.95880000072066,
+            "p95": 221.95880000072066,
+            "mean": 221.95880000072066
+          }
+        }
+      },
+      "cases": [
+        {
+          "id": "flask-graph-v4-001",
+          "category": "cross-file",
+          "gold_evidence_count": 3,
+          "retrieved_count": 10,
+          "latency_ms": 122.99110000003566,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 3,
+          "evidence_covered@10": 3
+        },
+        {
+          "id": "flask-graph-v4-002",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 110.23560000012367,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-003",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 144.3109000001641,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.6934264036172708,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-004",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 100.80899999957182,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-005",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 123.94820000008622,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.9197207891481876,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-006",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 89.5688999999038,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-007",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 107.42740000023332,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-008",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 86.02520000022196,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8503449055347546,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-009",
+          "category": "cross-file",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 85.73909999995522,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.8772153153380493,
+          "evidence_covered@5": 2,
+          "evidence_covered@10": 2
+        },
+        {
+          "id": "flask-graph-v4-010",
+          "category": "cross-file-dynamic-boundary",
+          "gold_evidence_count": 2,
+          "retrieved_count": 10,
+          "latency_ms": 221.95880000072066,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.6131471927654584,
+          "evidence_covered@5": 1,
+          "evidence_covered@10": 1
+        }
+      ]
+    }
+  },
+  "paired_recall@10": [
+    {
+      "id": "flask-graph-v4-001",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-002",
+      "vector_recall@10": 0.5,
+      "graph_recall@10": 1.0,
+      "delta": 0.5
+    },
+    {
+      "id": "flask-graph-v4-003",
+      "vector_recall@10": 0.0,
+      "graph_recall@10": 1.0,
+      "delta": 1.0
+    },
+    {
+      "id": "flask-graph-v4-004",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-005",
+      "vector_recall@10": 0.5,
+      "graph_recall@10": 1.0,
+      "delta": 0.5
+    },
+    {
+      "id": "flask-graph-v4-006",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-007",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-008",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-009",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 1.0,
+      "delta": 0.0
+    },
+    {
+      "id": "flask-graph-v4-010",
+      "vector_recall@10": 1.0,
+      "graph_recall@10": 0.5,
+      "delta": -0.5
+    }
+  ],
+  "acceptance_gain": true,
+  "limitations": "Ten authored cross-file cases on one Flask commit; no external blind test or real model evaluation."
+}

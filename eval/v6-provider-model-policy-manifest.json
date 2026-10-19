@@ -1,0 +1,11 @@
+{
+  "reason": "Use DeepSeek official current model alias; only the provider default identifier changed, retrieval, prompts, Agent behavior, gold and query policy are unchanged.",
+  "parent_policy_sha256": "73bda4e4983c451905ba9520493af3bf3ee83370e7e3421000fc895e6162d2bc",
+  "overrides_original_policy_files": [
+    "src/repolens/provider.py"
+  ],
+  "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
+  "implementation_sha256_lf": {
+    "src/repolens/provider.py": "0a6be7aa4fcda7c67b0c8060abcfc24489a5f8bec4f32f99a3d60307da107f9f"
+  }
+}

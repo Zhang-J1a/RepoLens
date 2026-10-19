@@ -1,0 +1,657 @@
+{
+  "schema_version": 1,
+  "run": {
+    "started_at_utc": "2026-10-17T05:22:03.937400+00:00",
+    "dataset": "flask-questions.jsonl",
+    "dataset_sha256": "77cfaea4a405c21716583ad9498715b28ab0b6b2278924eca843b3715503cd37",
+    "repository": "pallets/flask",
+    "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+    "snapshot_id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+    "index_policy": "git-objects-v1_ast-md-atx_lines80-overlap15",
+    "retrieval": "fts5_bm25",
+    "query_policy": "literal-unicode-terms-or-v1",
+    "bm25_weights": {
+      "path": 2.0,
+      "symbol": 6.0,
+      "text": 1.0
+    },
+    "top_k": 10,
+    "metric_cutoffs": [
+      5,
+      10
+    ],
+    "validated_evidence_count": 63,
+    "snapshot_stats": {
+      "inventory_files": 236,
+      "indexed_files": 89,
+      "symbols": 1622,
+      "chunks": 2256,
+      "source_bytes": 593455,
+      "statuses": {
+        "indexed": 89,
+        "unsupported_type": 147
+      },
+      "diagnostics": []
+    },
+    "index_corpus": [
+      {
+        "id": "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656",
+        "repository_id": "repo_2de926e588fc8bfe726489c59a83e88fded50765fb474f7fb55a79a6caa53d64",
+        "commit_sha": "d086db856be187255b8ec61ef409357393020f32",
+        "policy": "git-objects-v1_ast-md-atx_lines80-overlap15"
+      }
+    ],
+    "environment": {
+      "repolens_version": "0.1.0",
+      "python": "3.12.8",
+      "sqlite": "3.45.3",
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64"
+    }
+  },
+  "metrics": {
+    "recall@5": 0.6,
+    "recall@10": 0.7555555555555556,
+    "mrr": 0.5995238095238095,
+    "ndcg@10": 0.5846047785424797,
+    "case_count": 30,
+    "query_error_count": 0,
+    "query_error_rate": 0.0,
+    "latency_ms": {
+      "p50": 3.468499999598862,
+      "p95": 4.886490000035336,
+      "mean": 3.44215000004624
+    }
+  },
+  "by_category": {
+    "application-setup": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.2,
+      "ndcg@10": 0.23719771276929622,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 5.410200000369514,
+        "p95": 5.410200000369514,
+        "mean": 5.410200000369514
+      }
+    },
+    "architecture-docs": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 2.726200000324752,
+        "p95": 2.726200000324752,
+        "mean": 2.726200000324752
+      }
+    },
+    "async-support": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.38685280723454163,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.266599999733444,
+        "p95": 3.266599999733444,
+        "mean": 3.266599999733444
+      }
+    },
+    "blueprints": {
+      "recall@5": 0.375,
+      "recall@10": 0.75,
+      "mrr": 0.6607142857142857,
+      "ndcg@10": 0.5470488201888158,
+      "case_count": 4,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 2.6062000001729757,
+        "p95": 3.062659999523021,
+        "mean": 2.6144749999730266
+      }
+    },
+    "configuration": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.8666666666666666,
+      "ndcg@10": 0.8659608172799766,
+      "case_count": 5,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 2.072799999950803,
+        "p95": 3.3172399998875335,
+        "mean": 2.408140000079584
+      }
+    },
+    "context": {
+      "recall@5": 0.38888888888888884,
+      "recall@10": 0.7222222222222222,
+      "mrr": 0.46428571428571425,
+      "ndcg@10": 0.459830440463427,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.6946999998690444,
+        "p95": 4.177460000573774,
+        "mean": 3.448266666964628
+      }
+    },
+    "exception-handling": {
+      "recall@5": 0.25,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.41577731479181124,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.430800000387535,
+        "p95": 3.684420000627142,
+        "mean": 3.430800000387535
+      }
+    },
+    "helpers": {
+      "recall@5": 0.75,
+      "recall@10": 1.0,
+      "mrr": 0.75,
+      "ndcg@10": 0.8026301220263529,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.196299999875919,
+        "p95": 4.322119999824281,
+        "mean": 4.196299999875919
+      }
+    },
+    "request-lifecycle": {
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333,
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.3333333333333333,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.146499999478692,
+        "p95": 4.895030000443512,
+        "mean": 3.9343333334424337
+      }
+    },
+    "resources": {
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6653497124326151,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.454799999417446,
+        "p95": 3.454799999417446,
+        "mean": 3.454799999417446
+      }
+    },
+    "response": {
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.691199999797391,
+        "p95": 4.691199999797391,
+        "mean": 4.691199999797391
+      }
+    },
+    "routing": {
+      "recall@5": 0.6666666666666666,
+      "recall@10": 0.8333333333333334,
+      "mrr": 0.5555555555555555,
+      "ndcg@10": 0.5347654953092519,
+      "case_count": 3,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 4.122499999539286,
+        "p95": 4.7092099994188175,
+        "mean": 4.313533333212642
+      }
+    },
+    "static-files": {
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 0.25,
+      "ndcg@10": 0.5400753810454857,
+      "case_count": 1,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.6098000000492902,
+        "p95": 3.6098000000492902,
+        "mean": 3.6098000000492902
+      }
+    },
+    "testing": {
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.4251724527673773,
+      "case_count": 2,
+      "query_error_count": 0,
+      "query_error_rate": 0.0,
+      "latency_ms": {
+        "p50": 3.6322500000096625,
+        "p95": 4.250144999969052,
+        "mean": 3.6322500000096625
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "flask-v1-001",
+      "category": "routing",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.774399999405432,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.5,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-002",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 4.146499999478692,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-003",
+      "category": "routing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.122499999539286,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.4911492931622974,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-004",
+      "category": "routing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.043700000693207,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 1.0,
+      "ndcg@10": 0.6131471927654584,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-005",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.678300000297895,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-v1-006",
+      "category": "request-lifecycle",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 4.978200000550714,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-v1-007",
+      "category": "context",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.231100000652077,
+      "recall@5": 0.0,
+      "recall@10": 1.0,
+      "mrr": 0.14285714285714285,
+      "ndcg@10": 0.3889580943680543,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-008",
+      "category": "exception-handling",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.712600000653765,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8315546295836225,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-009",
+      "category": "exception-handling",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.1490000001213048,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-v1-010",
+      "category": "response",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.691199999797391,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-011",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.1544000001085806,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8065735963827293,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-012",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.9015000000072177,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.7903864795495061,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-013",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.0910999994375743,
+      "recall@5": 0.0,
+      "recall@10": 0.5,
+      "mrr": 0.14285714285714285,
+      "ndcg@10": 0.20438239758848611,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-014",
+      "category": "blueprints",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.3109000003387337,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.38685280723454163,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-015",
+      "category": "application-setup",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 5.410200000369514,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.2,
+      "ndcg@10": 0.23719771276929622,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-016",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.6574000003165565,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-017",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 1.9867000000886037,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-018",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 1.8416000002616784,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-019",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.4821999997802777,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.5706417189553201,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-020",
+      "category": "configuration",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.072799999950803,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.9197207891481876,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-021",
+      "category": "resources",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 3.454799999417446,
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6653497124326151,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-v1-022",
+      "category": "static-files",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 3.6098000000492902,
+      "recall@5": 0.6666666666666666,
+      "recall@10": 1.0,
+      "mrr": 0.25,
+      "ndcg@10": 0.5400753810454857,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 3
+    },
+    {
+      "id": "flask-v1-023",
+      "category": "context",
+      "gold_evidence_count": 3,
+      "retrieved_count": 10,
+      "latency_ms": 3.6946999998690444,
+      "recall@5": 0.6666666666666666,
+      "recall@10": 0.6666666666666666,
+      "mrr": 1.0,
+      "ndcg@10": 0.6713860725233041,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-024",
+      "category": "context",
+      "gold_evidence_count": 4,
+      "retrieved_count": 10,
+      "latency_ms": 2.419000000372762,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.25,
+      "ndcg@10": 0.3191471544989227,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-025",
+      "category": "helpers",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.336099999818543,
+      "recall@5": 0.5,
+      "recall@10": 1.0,
+      "mrr": 0.5,
+      "ndcg@10": 0.6052602440527057,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-026",
+      "category": "helpers",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.056499999933294,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-027",
+      "category": "testing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 4.31879999996454,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "mrr": 0.0,
+      "ndcg@10": 0.0,
+      "evidence_covered@5": 0,
+      "evidence_covered@10": 0
+    },
+    {
+      "id": "flask-v1-028",
+      "category": "testing",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 2.945700000054785,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 0.8503449055347546,
+      "evidence_covered@5": 2,
+      "evidence_covered@10": 2
+    },
+    {
+      "id": "flask-v1-029",
+      "category": "async-support",
+      "gold_evidence_count": 2,
+      "retrieved_count": 10,
+      "latency_ms": 3.266599999733444,
+      "recall@5": 0.5,
+      "recall@10": 0.5,
+      "mrr": 0.5,
+      "ndcg@10": 0.38685280723454163,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    },
+    {
+      "id": "flask-v1-030",
+      "category": "architecture-docs",
+      "gold_evidence_count": 1,
+      "retrieved_count": 10,
+      "latency_ms": 2.726200000324752,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "evidence_covered@5": 1,
+      "evidence_covered@10": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "reason": "Add an optional LangChain Retriever and DeepSeek LCEL adapter with tracing disabled and bounded parsed output; preserve core policies, gold labels, strategy defaults, and citation validation.",
+  "parent_policy_sha256": "73bda4e4983c451905ba9520493af3bf3ee83370e7e3421000fc895e6162d2bc",
+  "overrides_original_policy_files": [
+    "src/repolens/pipeline.py"
+  ],
+  "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
+  "implementation_sha256_lf": {
+    "src/repolens/pipeline.py": "b9072872e9f6efca88f776c8a888a2054f4ee0155d018e5a75cc657c55d94c5c",
+    "src/repolens/langchain_integration.py": "324cb242e68b0a419a7131359fe422b849ccd573de49e59c7a7edab3e3eda244"
+  }
+}

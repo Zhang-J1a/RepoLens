@@ -1,0 +1,57 @@
+{
+  "schema_version": "repolens.langchain-acceptance.v1",
+  "date": "2026-10-19",
+  "scope": "offline optional LangChain integration; not model quality evaluation",
+  "dependencies": {
+    "langchain-core": "1.6.12",
+    "langchain-deepseek": "1.1.1",
+    "langsmith": "0.14.11",
+    "locked_packages": 45,
+    "lock_sha256": "eef7f0130c2152bd8ec8b884d39d4843243fc32a2da13032d6d0154225da4b1e"
+  },
+  "checks": {
+    "python_tests": 184,
+    "python_tests_passed": 184,
+    "python_duration_seconds": 160.260,
+    "installed_langchain_tests": 11,
+    "stdlib_only_cli_tests": 8,
+    "browser_tests": 8,
+    "browser_tests_passed": 8,
+    "browser_duration_ms": 18119.102,
+    "langchain_retriever_queries": 90,
+    "frozen_metrics_unchanged": true,
+    "pip_check": true,
+    "prettier": true,
+    "typescript_vite": true,
+    "openapi": true,
+    "compileall": true,
+    "installed_workbench_smoke": true
+  },
+  "package": {
+    "wheel": "repolens-4.1.0-py3-none-any.whl",
+    "sha256": "9ed70804f7b4ef06bc8ab5e47d46c77cfd891b55310d31bd768716975a5299ed",
+    "frontend_files": 15,
+    "stale_assets": 0,
+    "installed_environment": "data/v6-langchain-acceptance-venv"
+  },
+  "artifacts_sha256": {
+    "eval/v6-langchain-policy-manifest.json": "64dbf0b2e23cdd8e7b784a4be785dff04415f36446a16abf6d598a4122696f95",
+    "eval/v6-langchain-retrieval-regression.json": "26672e52337fbb7b35cf083c95da801222f5c3e9c9f8e7e71f60e1d1aee71edd",
+    "eval/v6-langchain-workbench-smoke.json": "a7b9f140b42b9306301955550a77146926446bb57a475d00d943807dfd716fe1",
+    "data/v6-langchain-playwright-results.json": "6080a3d291b334e16e19c06cc54ddbeee67f1a2c808b760308933fd4a4ca9077",
+    "data/v6-langchain-tests.log": "c83da3b9ac97aa672f63865209eebedf653bf55a1b67ba52b137ddfad0959659"
+  },
+  "runtime": {
+    "url": "http://127.0.0.1:8772/",
+    "pythonw": true,
+    "api_key_configured_at_acceptance": false,
+    "double_click_environment_prepared": "data/v5-web-venv",
+    "langsmith_tracing_disabled_in_adapter": true
+  },
+  "not_executed": ["real DeepSeek requests and independent model quality evaluation", "Docker builds", "remote CI"],
+  "notes": [
+    "Original V6 policy manifest and gold data are preserved.",
+    "The 4 MiB LangChain output check happens after SDK response loading and parsing.",
+    "Reference repositories were not modified, indexed, or evaluated; no commit or push was performed."
+  ]
+}
