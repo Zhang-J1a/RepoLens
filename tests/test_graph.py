@@ -231,7 +231,8 @@ class GraphTests(unittest.TestCase):
         self.assertEqual(json.loads(output.getvalue())["commit_sha"], self.base)
 
     def test_agent_subgraph_exposes_bounded_nodes_and_edges(self):
-        context = ToolContext(str(self.repo), str(self.data), self.head_snapshot, self.head)
+        repository_alias = self.repo / ".." / self.repo.name
+        context = ToolContext(str(repository_alias), str(self.data), self.head_snapshot, self.head)
         result = dispatch_tool(context, "build_dependency_subgraph", {"symbol": "entry", "hops": 2, "limit": 8})
         view = observation(result)
         self.assertTrue(view["graph"]["nodes"])
@@ -240,6 +241,9 @@ class GraphTests(unittest.TestCase):
         self.assertNotIn("return route(1)", json.dumps(view))
         found = dispatch_tool(context, "search_code", validate_action("search_code", {"query": "entry", "retrieval": "graph"}, 8))
         self.assertTrue(found["evidence"])
+        wrong_repository = replace(context, repository=str(self.repo.parent))
+        with self.assertRaisesRegex(RepoLensError, "snapshot_binding_failed"):
+            dispatch_tool(wrong_repository, "find_symbol", {"symbol": "entry", "limit": 8})
 
     def test_method_bare_names_and_nested_receivers_obey_python_scope(self):
         self.write("pkg/scopes.py", "def helper():\n    return 1\n\nclass Example:\n    def helper(self):\n        return 2\n\n    def method(self):\n        def nested(self):\n            return self.helper()\n        return helper()\n")

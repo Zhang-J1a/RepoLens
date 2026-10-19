@@ -98,11 +98,19 @@ jobs:
         run: python scripts/v6_regression.py
       - name: Build V6 container image
         run: docker build --tag repolens:v6 .
+      - name: Select a free loopback port for Compose
+        run: |
+          python - <<'PY' >> "$GITHUB_ENV"
+          import socket
+          with socket.socket() as listener:
+              listener.bind(("127.0.0.1", 0))
+              print(f"REPOLENS_HOST_PORT={listener.getsockname()[1]}")
+          PY
       - name: Test fresh container startup with the built-in Demo
         run: |
           docker compose config --quiet
           docker compose up -d --wait --wait-timeout 120
-          python scripts/container_smoke.py
+          python scripts/container_smoke.py --url "http://127.0.0.1:${REPOLENS_HOST_PORT}"
       - name: Prepare a synthetic authorized mount
         env:
           PYTHONPATH: src
@@ -119,7 +127,7 @@ jobs:
         run: |
           docker compose -f docker-compose.yml -f compose.repository.yml config --quiet
           docker compose -f docker-compose.yml -f compose.repository.yml up -d --wait --wait-timeout 120
-          python scripts/container_smoke.py --repository /workspace/repository
+          python scripts/container_smoke.py --url "http://127.0.0.1:${REPOLENS_HOST_PORT}" --repository /workspace/repository
           docker inspect "$(docker compose ps -q repolens)" --format '{{json .Mounts}}' > data/container-mounts.json
           python -c 'import json; rows=json.load(open("data/container-mounts.json")); assert any(row["Destination"] == "/workspace/repository" and not row["RW"] for row in rows)'
       - name: Stop container

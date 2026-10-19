@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from repolens.agent.models import AgentStop
+from repolens.domain import RepoLensError
 from repolens.git import GitRepository, safe_repository_path
 from repolens.impact import build_impact_report
 from repolens.index import IndexStore
@@ -104,20 +105,30 @@ def rule_report(context):
                                    context.base_snapshot_id, context.snapshot_id)
 
 
+def _validate_snapshot_binding(store, snapshot_id, commit_sha, repository_root):
+    try:
+        snapshot = store.snapshot(snapshot_id)
+        snapshot_root = Path(snapshot["root"]).resolve(strict=True)
+    except (RepoLensError, OSError, RuntimeError, TypeError, ValueError):
+        raise AgentStop("snapshot_binding_failed") from None
+    if snapshot["commit_sha"] != commit_sha or snapshot_root != repository_root:
+        raise AgentStop("snapshot_binding_failed")
+
+
 def dispatch_tool(context, name, arguments):
     limit = arguments["limit"]
     snapshot = context.snapshot_id
     evidence = []
     limitations = []
     graph_view = None
+    try:
+        repository_root = Path(context.repository).expanduser().resolve(strict=True)
+    except (OSError, RuntimeError, TypeError, ValueError):
+        raise AgentStop("snapshot_binding_failed") from None
     with IndexStore(Path(context.directory)) as store:
-        selected = store.snapshot(snapshot)
-        if selected["commit_sha"] != context.commit_sha or Path(selected["root"]) != Path(context.repository):
-            raise AgentStop("snapshot_binding_failed")
+        _validate_snapshot_binding(store, snapshot, context.commit_sha, repository_root)
         if context.base_snapshot_id:
-            base = store.snapshot(context.base_snapshot_id)
-            if base["commit_sha"] != context.base_sha or Path(base["root"]) != Path(context.repository):
-                raise AgentStop("snapshot_binding_failed")
+            _validate_snapshot_binding(store, context.base_snapshot_id, context.base_sha, repository_root)
         if name in ("search_code", "list_related_tests"):
             search = store.search_graph if name == "search_code" and arguments.get("retrieval") == "graph" else store.search_hybrid
             results = search(arguments["query"], snapshot, limit=100 if name == "list_related_tests" else limit)
