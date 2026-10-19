@@ -1,5 +1,34 @@
 # 进度与交接
 
+## 2026-10-19：M2 公开推送授权与干净源码验收
+
+### 已完成
+
+- 首次本地根提交为 `9a2a5f6cd733caa5886fb6dfd12efa698c73ac74`，消息为 `chore: audited initial import of RepoLens V6`，包含 230 个文件，无父提交；提交后工作树干净。
+- 用户进一步明确授权创建公开的 `Zhang-J1a/RepoLens` 并推送，继续保持不添加 `LICENSE`；没有授权 tag、release 或上传 wheel。
+- GitHub connector 与 Git 凭据管理器均确认账号 `Zhang-J1a`。connector 查询 `Zhang-J1a/RepoLens` 返回 404；浏览器打开 `https://github.com/new` 后停在登录页，等待用户自行登录。现有 connector 没有创建仓库工具。
+- 从已提交源码创建本地干净 clone，使用全新无 pip 的虚拟环境安装独立核心 wheel，doctor 与合成 Demo 均通过；clone 不包含原工作区 `data/`。README 补充首次提交、源码构建命令、许可证决定及核心/Web 验收边界。
+
+### 验证
+
+- `git -c safe.directory=D:/RAG/RepoLens log -1 --format="%H%n%P%n%s"`、`status --short --branch --untracked-files=all`、`ls-tree -r --name-only HEAD`：确认根提交、230 个文件及干净工作树；`Test-Path LICENSE` 为 False。
+- `git -c safe.directory=D:/RAG/RepoLens -c core.whitespace=cr-at-eol show --format= --check HEAD`：通过；提交路径无 env、数据库、venv、构建产物或密钥文件。
+- `git -c safe.directory=D:/RAG/RepoLens clone --no-local --no-hardlinks D:/RAG/RepoLens data/portfolio-m2-clean-clone`：通过，仅克隆本项目的本地提交。
+- 在干净 clone 执行 `python -m pip wheel . --no-cache-dir --no-deps --no-build-isolation --no-index --disable-pip-version-check --wheel-dir ../portfolio-m2-core-wheel`：通过，退出码 0；独立核心 wheel SHA-256 为 `94c33c4a984fcf9329cceb61cc90c00333f4952098dc197943a4a456a6f7ff6b`，未覆盖现有完整 Web wheel。
+- `python -m venv --without-pip data/portfolio-m2-clean-venv`、`python -m pip --python data/portfolio-m2-clean-venv/Scripts/python.exe install --no-cache-dir --no-deps --no-index --disable-pip-version-check data/portfolio-m2-core-wheel/repolens-4.1.0-py3-none-any.whl`：通过，退出码 0，没有安装第三方依赖。
+- 在干净 clone 执行 `..\portfolio-m2-clean-venv\Scripts\python.exe -I -m repolens doctor` 和 `..\portfolio-m2-clean-venv\Scripts\python.exe -I scripts/demo.py`：均通过，退出码 0；Python 3.12.8、Git 2.53.0、SQLite FTS5 正常，Demo 9 文件、28 符号、39 chunks，工作树不变。
+
+### 限制与未执行
+
+- 第一次 wheel 构建因默认 pip cache 不在可写范围而失败；添加 `--no-cache-dir` 后重跑成功。最初的后续安装也因 wheel 尚不存在而失败；成功构建后重新安装通过，失败不计作通过。
+- 干净源码构建只验证核心 CLI，不代表完整 Web、远程 CI、Docker 或真实模型质量。该副本固定在上述首次提交，README/本交接的文档变更不改变运行代码。
+- 尚未创建远程或 push，等待浏览器登录；未读取或回显凭证，未调用真实模型，未下载、索引或运行学习参考项目。
+
+### 下一步
+
+- 登录完成后创建指定公开仓库，不额外初始化 README、gitignore 或 LICENSE；关联 origin，普通推送 main，核对远程 SHA 与公开状态，再查看实际 CI 状态。
+- 依次进入 M3 的 Docker/远程 CI 验收；本机当前没有 Docker 命令，不自动安装，不发布 tag/release。
+
 ## 2026-10-19：M2 首次提交审计与授权
 
 ### 已完成

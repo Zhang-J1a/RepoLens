@@ -209,6 +209,20 @@ python -m repolens evaluate eval/flask-validation.jsonl --snapshot $snapshot.sna
 
 ## 开发与验证
 
+首次审计导入提交为 `9a2a5f6cd733caa5886fb6dfd12efa698c73ac74`（`chore: audited initial import of RepoLens V6`），后续改进按真实小提交保留，不回填 V1-V6 历史。按作者决定，当前暂不添加 `LICENSE`。
+
+干净源码副本可以在已安装 Python 3.12+、Git、pip 和 setuptools 的环境中离线构建核心 wheel，不需要本机 `data/`、数据库或目标仓库。以下命令从项目根目录执行：
+
+~~~powershell
+python -m venv --without-pip .venv
+python -m pip wheel . --no-cache-dir --no-deps --no-build-isolation --no-index --wheel-dir dist
+python -m pip --python .venv/Scripts/python.exe install --no-cache-dir --no-index --no-deps dist/repolens-4.1.0-py3-none-any.whl
+.\.venv\Scripts\python.exe -I -m repolens doctor
+.\.venv\Scripts\python.exe -I scripts/demo.py
+~~~
+
+此流程验证核心 CLI 和合成 Demo；完整 Web wheel 还需构建前端并安装可选 Web 依赖，见[部署与源码构建](docs/deployment.md)。两种构建不能混称为完整 Web 验收。远程 CI 与 Docker 实机仍需以实际运行结果为准。
+
 ~~~powershell
 $env:PYTHONPATH = "src"
 python -m unittest discover -s tests -v
