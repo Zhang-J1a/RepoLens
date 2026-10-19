@@ -5,8 +5,9 @@
 ### 已完成
 
 - 首次本地根提交为 `9a2a5f6cd733caa5886fb6dfd12efa698c73ac74`，消息为 `chore: audited initial import of RepoLens V6`，包含 230 个文件，无父提交；提交后工作树干净。
-- 用户进一步明确授权创建公开的 `Zhang-J1a/RepoLens` 并推送，继续保持不添加 `LICENSE`；没有授权 tag、release 或上传 wheel。
-- GitHub connector 与 Git 凭据管理器均确认账号 `Zhang-J1a`。connector 查询 `Zhang-J1a/RepoLens` 返回 404；浏览器打开 `https://github.com/new` 后停在登录页，等待用户自行登录。现有 connector 没有创建仓库工具。
+- 用户进一步明确授权创建公开的 `Zhang-J1a/RepoLens` 并推送，继续保持不添加 `LICENSE`；没有授权 tag、release 或上传 wheel。仓库已由用户创建为空仓库。
+- GitHub connector 与 Git 凭据管理器均确认账号 `Zhang-J1a`。创建远程前的 connector 查询返回 404，随后用户自行完成创建；本机凭据管理器查询未输出凭证内容。
+- `git push --set-upstream origin main` 成功。GitHub API 确认仓库为 public、默认分支为 `main`，远端完整 SHA `4ea326a1cfadf969a46d62e132d242def21160e7` 与本地一致。
 - 从已提交源码创建本地干净 clone，使用全新无 pip 的虚拟环境安装独立核心 wheel，doctor 与合成 Demo 均通过；clone 不包含原工作区 `data/`。README 补充首次提交、源码构建命令、许可证决定及核心/Web 验收边界。
 
 ### 验证
@@ -22,12 +23,13 @@
 
 - 第一次 wheel 构建因默认 pip cache 不在可写范围而失败；添加 `--no-cache-dir` 后重跑成功。最初的后续安装也因 wheel 尚不存在而失败；成功构建后重新安装通过，失败不计作通过。
 - 干净源码构建只验证核心 CLI，不代表完整 Web、远程 CI、Docker 或真实模型质量。该副本固定在上述首次提交，README/本交接的文档变更不改变运行代码。
-- 尚未创建远程或 push，等待浏览器登录；未读取或回显凭证，未调用真实模型，未下载、索引或运行学习参考项目。
+- 首次推送触发 GitHub Actions run `39265075552`（[workflow 记录](https://github.com/Zhang-J1a/RepoLens/actions/runs/39265075552)，head `4ea326a1cfadf969a46d62e132d242def21160e7`），最终 conclusion 为 `failure`：Ubuntu Python 3.12/3.13 与 LangChain job 通过；Windows Python 3.12/3.13 在 `test_agent_subgraph_exposes_bounded_nodes_and_edges`（`tests/test_graph.py:235`）以 `AgentStop: snapshot_binding_failed` 失败；workbench 的格式、构建、API、浏览器、冻结回归和 Docker image build 通过，但容器启动因 runner 的 `127.0.0.1:8770` 已占用而失败，后续只读挂载步骤跳过。未删除测试或放宽门禁。
+- 一次本地 `git ls-remote` 因 Windows 凭据 helper 无可用凭据失败；通过 GitHub API 读取 branch/main 已核实远程 SHA。未读取或回显凭证，未调用真实模型，未下载、索引或运行学习参考项目。
 
 ### 下一步
 
-- 登录完成后创建指定公开仓库，不额外初始化 README、gitignore 或 LICENSE；关联 origin，普通推送 main，核对远程 SHA 与公开状态，再查看实际 CI 状态。
-- 依次进入 M3 的 Docker/远程 CI 验收；本机当前没有 Docker 命令，不自动安装，不发布 tag/release。
+- 进入 M3：复现并修复 Windows 图子图测试的 snapshot 绑定失败；隔离 CI 容器 healthcheck 的宿主端口冲突，并重新跑完整 workflow。保留失败根因，不删除测试或放宽门禁。
+- M3 同时记录本地 Docker 未安装的环境限制；不自动安装，不发布 tag/release。
 
 ## 2026-10-19：M2 首次提交审计与授权
 
