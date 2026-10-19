@@ -127,6 +127,9 @@ jobs:
         run: |
           docker compose -f docker-compose.yml -f compose.repository.yml config --quiet
           docker compose -f docker-compose.yml -f compose.repository.yml up -d --wait --wait-timeout 120
+          docker compose exec -T repolens git --no-pager -c safe.directory=/workspace/repository -c core.fsmonitor=false -c gc.auto=0 -c maintenance.auto=false -C /workspace/repository rev-parse --show-toplevel
+          docker compose exec -T repolens git --no-pager -c safe.directory=/workspace/repository -c core.fsmonitor=false -c gc.auto=0 -c maintenance.auto=false -C /workspace/repository rev-parse --absolute-git-dir
+          docker compose exec -T repolens git --no-pager -c safe.directory=/workspace/repository -c core.fsmonitor=false -c gc.auto=0 -c maintenance.auto=false -C /workspace/repository show -s --format=%H HEAD
           python scripts/container_smoke.py --url "http://127.0.0.1:${REPOLENS_HOST_PORT}" --repository /workspace/repository
           docker inspect "$(docker compose ps -q repolens)" --format '{{json .Mounts}}' > data/container-mounts.json
           python -c 'import json; rows=json.load(open("data/container-mounts.json")); assert any(row["Destination"] == "/workspace/repository" and not row["RW"] for row in rows)'
