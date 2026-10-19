@@ -1,5 +1,33 @@
 # 进度与交接
 
+## 2026-10-19：M3 修复 CI 并完成全绿验收
+
+### 已完成
+
+- Agent snapshot root 校验先将宿主提供的仓库路径 `resolve(strict=True)`，再与索引中的规范 root 及固定 commit 比较。Windows 等价路径别名可以通过；不同 root/commit 仍以 `snapshot_binding_failed` fail closed。回归覆盖 `repo/../repo` 别名和错误 root。
+- Compose 宿主端口可由 `REPOLENS_HOST_PORT` 覆盖，开发默认仍为 `127.0.0.1:8770`；CI 从 loopback 申请空闲端口，两个容器 smoke 共用该端口。
+- 容器可选挂载用的合成 fixture 根目录原由 `tempfile.mkdtemp()` 以 `0700` 创建，非 root 容器用户不能遍历。CI 只将此合成目录设为 `0755`，挂载保持 `read_only: true`，并实际检查导入及 `RW=false`。没有更改用户仓库权限或应用数据路径策略。
+- 冻结策略原清单正确阻止了 `agent/tools.py` 的哈希变更。新增 `eval/v6-agent-path-policy-manifest.json` 和显式 `--freeze-agent-path-policy` 流程，只覆盖该文件并校验父 V6 policy SHA 和当前实现 SHA；原始 policy、LangChain/provider 扩展、gold 与冻结结果均未改。
+
+### 验证
+
+- 最新 GitHub Actions run [`39272938696`](https://github.com/Zhang-J1a/RepoLens/actions/runs/39272938696)，head `90a81e88ac00261bbba6ff5ee3b77b5cba00e9f0`：六个 job 全部成功，包括 Windows/Linux Python 3.12/3.13、LangChain，以及 workbench/browser、Docker build/start、内置 Demo、挂载 Git 预检和只读挂载导入。
+- 最新源码构建 wheel 后安装到干净隔离环境运行 `$env:PYTHONPATH` 未设置的 `python -m unittest discover -s tests -v`：184 项通过，27 项因核心 wheel 未安装可选 Web extras 按设计跳过，用时 136.762 秒。此 wheel 包含 Agent root 规范化及正/负向绑定断言。
+- `test_graph.py` 20 项、`test_agent.py` 18 项、`test_workbench.py` 8 项、`test_v6.py` 14 项均通过；新增路径别名测试通过。
+- `python scripts/v6_regression.py` policy/frozen-view contract 通过；`python scripts/v6_regression.py --index data/v4-flask-index` 固定 90 题回放通过，query error 为 0，未改检索策略或 gold。
+- `python scripts/export_api.py --check`（`data/v5-web-venv` + `PYTHONPATH=src`）、`python -m compileall -q src tests experiments scripts`、`npm run format:check --prefix apps/web`、工作流/Compose YAML 解析、`git diff --check` 均通过。
+- GitHub Actions 证明远程 Docker 与只读挂载通过；本机未安装 Docker，因此没有声称本机 Docker 已运行验收。
+
+### 限制与未执行
+
+- 没有调用真实 DeepSeek、添加 LICENSE、发布 tag/release 或上传 wheel。冻结检索通过不代表真实模型回答质量或跨仓库盲测已完成。
+- 本机 Docker 仍未安装；容器验收来自 GitHub-hosted runner。学习参考项目未修改、运行或索引。
+
+### 下一步
+
+- 按路线图进入 M4：先请求用户提供已授权、已存在于本机且固定 commit 的多个 Python 仓库，再冻结题集后开展外部盲测。
+- tag/release 与真实模型调用仍须分别遵守原授权停点。
+
 ## 2026-10-19：M2 公开推送授权与干净源码验收
 
 ### 已完成
