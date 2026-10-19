@@ -120,6 +120,7 @@ jobs:
           from pathlib import Path
           from repolens.workbench.service import WorkbenchService
           demo = WorkbenchService(Path("data/container-fixture")).demo()
+          Path(demo["repository"]).chmod(0o755)
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env:
               env.write("REPOLENS_REPOSITORY_PATH=" + demo["repository"] + "\n")
           PY
