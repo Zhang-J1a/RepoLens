@@ -21,12 +21,14 @@ MANIFEST = EVAL / "v5-workbench-view-manifest.json"
 POLICY = EVAL / "v6-policy-manifest.json"
 LANGCHAIN_POLICY = EVAL / "v6-langchain-policy-manifest.json"
 PROVIDER_MODEL_POLICY = EVAL / "v6-provider-model-policy-manifest.json"
+AGENT_PATH_POLICY = EVAL / "v6-agent-path-policy-manifest.json"
 POLICY_FILES = ("src/repolens/domain.py", "src/repolens/parsing.py", "src/repolens/embeddings.py",
                 "src/repolens/retrieval.py", "src/repolens/provider.py", "src/repolens/context.py",
                 "src/repolens/answer.py", "src/repolens/pipeline.py", "src/repolens/agent/runner.py",
                 "src/repolens/agent/tools.py")
 LANGCHAIN_POLICY_FILES = ("src/repolens/pipeline.py", "src/repolens/langchain_integration.py")
 PROVIDER_MODEL_POLICY_FILES = ("src/repolens/provider.py",)
+AGENT_PATH_POLICY_FILES = ("src/repolens/agent/tools.py",)
 
 
 def policy_hashes(files=POLICY_FILES):
@@ -39,6 +41,7 @@ def validate_policy():
     current = policy_hashes()
     extension = load_json(LANGCHAIN_POLICY) if LANGCHAIN_POLICY.is_file() else None
     provider_extension = load_json(PROVIDER_MODEL_POLICY) if PROVIDER_MODEL_POLICY.is_file() else None
+    agent_path_extension = load_json(AGENT_PATH_POLICY) if AGENT_PATH_POLICY.is_file() else None
     langchain_overrides = set(extension.get("overrides_original_policy_files", ())) if extension else set()
     if not langchain_overrides <= {"src/repolens/pipeline.py"}:
         raise RuntimeError("LangChain policy manifest attempts to override an unrelated V6 policy file.")
@@ -47,7 +50,12 @@ def validate_policy():
     )
     if provider_extension and provider_overrides != {"src/repolens/provider.py"}:
         raise RuntimeError("Provider model policy manifest must only override provider.py.")
-    overrides = langchain_overrides | provider_overrides
+    agent_path_overrides = (
+        set(agent_path_extension.get("overrides_original_policy_files", ())) if agent_path_extension else set()
+    )
+    if agent_path_extension and agent_path_overrides != set(AGENT_PATH_POLICY_FILES):
+        raise RuntimeError("Agent path policy manifest must only override agent/tools.py.")
+    overrides = langchain_overrides | provider_overrides | agent_path_overrides
     for name, expected in baseline["implementation_sha256_lf"].items():
         if name not in overrides and current.get(name) != expected:
             raise RuntimeError(
@@ -61,7 +69,7 @@ def validate_policy():
             raise RuntimeError("LangChain adapter or retrieval policy changed; review and record a new manifest.")
         extension_hash = sha256(LANGCHAIN_POLICY)
     elif current != baseline["implementation_sha256_lf"]:
-        if not provider_extension:
+        if not provider_extension and not agent_path_extension:
             raise RuntimeError(
                 "Parser/embedding/prompt/agent policy changed; run explicit review and record a new policy manifest."
             )
@@ -72,8 +80,16 @@ def validate_policy():
         if provider_extension.get("implementation_sha256_lf") != policy_hashes(PROVIDER_MODEL_POLICY_FILES):
             raise RuntimeError("Provider implementation changed; review and record a new policy manifest.")
         provider_extension_hash = sha256(PROVIDER_MODEL_POLICY)
+    agent_path_extension_hash = None
+    if agent_path_extension:
+        if agent_path_extension.get("parent_policy_sha256") != sha256(POLICY):
+            raise RuntimeError("Agent path policy manifest is not linked to the original V6 policy baseline.")
+        if agent_path_extension.get("implementation_sha256_lf") != policy_hashes(AGENT_PATH_POLICY_FILES):
+            raise RuntimeError("Agent path binding changed; review and record a new manifest.")
+        agent_path_extension_hash = sha256(AGENT_PATH_POLICY)
     return {"langchain_policy_sha256": extension_hash,
-            "provider_model_policy_sha256": provider_extension_hash}
+            "provider_model_policy_sha256": provider_extension_hash,
+            "agent_path_policy_sha256": agent_path_extension_hash}
 
 
 def sha256(path: Path) -> str:
@@ -166,6 +182,8 @@ def main() -> int:
                         help="Create the reviewed optional LangChain policy extension; never overwrites.")
     parser.add_argument("--freeze-provider-model-policy", action="store_true",
                         help="Create the reviewed provider model policy extension; never overwrites.")
+    parser.add_argument("--freeze-agent-path-policy", action="store_true",
+                        help="Create the reviewed Agent path-binding policy extension; never overwrites.")
     parser.add_argument("--reason", help="Explicit explanation for the new reviewed policy baseline.")
     args = parser.parse_args()
     if args.freeze_policy:
@@ -199,6 +217,19 @@ def main() -> int:
                 "overrides_original_policy_files": ["src/repolens/provider.py"],
                 "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
                 "implementation_sha256_lf": policy_hashes(PROVIDER_MODEL_POLICY_FILES),
+            }, output, indent=2)
+            output.write("\n")
+        return 0
+    if args.freeze_agent_path_policy:
+        if not args.reason or len(args.reason.strip()) < 20:
+            parser.error("Recording an Agent path policy requires --reason (at least 20 characters).")
+        with AGENT_PATH_POLICY.open("x", encoding="utf-8", newline="\n") as output:
+            json.dump({
+                "reason": args.reason,
+                "parent_policy_sha256": sha256(POLICY),
+                "overrides_original_policy_files": list(AGENT_PATH_POLICY_FILES),
+                "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
+                "implementation_sha256_lf": policy_hashes(AGENT_PATH_POLICY_FILES),
             }, output, indent=2)
             output.write("\n")
         return 0

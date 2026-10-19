@@ -1,0 +1,11 @@
+{
+  "reason": "Canonicalize host repository roots while preserving strict snapshot commit and root binding; no tool permissions or retrieval policy changed.",
+  "parent_policy_sha256": "73bda4e4983c451905ba9520493af3bf3ee83370e7e3421000fc895e6162d2bc",
+  "overrides_original_policy_files": [
+    "src/repolens/agent/tools.py"
+  ],
+  "hash_normalization": "UTF-8 source bytes with CRLF normalized to LF",
+  "implementation_sha256_lf": {
+    "src/repolens/agent/tools.py": "80ef647d012e62a752fe69fce55e3ce72aaf49e5c16d429983b0f5bc2d630a43"
+  }
+}
