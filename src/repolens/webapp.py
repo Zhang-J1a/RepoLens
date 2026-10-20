@@ -572,23 +572,23 @@ class _HTTPTransport(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return
 
+    def _send_bytes(self, status: HTTPStatus, body: bytes, content_type: str) -> None:
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+        except ConnectionError:
+            self.close_connection = True
+
     def _send_json(self, status: HTTPStatus, payload: dict[str, Any]) -> None:
-        body = json.dumps(payload, ensure_ascii=True).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
-        self.end_headers()
-        self.wfile.write(body)
+        self._send_bytes(status, json.dumps(payload, ensure_ascii=True).encode("utf-8"),
+                         "application/json; charset=utf-8")
 
     def _send_html(self) -> None:
-        body = _HTML.encode("utf-8")
-        self.send_response(HTTPStatus.OK)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
-        self.end_headers()
-        self.wfile.write(body)
+        self._send_bytes(HTTPStatus.OK, _HTML.encode("utf-8"), "text/html; charset=utf-8")
 
     def _read_json(self) -> dict[str, Any]:
         length = self.headers.get("Content-Length")

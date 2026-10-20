@@ -6,9 +6,36 @@ import tempfile
 import threading
 import unittest
 from urllib.request import Request, urlopen
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
-from repolens.webapp import create_server
+from repolens.ingestion import ingest_or_reuse
+from repolens.webapp import RepoLensRequestHandler, create_server
+
+
+class HTTPDisconnectTests(unittest.TestCase):
+    def test_disconnected_client_closes_without_a_second_response(self):
+        for failure in (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            for stage in ("headers", "body"):
+                for endpoint in ("json", "html"):
+                    with self.subTest(failure=failure, stage=stage, endpoint=endpoint):
+                        handler = object.__new__(RepoLensRequestHandler)
+                        handler.send_response = Mock()
+                        handler.send_header = Mock()
+                        handler.end_headers = Mock()
+                        handler.wfile = Mock()
+                        handler.close_connection = False
+                        failing = handler.end_headers if stage == "headers" else handler.wfile.write
+                        failing.side_effect = failure("disconnected fixture")
+                        if endpoint == "json":
+                            handler.path = "/api/graph"
+                            handler._local_request = Mock(return_value=True)
+                            handler._read_json = Mock(return_value={})
+                            handler._graph = Mock(return_value={"ok": True})
+                            handler.do_POST()
+                        else:
+                            handler._send_html()
+                        self.assertTrue(handler.close_connection)
+                        handler.send_response.assert_called_once_with(200)
 
 
 class WebAppTests(unittest.TestCase):
@@ -146,18 +173,24 @@ class WebAppTests(unittest.TestCase):
                 self.assertIn("error", body)
 
     def test_graph_and_version_search_api_pin_selected_version(self):
+        # Version binding is independent of cold indexing on a shared runner.
+        base = ingest_or_reuse(self.repo, self.data, self.base)
+        head = ingest_or_reuse(self.repo, self.data, self.head)
         status, graph = self.call("/api/graph", self.common() | {
             "ref": self.base, "symbol": "dispatch", "hops": 2,
         })
         self.assertEqual(status, 200)
         self.assertEqual(graph["schema_version"], "repolens.graph.v1")
         self.assertEqual(graph["commit_sha"], self.base)
+        self.assertEqual(graph["workflow"]["snapshot_id"], base["snapshot_id"])
+        self.assertEqual(graph["workflow"]["index_action"], "reused")
         self.assertTrue(graph["nodes"])
         status, results = self.call("/api/search", self.common() | {
             "ref": self.head, "query": "dispatch", "retrieval": "graph",
         })
         self.assertEqual(status, 200)
         self.assertEqual(results["commit_sha"], self.head)
+        self.assertEqual(results["snapshot_id"], head["snapshot_id"])
         self.assertTrue(all(item["commit_sha"] == self.head for item in results["results"]))
         for selection in ({"hops": 3}, {"commit": "yes"}, {"path": "../secret"}):
             status, body = self.call("/api/graph", self.common() | {"symbol": "dispatch", **selection})
@@ -169,6 +202,7 @@ class WebAppTests(unittest.TestCase):
         })
         self.assertEqual(status, 200)
         self.assertEqual(result["answer"]["status"], "answered")
+        self.assertEqual(result["workflow"]["index_action"], "created")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,25 @@
 # 进度与交接
 
+## 2026-10-20：修复 Windows CI 冷索引超时与兼容 HTTP 断连处理
+
+### 已完成
+
+- [运行 39376129214](https://github.com/Zhang-J1a/RepoLens/actions/runs/39376129214) 的 5 个 job 通过，Windows Python 3.13 job `118474568885` 失败：`test_graph_and_version_search_api_pin_selected_version` 在冷索引图查询上触发客户端 `timeout=10` 的 TimeoutError；客户端离开后，兼容 HTTP 服务先遇到 WinError 10053，再尝试发送 500 响应，产生第二次断连异常。未将失败称为全绿。
+- 版本绑定用例先准备 base/head snapshot，然后通过 HTTP 检查固定版本与复用行为；客户端 10 秒超时保持不变，新增精确 snapshot 和 `index_action=reused` 断言。另一图问答用例明确检查 `index_action=created`，保留冷启动索引覆盖。这不是索引性能优化或生产 SLO 验收。
+- 将兼容 JSON/HTML 响应的共有发送步骤收敛到 `_send_bytes`，遇到 BrokenPipe/ConnectionReset/ConnectionAborted 时关闭连接，不重发错误响应。新增真实请求处理类的 12 个断连子场景；主 FastAPI API、检索/gold 和模型边界未改。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; data/v5-web-venv/Scripts/python.exe -m unittest discover -s tests -p test_webapp.py -v`：8 项通过，13.010 秒，退出码 0。日志 `data/portfolio-http-disconnect-tests.log`，SHA-256 `40B261E7BB5C869F48ADA32B0B7CAC88BF015F399ADF740BAC0031EB9559CDF8`。
+- 重建并离线安装独立 wheel 后，清除 PYTHONPATH，以安装环境 `python -I -m unittest discover -s tests -p test_webapp.py -q` 运行同组：8 项通过，13.437 秒。日志 `data/portfolio-installed-http-tests.log`，SHA-256 `E35F0A8EF538FD05E91AA99218F60DEF4A1A950BFABB85C595BB406752EF5986`。
+- 当前 wheel SHA-256 `ea70ac3ec563f6ca0cc6821c4b805687c4476b096dcf022e75405bc70a469959`，15 个前端资源匹配、stale assets=0。报告 `data/portfolio-http-fix-package.json`，SHA-256 `04D2A3C0A8E87E17431688AB1873D8C23C6E123F1D747FE7376FE8C3918D3487`。policy/view 冻结门禁和 OpenAPI check 均通过。
+- 上一提交在最终本地完整环境执行 216 项：215 项通过、1 项因主机无 symlink 创建权限跳过，177.990 秒。日志 `data/portfolio-final-source-tests.log`，SHA-256 `7B8CDF29F6B6EA9825B9EA4AAC4518DA5DD9425CEFC95A6C6211C176E3DFD6C3`；Linux Python 3.12 CI 日志确认 symlink 用例实际执行为 ok（216 项、27 项可选依赖跳过）。这不是本次 HTTP 修复后的全量结果；当前测试数为 217。
+
+### 限制与下一步
+
+- 新断连测试首次错用没有 do_POST 的传输基类，6 个 JSON 子场景报 AttributeError；改为实际 RepoLensRequestHandler 后全部通过，未删除断言。
+- 提交并推送本次修复，再核验新 workflow；没有增加超时、跳过失败用例或按结果修改预期证据。M4 仍暂缓，未调用真实模型或增加依赖。
+
 ## 2026-10-20：离线评测日志路径保护收尾
 
 ### 已完成
