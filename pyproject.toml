@@ -10,6 +10,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
+[project.urls]
+Repository = "https://github.com/Zhang-J1a/RepoLens"
+Documentation = "https://github.com/Zhang-J1a/RepoLens/blob/main/docs/usage.md"
+Issues = "https://github.com/Zhang-J1a/RepoLens/issues"
+
 [project.optional-dependencies]
 web = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
 web-test = ["httpx>=0.28,<1"]
@@ -19,6 +24,7 @@ langchain = ["langchain-core>=1.6,<2", "langchain-deepseek>=1.1,<2", "langsmith>
 repolens = "repolens.cli:main"
 repolens-ui = "repolens.webapp:launch"
 repolens-workbench = "repolens.workbench.launcher:main"
+repolens-mcp = "repolens.mcp_server:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
