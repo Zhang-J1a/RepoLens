@@ -1,0 +1,32 @@
+name: Bug report
+description: 报告可复现的运行或证据校验问题
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "请勿粘贴 API Key、私有源码或本机私人路径。模型语义错误请说明引用是否实际支持结论。"
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 系统、Python 版本、RepoLens commit、CLI/Web/Docker 及 provider 类型。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 最小复现
+      description: 使用合成仓库或公开可用输入，列出操作步骤。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期与实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: 脱敏诊断
+      description: 可提供 error_code、request/trace ID、退出码和脱敏截图。

@@ -8,6 +8,8 @@ RepoLens 是我面向通用 Git 代码仓库实现的证据优先本地 RAG 与�
 
 后续按明确需求增加了可选 LangChain Core 的 LCEL、`BaseRetriever/Document` 和 DeepSeek ChatModel 集成。版本、索引、引用验证和 Agent 权限由 RepoLens 保留；可以讲清框架解决了什么问题，以及为何没有把受控 Agent 改成任意工具执行。该次接入通过本地离线验收，真实模型质量尚未评测。
 
+2026-10-20 优化补充：README 已与实际跨平台/容器 CI 全绿证据同步；M4 多仓库选仓按作者要求暂缓。新增 Mock 离线评测断点执行器及只读 MCP stdio 最小服务；真实模型评测、完整 MCP 客户端生态兼容与跨仓库质量仍未验收。当前优先演示工作台、失败边界与冻结评测，MCP 接入方式见[独立文档](mcp.md)。
+
 ## 五分钟演示
 
 1. 运行 `repolens doctor`，展示运行依赖与不需要 API key 的本地能力。

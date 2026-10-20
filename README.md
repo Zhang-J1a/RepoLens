@@ -1,252 +1,171 @@
 # RepoLens
 
-RepoLens 是面向本地 Git 仓库的可直接打开的证据优先代码 RAG 应用：从指定 commit 建立索引，检索带文件、符号和行号的 evidence，按上下文预算组装，再输出经过 citation 校验的结构化回答和 commit impact 报告。当前 Python 包版本为 **4.1.0**，路线图阶段为 **V6**；两者是独立编号，阶段完成度由能力验收决定。双击 `RepoLens.pyw` 即可打开本地浏览器界面；CLI 仍保留用于测试和自动化。
+**面向本地 Git 仓库的只读代码分析工作台：每条证据都能追溯到确切的 commit、文件、符号与行号。**
 
-V5 阶段引入完整 Web 分析工作台：仓库导入、变更报告与 diff、关系图、检索问答、Trace、评测对比；当前 V6 在此基础上补齐工程化与部署能力。`RepoLens.pyw` 启动当前主工作台，`start_repolens_v5.bat` 是保留命名的兼容启动器；详细流程见 [V5 使用说明](docs/v5-workbench.md) 和 [V6 交付记录](docs/v6-release.md)。旧标准库 `webapp.py` 与 V4 CLI/API 继续保留兼容入口。
+[![CI](https://github.com/Zhang-J1a/RepoLens/actions/workflows/ci.yml/badge.svg)](https://github.com/Zhang-J1a/RepoLens/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB)](pyproject.toml)
+[![Interface](https://img.shields.io/badge/UI-React%20%2B%20FastAPI-008577)](docs/architecture.md)
+[![Runtime](https://img.shields.io/badge/Core-standard%20library-444444)](pyproject.toml)
 
-V6 补齐冻结质量回归、独立引用/生成评分器、请求与任务日志关联、有界 metrics、安全限制、干净打包、CI 与 Docker Compose。当前实际验证和未验收项见 [V6 交付记录](docs/v6-release.md)；本机未安装 Docker，远程 CI 未执行，真实 DeepSeek 质量仍未评测。
+[快速开始](#快速开始) · [评测结果](#评测结果) · [架构](#架构) · [使用文档](docs/usage.md) · [设计决策](docs/adr/) · [English](#english)
 
-产品不绑定 Flask，也不绑定某个项目目录。目前结构化支持 Python 和 Markdown；其他文件类型会报告跳过。工作区的 `all-in-rag` 和 `AgentGuide` 仅供个人学习，不作为产品输入。Flask 是固定版本的评测对象，Taskboard 是项目自带的合成演示数据。
+![RepoLens 仓库工作区：固定版本、索引概况、文件与历史](docs/screenshots/v6/workspace-desktop.png)
 
-## 快速运行
+*截图来自项目自带 Taskboard 合成演示，路径已替换为示例值。*
 
-要求 Python 3.12+、Git 和支持 FTS5 的 SQLite。本机已验证 Python 3.12.8 / SQLite 3.45.3 / Git 2.53.0，Windows 环境。
+## 解决什么问题
 
-使用已生成的 wheel 安装到自己的虚拟环境，不需要联网：
+阅读陌生仓库时，函数名搜索、跨文件关系、历史版本与模型回答往往分散在不同工具里。RepoLens 将它们放进同一个本地工作台：选定 Git commit，检索源码，查看关系和变更，再沿引用回到原始证据。
 
-~~~powershell
-cd D:\RAG\RepoLens
+- **版本可查证**：读取 committed Git objects，未提交修改和未跟踪文件不会混入历史 snapshot；返回引用前校验源码范围。
+- **检索有对照**：保留 keyword、TF-IDF、hybrid、graph 四条路径及冻结评测。图检索在跨文件题上改善，也在通用题上回退，因此默认仍为 hybrid。
+- **Agent 有边界**：固定只读工具、任务预算、进程超时和 Trace；没有证据时可在调用模型前拒答。
+
+与完整仓库长上下文相比，RepoLens 提供可重复的版本选择和有限证据上下文；与普通向量库 Demo 相比，它还处理 symbol、commit history、变更影响、证据校验和权限边界。**当前尚未完成 full-context 的真实模型对照，不能据此宣称准确率或成本优于长上下文。**
+
+## 快速开始
+
+### Web 工作台
+
+需要 Git、Docker Engine / Docker Desktop 与 Compose v2。三条命令启动；首次构建需要联网获取镜像和依赖：
+
+```sh
+git clone https://github.com/Zhang-J1a/RepoLens.git
+cd RepoLens
+docker compose up --build
+```
+
+打开 **<http://127.0.0.1:8770/>**，点击“打开演示仓库”，即可查看索引、变更、关系图、问答和 Trace。默认 Mock 不需要 API Key；它验证流程，回答不代表真实模型能力。
+
+分析自己的仓库时，需要额外配置只读挂载；不要直接在容器中填写宿主机路径。配置及端口冲突处理见[部署文档](docs/deployment.md)。
+
+### 无 Docker：先体验核心 Demo
+
+在已下载源码的根目录执行，要求 Python 3.12+、Git、pip 和 SQLite FTS5。以下为 Windows PowerShell；安装步骤可能联网获取构建工具：
+
+```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --force-reinstall --no-index --no-deps dist/repolens-4.1.0-py3-none-any.whl
-.\.venv\Scripts\repolens.exe doctor
+.\.venv\Scripts\python.exe -m pip install .
 .\.venv\Scripts\python.exe -I scripts/demo.py
-~~~
+```
 
-演示脚本在临时目录复制本项目 Taskboard fixture、创建临时 Git 提交，完成 `ingest → search → evidence → snapshots`，并核对工作树未变化。它不运行被索引仓库的代码；退出时清理临时文件。输出中会看到 `TaskService.create_task` 的证据。合成演示不代表真实仓库检索质量。
+Linux/macOS 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。Demo 在临时 Git 仓库验证索引、检索与引用，退出后清理；核心运行时无第三方依赖。
 
-本工作区另有已安装并验收通过的环境，可直接运行：
+完整 Web 的源码安装、首次前端构建、Windows 双击启动及 DeepSeek 配置见[使用文档](docs/usage.md)。双击 `RepoLens.pyw` 需要先完成 Web 环境准备；仓库不附带虚拟环境或预构建 wheel。
 
-~~~powershell
-.\data\v6-acceptance-venv\Scripts\python.exe -I scripts/demo.py
-~~~
+## 能做什么
 
-Linux/macOS 对应使用虚拟环境的 `bin/python` 和 `bin/repolens`。CI 已配置 Windows/Ubuntu、Python 3.12/3.13；本轮只完成本机 Windows 执行，未触发远程 CI。
+| 工作流 | 输出 | 边界 |
+|---|---|---|
+| 仓库索引与搜索 | 固定 snapshot 的文件、symbol、源码范围 | 当前结构化支持 Python / Markdown |
+| 证据问答 | 结构化 claims、canonical citations、未确定事项 | 引用定位有效不等于语义正确 |
+| 变更影响分析 | base/head diff、变化 symbol、相关测试/文档、规则风险 | 静态推断，不执行测试，不承诺完整影响召回 |
+| 代码关系图 | 有来源的 imports / calls / inheritance 等关系 | 动态分派与歧义保留 unknown |
+| 受控 Agent | 八个只读工具、共享预算、超时与 Trace | 不提供 shell、写代码或依赖安装工具 |
+| 评测回放 | 固定题集、策略 hash、逐题改善与回退 | 单仓库结果不代表跨仓库泛化 |
 
-## 分析自己的仓库
+<details>
+<summary>查看变更分析与 Agent Trace 截图</summary>
 
-以下 PowerShell 流程可用于任何已获授权的本地 Git 仓库，当前只索引其中受支持的 Python/Markdown 文件：
+![变更分析：固定 base/head 的证据与推断](docs/screenshots/v6/analysis-desktop.png)
 
-~~~powershell
-$repolens = ".\.venv\Scripts\repolens.exe"
-$repository = "D:\your-project"
-$indexDirectory = "D:\repolens-index"
-$snapshot = & $repolens ingest $repository --ref HEAD --data-dir $indexDirectory | ConvertFrom-Json
-if ($LASTEXITCODE -ne 0) { throw "ingest failed" }
-$result = & $repolens search "Service.create_task" --snapshot $snapshot.snapshot_id --retrieval hybrid --limit 5 --data-dir $indexDirectory | ConvertFrom-Json
-$result.results | Select-Object path, symbol, line_start, line_end
-if ($result.results.Count -gt 0) {
-    & $repolens evidence $result.results[0].evidence_id --snapshot $snapshot.snapshot_id --data-dir $indexDirectory
-}
-~~~
+![Agent Trace：工具调用、预算和停止原因](docs/screenshots/v6/trace-desktop.png)
 
-`--ref` 接受本地已存在的 ref 或完整 commit SHA，默认 `HEAD`。创建索引后，查询始终使用输出的精确 snapshot ID。索引必须位于目标仓库及其 Git 目录之外；默认使用系统用户数据目录，也可用 `REPOLENS_DATA_DIR` 指定。
+</details>
 
-## 命令契约
+## 评测结果
 
-| 命令 | 用途 |
+固定仓库：`pallets/flask`，commit **`d086db856be187255b8ec61ef409357393020f32`**。各策略在相同题集、snapshot 和 top-10 设置下比较。vector 为本地 **TF-IDF 稀疏向量**，不使用神经网络 dense embedding。
+
+| 题集 | 题数 | TF-IDF Recall@10 | Hybrid Recall@10 | Graph Recall@10 |
+|---|---:|---:|---:|---:|
+| 跨文件 authored 题集 | 10 | 0.8000 | 0.8500 | **0.9500** |
+| 同仓库通用验证集 | 20 | 0.5333 | **0.6083** | 0.5000 |
+
+跨文件题上 graph 相对 hybrid 提升 **0.10**；通用题上下降 **0.1083**，因此保留为显式选项。图扩展增加计算量，不能只比较召回而忽略延迟。逐题失败、参数、manifest 和原始结果见 [V4 评测报告](docs/evaluation-graph-v4.md)。
+
+三项可核对的工程证据：
+
+1. **90 次冻结检索回放**：两套题集、三种策略，逐题 Recall / MRR / nDCG 与冻结记录一致，见[回放报告](eval/v6-retrieval-regression.json)。
+2. **跨平台 CI 已通过**：Windows / Ubuntu × Python 3.12 / 3.13，以及可选 LangChain、Web / 浏览器 / Docker，见[已通过的运行记录](https://github.com/Zhang-J1a/RepoLens/actions/runs/39273995176)。
+3. **容器实际验证只读挂载**：CI 包含镜像构建、启动、合成 Demo、挂载导入及 `RW=false` 检查，见[工作流](.github/workflows/ci.yml)与[验收状态](docs/v6-release.md)。
+
+这些是检索与工程验收证据。**多仓库外部盲测、真实模型回答正确率、引用语义支持度和真实负载性能仍未完成。** 当前按作者安排暂缓 M4 选仓，不以合成题或已参与开发的仓库补足数量。
+
+## 架构
+
+```mermaid
+flowchart LR
+    Git[本地 Git 固定 commit] --> Parse[Git objects / Python AST / Markdown]
+    Parse --> Store[SQLite / FTS5 / TF-IDF / 静态图]
+    Store --> Search[Hybrid 默认 / Graph 可选]
+    Search --> Pack[有界上下文 / Evidence]
+    Pack --> Model[Mock / DeepSeek / 可选 LangChain]
+    Model --> Check[Schema / Citation 校验]
+    Check --> UI[Web / CLI / Trace]
+    Store --> Diff[Base / Head 变更分析]
+    Diff --> UI
+```
+
+| 层 | 技术 | 选择原因 |
+|---|---|---|
+| 索引与存储 | Python 标准库、AST、SQLite / FTS5 | 本地可重建、事务一致性、无独立数据库服务 |
+| 检索 | BM25、TF-IDF cosine、RRF、持久化静态图 | 基线可解释，实验可冻结并保留回退 |
+| 模型 | DeepSeek API；可选 LangChain Core / LCEL / Retriever | 模型适配与版本、证据、权限边界分离 |
+| 后端 | 可选 FastAPI、Pydantic、SSE | 封闭 API schema 与后台任务进度 |
+| 前端 | React、TypeScript、TanStack Query、Monaco、React Flow | 仓库、diff、图、问答、Trace 与评测六页面 |
+| 验证与部署 | unittest、Playwright、GitHub Actions、Docker | 离线契约、安装包、浏览器与容器分别验收 |
+
+Agent 使用现有显式状态机与固定工具；LangChain 负责可选模型编排及 Document 适配。架构边界与取舍见[架构说明](docs/architecture.md)及 [ADR 目录](docs/adr/)。
+
+## 限制与路线图
+
+- 结构化解析仅支持 `.py` / `.md` / `.markdown`；中文问题采用有限词典扩展，不是通用翻译或 dense 语义检索。
+- 静态图不保证动态调用、反射或跨语言关系完整；测试引用不等于测试执行或覆盖率。
+- Citation validator 校验定位与版本，不证明 claim 被源码语义支持；真实模型评测单独进行。
+- 当前是本地单用户工具，绑定 loopback；不声明多租户、公网认证或生产服务 SLO。
+- 索引限制：单文件 1 MiB、源码总量 64 MiB、tree 50,000 条；不跟随 symlink 或 submodule，不联网补 Git objects。
+- 同一数据库的 BM25 统计跨 snapshot 共享；可比实验需使用隔离、固定的索引 corpus。
+
+| 优化项 | 当前状态 |
 |---|---|
-| `doctor` | 检查 Python、Git、FTS5，不创建数据库 |
-| `ingest <repository> --ref <ref>` | 读取 committed blobs，事务建立或重建 snapshot |
-| `snapshots` | 列出当前数据库最近的 100 个 snapshot |
-| `search <query> --snapshot <id>` | `keyword`、本地 `vector` 或 `hybrid` 召回，可用 `--path-prefix` 限定仓库相对路径 |
-| `history <query> --snapshot <id>` | 在该 snapshot 可达的本地提交历史中检索 commit、作者和 message |
-| `answer <question> --snapshot <id>` | 检索、上下文预算和结构化回答；provider 可选 `mock`、`deepseek` 或可选的 `langchain` |
-| `ask <question> --repository <path>` | 自动索引仓库、选择 snapshot 并回答；默认使用 DeepSeek 和当前目录 |
-| `chat --repository <path>` | 在一个 snapshot 内进行有界多轮问答；支持 `:help`、`:quit` |
-| `impact --repository <path> --base <ref> --head <ref>` | 比较两个本地 commit，输出 JSON 或 Markdown 的变化文件、symbol、测试/文档/配置/历史 evidence、规则风险和建议测试 |
-| `analyze commit <sha> --repository <path>` | 自动选择该 commit 的第一父提交，运行同一份影响分析报告 |
-| `serve` | 启动保留的标准库兼容界面；六页面工作台使用 `repolens-workbench` |
-| `evidence <id> --snapshot <id>` | 校验并返回证据行范围 |
-| `evaluate <dataset.jsonl> --snapshot <id>` | 校验标注，独立计算 `keyword/vector/hybrid` 的逐题、类别和总体检索指标 |
-| `evaluate-impact <dataset.json> --repository <path>` | 对固定 base/head commit 运行影响报告结构化评测，检查 F1、snapshot 绑定和 evidence 引用完整性 |
-| `agent <question> --repository <path> [--ref <sha>] [--base <sha>]` | 受控多步分析：八个只读工具、共享预算、失败降级、task/trace ID；默认 Mock，DeepSeek 可选 |
-| `graph --repository <path> --ref <ref> --symbol <name> --hops 2` | 返回持久化图谱的节点、边与来源；也可选文件或 commit，删除文件使用独立 base 子图 |
+| 跨平台 CI、独立 wheel、容器与只读挂载 | 已有实际验收记录；本机无 Docker，容器证据来自 CI |
+| 多仓库外部盲测 M4 | 输入预检已实现，选仓与真实盲测暂缓 |
+| 真实模型评测 M5 | 离线评分器与 Mock 断点执行器已实现；真实调用及独立质量评测待完成 |
+| Dense embedding / reranker / 检索路由 M6 | 等待 M4 / M5 基线，当前未启用 |
+| 只读 MCP 接口 M7 | stdio 最小服务与子进程测试已实现；第三方客户端互操作待验收 |
+| 多语言 M8 | 待独立决策与真实仓库验证 |
 
-除 `doctor` 外以上命令均支持 `--data-dir`。stdout 为 JSON，诊断写 stderr；操作失败退出码为 1，参数用法错误为 2。无命中时 `search` 返回空列表；`answer` 会在 provider 调用前返回 `abstained`。`answer` 的模型候选只能引用本次上下文中的 `E1` 等 citation ID，RepoLens 会回填并校验真实 evidence locator。当前 Mock 输出只用于证明契约，不代表生成质量。
-
-### V2 回答
+## 开发与文档
 
 ```powershell
-$env:PYTHONPATH = "src"
-$snapshot = "snapshot_d157332a493291d8065f3d78825454f7479f8f6c8cbc9ea5bcb25f818a756656"
-python -m repolens answer "How does Flask.test_client preserve context?" `
-  --snapshot $snapshot --limit 5 --context-tokens 1200 --data-dir data/index
-```
-
-输出包含 `answer.status`、`claims`、`citations`、上下文 token 使用量以及 snapshot/commit/path/symbol/行号。没有证据或预算容纳不了完整 evidence 时，回答状态为 `abstained`，且 Mock provider 不会被调用。
-
-### 直接提问
-
-设置好 `DEEPSEEK_API_KEY` 后，可以跳过手动 `ingest` 和复制 snapshot ID：
-
-```powershell
-.\data\v2-acceptance-venv\Scripts\repolens.exe ask `
-  "How does Flask.test_client preserve context?" `
-  --repository D:\RAG\RepoLens `
-  --provider deepseek `
-  --data-dir D:\RAG\repolens-ask-index
-```
-
-`ask` 默认使用当前目录、`HEAD`、DeepSeek、1600 context tokens 和 1024 output tokens。第一次使用某个 commit 时建立索引，后续相同仓库和 commit 会复用已有 snapshot；commit 变化时自动建立新的 snapshot。结果的 `workflow` 字段会返回 repository、commit、snapshot、`index_action` 和索引统计。`--provider mock` 可在没有 API 请求时验证整条工作流。
-
-### 多轮提问
-
-```powershell
-.\data\v2-acceptance-venv\Scripts\repolens.exe chat `
-  --repository D:\your-project `
-  --provider deepseek `
-  --data-dir D:\RAG\repolens-chat-index
-```
-
-启动后逐行输入问题。`:help` 查看会话命令，`:quit` 或 `:exit` 结束会话。历史只保留最近 8 条消息；每一轮仍独立检索当前 snapshot，回答中的引用必须来自当前轮 evidence。会话不会执行目标仓库代码、修改文件或自动调用任意工具。
-
-### 变更影响分析
-
-`impact` 比较两个本地可用 commit。它会分别建立或复用 base/head snapshot，读取本地 Git diff，解析受支持 Python 文件的变化 symbol，并在 head snapshot 中检索相关测试和 Markdown 文档。报告中的规则风险和建议测试会标记 `inference: true`；模型层最多调用一次，且仍必须通过已有 citation 校验。
-
-```powershell
-.\.venv\Scripts\repolens.exe impact `
-  --repository D:\your-project `
-  --base <base-commit> `
-  --head <head-commit> `
-  --provider mock `
-  --data-dir D:\RAG\repolens-impact-index
-```
-
-没有 API Key 时使用 `--provider mock` 做离线契约验收；需要 DeepSeek 摘要时改为 `--provider deepseek`，API Key 仍只从 `DEEPSEEK_API_KEY` 环境变量读取。`impact` 不执行目标仓库代码、不修改工作树，也不联网下载 Git objects。rename 目前按删除加新增处理。
-
-### 直接打开使用
-
-Windows 下直接双击项目根目录的 `RepoLens.pyw`。它会在本机启动 loopback 服务并自动打开浏览器，不显示终端窗口。页面支持：
-
-- 代码问答：输入仓库路径和问题，使用 Mock 离线回答或 DeepSeek 回答。
-- 连续对话：在同一个 commit 上追问，保留最近 8 条消息。
-- 变更影响：输入 base/head commit，查看变化文件、symbol、测试、文档、风险和建议测试。
-
-也可以在已安装环境中运行 `repolens-ui`，或使用 `repolens serve`。浏览器界面只绑定 `127.0.0.1`；索引目录在仓库之外；DeepSeek Key 通过设置页只保存在当前进程内，服务关闭后失效，不写入浏览器存储。
-
-### 中文提问
-
-V4.1 增加了有限、可解释的中文代码问题扩展。“入口”会增加 `main/entrypoint`，“读取”会增加 `read/load`，“写入”会增加 `write/save`，“书籍”会增加 `book/books`。代码标识符仍会原样保留，因此可以直接输入：
-
-```text
-这个项目的主要入口是什么？书籍数据如何读写？
-```
-
-这是固定检索词典，不等同于通用机器翻译或 embedding 语义检索；未覆盖的领域词仍可能需要混合文件名、函数名或英文术语。
-
-### DeepSeek 真实回答
-
-先在当前 PowerShell 进程设置环境变量，不要把 key 写入源码或提交到 Git：
-
-```powershell
-$env:DEEPSEEK_API_KEY = "你的 DeepSeek API Key"
-$env:DEEPSEEK_MODEL = "deepseek-flash"
-
-python -m repolens answer "How does Flask.test_client preserve context?" `
-  --snapshot $snapshot --provider deepseek --limit 5 `
-  --context-tokens 1200 --output-tokens 512 --data-dir data/index
-```
-
-可选配置：`DEEPSEEK_BASE_URL`（默认官方地址）、`DEEPSEEK_TIMEOUT_SECONDS`（默认 60）、`DEEPSEEK_MAX_RETRIES`（默认 2）。CLI 也支持 `--model`、`--timeout` 和 `--max-retries` 覆盖环境变量。key 缺失、HTTP 401、超时、临时网络错误和 JSON 输出异常都会返回可读错误；模型输出仍必须通过 citation 校验。
-
-### 可选 LangChain 集成
-
-RepoLens 将 LangChain 用作可选的模型编排和 Retriever 适配层，不替换本地索引、SQLite、检索策略、上下文预算或引用校验。回答链使用 LCEL `ChatPromptTemplate | ChatDeepSeek.with_structured_output(...)`；`RepoLensRetriever` 把精确 snapshot 的 RepoLens 证据转换成 LangChain `Document`。Agent 仍由 RepoLens 的固定只读工具和共享预算控制，不把仓库内容交给任意 LangChain agent 工具执行。
-
-在源码目录的虚拟环境安装可选 extra：
-
-```powershell
-python -m pip install -e ".[langchain]"
-$env:DEEPSEEK_API_KEY = "你的 DeepSeek API Key"
-python -m repolens ask "这个项目如何处理任务标题？" `
-  --repository D:\your-project --provider langchain `
-  --data-dir D:\repolens-index
-```
-
-Web 工作台在同一 Python 环境安装了 extra 后也可以将回答模型选为 `LangChain + DeepSeek`。本机离线测试不需要 API Key，也不会调用模型。适配器显式关闭 LangSmith tracing，不受全局 tracing 环境变量开启的影响；模型输入仍遵循 DeepSeek provider 的数据发送边界。详细取舍见 [ADR 0025](docs/adr/0025-optional-langchain-adapter.md)。
-
-## 评测与边界
-
-固定 Flask commit：`d086db856be187255b8ec61ef409357393020f32`。新建的验收索引位于 `data/v1-flask-index`，89 个源码文件、1,622 个符号、2,256 个 chunks。
-
-| 数据集 | 题数 | Recall@5 | Recall@10 | MRR@10 | 去重证据单元 nDCG@10 |
-|---|---:|---:|---:|---:|---:|
-| 开发集，参与过权重选择 | 30 | 0.708 | 0.792 | 0.858 | 0.732 |
-| 新冻结验证集，未用于调参 | 20 | 0.550 | 0.650 | 0.550 | 0.554 |
-
-验证集覆盖新符号，检索前已冻结问题、28 条证据及实现 hash，之后没有针对结果调参。但它仍来自同一个 Flask commit，不是外部盲评或第二仓库泛化测试。精确标识符题 Recall@10 为 1.0，英文自然语言题为 0.6，带标识符的多方法题为 1.0，**纯中文无标识符题为 0.0**。英文源码的跨语言语义检索是后续能力。
-
-~~~powershell
-$env:PYTHONPATH = "src"
-$snapshot = python -m repolens ingest data/repositories/flask --ref d086db856be187255b8ec61ef409357393020f32 --data-dir data/v1-flask-index | ConvertFrom-Json
-if ($LASTEXITCODE -ne 0) { throw "ingest failed" }
-python -m repolens evaluate eval/flask-validation.jsonl --snapshot $snapshot.snapshot_id --data-dir data/v1-flask-index
-~~~
-
-此命令要求本地已有固定 Flask clone；索引不会隐式下载仓库。该 clone 是 no-checkout，空工作树状态正常。详细结果见 [V1 验收记录](docs/v1-release.md)与 [评测协议](docs/evaluation-dataset.md)。
-
-## 工程设计
-
-- 只读取 Git commit 对象；dirty/untracked 工作区内容不会混入历史证据。
-- Python AST / Markdown ATX 分块，每块最多 80 行、重叠 15 行；语法失败有显式 fallback。
-- SQLite 事务写入；keyword 使用 FTS5/BM25 召回固定 100 个候选并重排，vector 使用每个 snapshot 独立保存的本地 TF-IDF cosine，hybrid 使用固定权重 RRF 融合；history 使用独立的 snapshot-scoped FTS5 表。impact 支持 `--format json|markdown`。改变返回条数不再改变候选池。
-- evidence ID 包含 snapshot、blob、路径和行号，返回前逐行核对存储的源码。
-- 同名 getter/setter、重载按包含标注的具体范围校验，避免只取第一条同名定义。
-- 两版基线可逐题重放；未通过门槛的融合实验保留负结果，未启用为默认。
-
-当前限制包括：仅支持 `.py/.md/.markdown`；单文件 1 MiB、源码总量 64 MiB、tree 50,000 条；不跟随 symlink/submodule；Markdown 不是完整 CommonMark。BM25 统计跨同一数据库的 snapshot 共用，比较实验应使用固定的索引集合。路径以 UTF-8 仓库相对 POSIX 格式保存。
-
-## 开发与验证
-
-首次审计导入提交为 `9a2a5f6cd733caa5886fb6dfd12efa698c73ac74`（`chore: audited initial import of RepoLens V6`），后续改进按真实小提交保留，不回填 V1-V6 历史。按作者决定，当前暂不添加 `LICENSE`。
-
-干净源码副本可以在已安装 Python 3.12+、Git、pip 和 setuptools 的环境中离线构建核心 wheel，不需要本机 `data/`、数据库或目标仓库。以下命令从项目根目录执行：
-
-~~~powershell
-python -m venv --without-pip .venv
-python -m pip wheel . --no-cache-dir --no-deps --no-build-isolation --no-index --wheel-dir dist
-python -m pip --python .venv/Scripts/python.exe install --no-cache-dir --no-index --no-deps dist/repolens-4.1.0-py3-none-any.whl
-.\.venv\Scripts\python.exe -I -m repolens doctor
-.\.venv\Scripts\python.exe -I scripts/demo.py
-~~~
-
-此流程验证核心 CLI 和合成 Demo；完整 Web wheel 还需构建前端并安装可选 Web 依赖，见[部署与源码构建](docs/deployment.md)。两种构建不能混称为完整 Web 验收。远程 CI 与 Docker 实机仍需以实际运行结果为准。
-
-~~~powershell
 $env:PYTHONPATH = "src"
 python -m unittest discover -s tests -v
-python -m compileall -q src tests experiments scripts
-python -m pip wheel . --no-deps --wheel-dir dist
-~~~
+python scripts/v6_regression.py
+```
 
-当前测试和安装验收结果见 [V6 交付记录](docs/v6-release.md)。核心运行时无第三方依赖；Web 工作台需要可选 FastAPI/Uvicorn，构建前端需要 Node。从源码构建需要 setuptools，常规隔离构建可能下载构建工具。V1 的三路真实评测及限制见 [V1.4 检索验收](docs/evaluation-v1.4.md)；V2 的结构化 impact 与 evidence 校验见 [V2 影响报告验收](docs/evaluation-impact-v2.md)；V3 的固定工具、预算、降级及 Trace 见 [V3 验收记录](docs/evaluation-agent-v3.md)；V4 持久化图、版本隔离、跨文件收益和通用任务回退见 [V4 验收记录](docs/evaluation-graph-v4.md)。真实 smoke 与同仓库 authored benchmark 不等同于跨仓库或真实模型质量。
+测试默认离线，Git 集成使用临时仓库；安装 Web / LangChain 可选依赖后才执行对应测试。安装、构建、验证矩阵和提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-## 文档与下一版本
+| 文档 | 内容 |
+|---|---|
+| [使用指南](docs/usage.md) | 首次启动、索引、问答、DeepSeek 与常见问题 |
+| [部署与回滚](docs/deployment.md) | 源码构建、Docker、只读挂载与排障 |
+| [架构与 ADR](docs/architecture.md) | 模块职责、版本身份与设计决策 |
+| [评测协议](docs/evaluation-dataset.md) | 数据集、指标分母、冻结与复现 |
+| [模型评测准备](docs/generation-benchmark.md) | 离线执行器、断点恢复与日志限制 |
+| [只读 MCP](docs/mcp.md) | 外部 Agent 接入、固定版本与工具预算 |
+| [维护性审查](docs/maintenance-review.md) | 模块测量、兼容取舍与质量门禁 |
+| [验收记录](docs/v6-release.md) | 本地、安装包、CI 与容器证据 |
+| [面试与演示](docs/interview-guide.md) | 五分钟演示、设计取舍与结果表述 |
+| [优化计划](docs/portfolio-optimization-plan.md) | 作品集目标、依赖条件与完成定义 |
+| [进度交接](docs/progress.md) | 有日期的执行记录与后续任务 |
 
-- [V1 验收与安装记录](docs/v1-release.md)
-- [V6 交付、偏离审计与验收边界](docs/v6-release.md)
-- [部署、排障与回滚](docs/deployment.md)
-- [面试讲解与演示](docs/interview-guide.md)
-- [产品规格](docs/product-spec.md)
-- [架构](docs/architecture.md)
-- [评测协议](docs/evaluation-dataset.md)
-- [V1.3 审阅及融合负实验](docs/evaluation-review-v1.3.md)
-- [进度交接](docs/progress.md)
-- [架构决策](docs/adr/)
+## 源码许可
 
-按初始路线图，V1-V5 已按各自边界交付，V6 已实现本地工程化能力并逐项记录验证状态。跨文件图任务有收益，通用验证集存在回退，因此通用默认仍为 hybrid。详见 [V4 评测与边界](docs/evaluation-graph-v4.md)、[V5 使用说明](docs/v5-workbench.md) 和 [V6 交付记录](docs/v6-release.md)。动态/跨语言调用关系、Docker 实机和远程 CI 验收、真实 DeepSeek 质量评测仍待完成。使用 `deepseek` 的 `ask/chat/impact/agent` 或 Web API 才需要 API Key，密钥只保存在环境变量或服务进程内存。
+本仓库公开用于展示与审阅。**作者当前暂不添加 LICENSE，未授予开源许可。** 项目自有源码与依赖、评测对象的许可分别适用；不在仓库中再分发上游源码、索引数据库或密钥。
 
-## English Summary
+## English
 
-RepoLens 4.1.0 provides a directly openable local browser UI for read-only Git snapshot indexing, exact snapshot reuse, bounded multilingual query expansion, Python/Markdown evidence retrieval, offline evaluation, bounded context packing, citation-validated structured answers, automatic `ask`, bounded multi-turn `chat`, bounded follow-up retrieval, and two-commit `impact` reports. The multilingual layer is a fixed, auditable vocabulary rather than a claim of general semantic retrieval; a real DeepSeek smoke test has passed, but this is not a claim of broad answer quality.
+RepoLens is a local, read-only code analysis workbench for Git repositories. It binds Python / Markdown evidence to exact commits, combines lexical and TF-IDF retrieval with an optional static graph, and provides citation-validated answers, commit impact analysis and a budgeted agent. The React / FastAPI workbench includes repository, diff, graph, Q&A, trace and evaluation views.
+
+Cross-platform CI and container smoke checks have passed. Graph retrieval improves a ten-question Flask cross-file benchmark but regresses on the twenty-question general validation set, so hybrid remains the default. External multi-repository testing and independently reviewed real-model answer quality are still pending. No open-source license has been granted.

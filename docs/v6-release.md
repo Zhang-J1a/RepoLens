@@ -2,7 +2,7 @@
 
 日期：2026-10-19。对照原始路线图第 10 节实施，包版本仍为 4.1.0。
 
-当前状态：V6 本地实现与验收已通过；Docker 实机和远程 CI 尚待执行，不能称为所有平台完整验收。真实 DeepSeek 生成/Agent 质量尚无独立标注评测，本轮没有调用远程模型。
+当前状态（2026-10-20 更新）：V6 本地实现、跨平台远程 CI 及 CI 容器验收已通过。[运行 39273995176](https://github.com/Zhang-J1a/RepoLens/actions/runs/39273995176) 对应提交 `39e2859bde3b04188cf6fadc9f5e4bf69867b01b`，六个 job 全绿，包含 Windows/Linux Python 3.12/3.13、LangChain、Web/浏览器、Docker build/start/Demo 和只读挂载。宿主机仍未安装 Docker，不声称本机容器验收。真实 DeepSeek 生成/Agent 质量尚无独立标注评测。
 
 后续用户授权的可选 LangChain 接入也已完成本地验收：184 项 Python、11 项最终安装包专项、8 项浏览器、实际 Retriever 的 90 次冻结重放通过。当前 wheel 与 8772 服务以 [LangChain 接入记录](langchain-integration.md) 和 `eval/v6-langchain-acceptance.json` 为准；下方的 170 项/410ac2... hash/8771 地址保留为本次适配前的 V6 原始验收记录。
 
@@ -16,8 +16,8 @@
 | 可观测性 | request ID、后台任务上下文、task/trace 关联、JSON 日志、JSON/Prometheus metrics | API、日志脱敏、有界指标测试通过 |
 | 安全限制 | Host/Origin、JSON/128 KiB、CSP、目录授权、历史证据限制、只读 Git、Agent 工具权限 | 既有安全测试与新增 V6 测试通过 |
 | 密钥管理 | 环境变量或服务进程内存，不回显、不进入日志/导出/Git | 离线设置与错误路径测试通过 |
-| 容器化 | 多阶段前端构建、非 root、只读根、数据卷、显式仓库只读挂载 | 文件及 CI 步骤已实现；本机无 Docker，未实跑 |
-| CI | Windows/Linux 核心；Web 格式/类型/构建/API/浏览器/安装包；Docker 干净启动和挂载检查 | 已配置，未 commit/push、未运行远程 CI |
+| 容器化 | 多阶段前端构建、非 root、只读根、数据卷、显式仓库只读挂载 | CI 实跑 build/start/Demo、挂载导入和 `RW=false` 通过；本机无 Docker |
+| CI | Windows/Linux 核心；Web 格式/类型/构建/API/浏览器/安装包；Docker 干净启动和挂载检查 | 已公开推送并通过六个 job，固定运行链接见本文件顶部 |
 | 部署、排障、重建和回滚 | `deployment.md`、`threat-model.md`、`observability.md`、ADR 0024 | 已提供 |
 | 演示材料 | 六页面演示脚本、桌面/390px 截图、独立安装包演示 | 已实际生成与查看 |
 

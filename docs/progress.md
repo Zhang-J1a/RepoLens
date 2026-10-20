@@ -1,5 +1,41 @@
 # 进度与交接
 
+## 2026-10-20：暂缓 M4，完成 GitHub 展示、维护性与只读接口切片
+
+### 已完成
+
+- 用户明确暂缓 M4 选仓/盲测，授权先按文档收口、维护性审查、关键测试、离线模型评测准备及 MCP 顺序推进，并整理 GitHub/README。此为执行顺序调整，不将 M4/M5 或整个优化计划标为完成；原学习参考边界、默认 hybrid 与冻结 gold 保留。长期决策见 ADR 0026。
+- 重写 README 为定位、实际工作台截图、快速开始、同条件检索对照、架构、边界和文档导航；移除依赖本机旧 venv/wheel 的主流程。新增 `docs/usage.md`、CONTRIBUTING、SECURITY、Issue/PR 模板与项目链接，部署/V6 验收同步真实全绿运行，面试文档补充当前状态。不添加 LICENSE。
+- GitHub 页面已保存简介、使用文档链接、9 个技术主题（rag/code-search/python/fastapi/react/langchain/mcp/static-analysis/git），隐藏空 Releases/Packages 侧栏。没有创建 release、发布包或修改仓库权限。
+- M9 先核对五个大文件的职责和静态依赖，再将纯 Markdown renderer 提取到 `impact_rendering.py`，保持函数源码逐字一致并保留 `impact.render_impact_markdown`。`impact.py` 从 600 行变为 522 行；兼容入口、事务和检索边界保留。标准库审查脚本与 CI 本地文档链接门禁见 `docs/maintenance-review.md`。
+- 新增真实 Git fixture 测试，验证 hook/smudge filter 不执行及 replace refs 不能替换固定源码/历史；不运行用户目标仓库代码。
+- M5 准备：仅 Mock 的 `benchmark.py` 和执行脚本，冻结题集/实现/policy/snapshot/corpus/预算，fsync 预留日志、失败脱敏、恢复不重复已开始任务，校验输出 hash 和并发锁。结果不含完整 prompt/源码正文；真实调用、费用硬上限和语义评测仍待后续切片。
+- M7 最小切片：标准库 stdio MCP 2025-06-18，复用现有受控工具/证据校验/spawn 超时，提供 8 个宿主固定版本的只读工具，包括 get_evidence。逐次/累计结果、字节、调用数及 deadline 有上限，无任意 repository/snapshot/shell/URL 参数。真实子进程握手与 canonical evidence 读取已验证，第三方客户端互操作未验收。
+- 三个实现提交已形成真实历史：`d89e1c4`（M4 输入与候选核验）、`53d8ca9`（渲染隔离与 Git 安全）、`7b26461`（MCP 与离线评测日志）。本条文档收口随后单独提交；当前新批次尚待推送后 CI 验收。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; .\data\v5-web-venv\Scripts\python.exe -m unittest discover -s tests -v`：215 项、零跳过、全部通过，unittest 182.196 秒，退出码 0。日志 `data/portfolio-polish-tests.log`，SHA-256 `C4F334145765A8628CC8F2EE7A2A5388B403424A4B1F46FBA621F1C1D870A828`。
+- MCP 源码专项 10 项通过（13.728 秒）；离线 benchmark 最终 8 项包含在全量测试；既有 impact 6 项通过，提取前后 renderer AST 源段逐字相同。后续只移除 renderer 文件末尾多余空行，staged whitespace 检查通过；不改变函数内容。
+- `python scripts/project_audit.py --check-links --output data/portfolio-delivery-audit.json`：46 个运行模块、75 个常见本地 Markdown 链接、无断链。报告 SHA-256 `77E560AB024F581FBF63B8AC99A91F55D5847D5D54F219FEBF8A52827CA6593E`。只检查常见 inline link 的文件存在性，非 CommonMark/锚点/远端 URL 验证；静态测试导入不当动态覆盖率。
+- `$env:PYTHONPATH='src'; python scripts/v6_regression.py`、Web 环境的 `python scripts/export_api.py --check`、`python -m compileall -q src tests experiments scripts`、TOML/YAML 解析、`git diff --check`：均通过。冻结校验本轮未传 `--index`，没有将其称为 90 次实际检索重放。
+- `python scripts/build_release.py --output data/portfolio-delivery-package.json`：最终 wheel SHA-256 `f856ce58da13c9017f4b8f931458807449ff13ceaa2c9830b76135c9a57aa8bb`，15 个前端资源全部匹配、stale assets=0。构建报告 SHA-256 `218D3B4EA5789F9BF25915748A0997ED591398FE65341348A5BEA2E367B3F608`。
+- 新建无 pip 的 `data/portfolio-polish-venv`，用已有 pip 的 `--python ... install --no-cache-dir --no-deps --no-index` 离线安装本项目 wheel；未安装新依赖。清除 PYTHONPATH 后，安装包 `python -I -m repolens doctor` 和 `python -I scripts/demo.py` 通过，后者验证工作树不变、临时文件清理。
+- 最终 wheel 再安装后执行 `data/portfolio-polish-venv/Scripts/python.exe -I -m unittest discover -s tests -p test_mcp.py -q`：10 项通过，15.141 秒，退出码 0。日志 `data/portfolio-delivery-installed-mcp-tests.log`，SHA-256 `3F0D57F02CAA9C6E365B2772D5D5E4D4BC35CDCEA4836BB453BA70AC20828CBA`。
+- 最后一次清理合成预检测试中的路径字面量，避免把真实候选目录作为示例提交；M4 预检 11 项重跑通过，0.130 秒。33 个候选文件的 credential pattern 与禁止产物路径扫描均为零命中。
+
+### 限制与未执行
+
+- 新增 Git fixture 的首次专项有 1 项失败：required filter 未配置 clean，连 fixture 自身的 Git status 都拒绝执行。补充无副作用的 `clean=cat` 后，两项新增测试及全量回归通过；未删除断言或绕过检查。
+- 本机仍无 Docker；本轮前端源码没有修改，未重复本机浏览器/Docker 验收，后续通过 push 的远程 workflow 验证。已读取 GitHub API，确认既有运行 `39273995176` 对应 `39e2859` 为 success；它不替代本轮代码的新 CI。
+- M4 选仓和外部盲测暂缓；未 clone hello-agents、未索引学习参考项目或新增真实目标，未读取 Key、调用真实模型、安装新依赖、授予开源许可或发布 tag/release。
+- M9 没有动态覆盖率/外部类型检查器门禁，M5 没有真实付费 provider/计费硬限制/自动语义标注，M7 没有官方 SDK/第三方客户端互操作、HTTP、并发取消或完整协议覆盖。最小切片通过不能表述为这些里程碑全项完成。
+
+### 下一步
+
+- 推送本轮经过审计的提交，等待新的六个 CI job，检查 GitHub README 的图片、图表和导航实际渲染；失败保留根因并修复，不放宽冻结门禁。
+- 后续先推进 M5 日志到独立审阅输入的安全导出及 MCP 客户端互操作；真实模型、费用/源码外发、新依赖继续分别确认，M4 按用户决定暂缓。
+
 ## 2026-10-20：M4 候选仓库只读核验与开发集排除
 
 ### 已完成
