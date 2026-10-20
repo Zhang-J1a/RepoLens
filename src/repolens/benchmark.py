@@ -84,6 +84,10 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
             "full_context": {"status": "unavailable", "reason": "No authorized real-model comparison in offline runner."},
         }
         target.mkdir(parents=True, exist_ok=True)
+        for name in ("manifest.json", "events.jsonl", "run.lock"):
+            artifact = target / name
+            if artifact.is_symlink() or artifact.resolve().parent != target:
+                raise RepoLensError("Benchmark artifacts must not be symbolic links or leave the output directory.")
         lock = target / "run.lock"
         try:
             lock_stream = lock.open("x", encoding="utf-8")

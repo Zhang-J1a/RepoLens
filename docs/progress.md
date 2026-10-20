@@ -1,5 +1,23 @@
 # 进度与交接
 
+## 2026-10-20：离线评测日志路径保护收尾
+
+### 已完成
+
+- 最后审查补充输出文件边界：manifest、events journal 与锁文件不能为符号链接或解析到输出目录之外，防止日志路径回指目标仓库。仍不承诺抵御恶意本机进程并发替换文件的完整文件系统沙箱。
+- 新增临时仓库回归：journal 指向目标仓库文件时必须在写 manifest/lock 前拒绝，原文件保持不变。当前总测试数增加到 216；下方 215 项全量结果和全绿 CI 属于此次窄补强前的已验证实现。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests -p test_generation_benchmark.py -v`：9 项中 8 项通过、1 项因本机无创建 symlink 权限跳过，7.389 秒，退出码 0。日志 `data/portfolio-benchmark-path-tests.log`，SHA-256 `4672BD1FD267F3E7C6CED1B500F0CA445B7ED80FCA2092F4FC90777D54B978BB`。
+- 重新构建并离线安装当前 wheel，以 `python -I -m unittest discover -s tests -p test_generation_benchmark.py -q` 验证：同样 8 项通过、1 项跳过，7.449 秒；确认 `benchmark` 从独立环境 site-packages 加载且包含路径保护。日志 SHA-256 `16486D55652582F31F5254EF2EF131E24492B29D22E4C119A4C3BE094E24865B`。
+- 当前 dist wheel SHA-256 `31a403edca2f97ca8eb17c3cbe604cedde5a720597a012eb891c66b702c939b6`，15 个前端文件匹配、stale assets=0。报告 `data/portfolio-path-guard-package.json`，SHA-256 `8A41046368039F238A0ACA48A20E067F03357147B6A67A54AC49AC02FD92E290`。
+
+### 限制与下一步
+
+- 本机 symlink 用例的跳过不算实际链接保护验收，交由 Linux CI 真实执行；推送后检查完整新 workflow。未安装新依赖、修改检索/gold、运行目标代码或调用真实模型。
+- README、简介、主题和纵向 Mermaid 已在 GitHub 页面核验；M4 继续暂缓，后续重点为 M5 安全审阅导出和 MCP 第三方客户端互操作。
+
 ## 2026-10-20：暂缓 M4，完成 GitHub 展示、维护性与只读接口切片
 
 ### 已完成

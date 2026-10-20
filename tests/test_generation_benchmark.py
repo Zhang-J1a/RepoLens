@@ -112,6 +112,21 @@ class GenerationBenchmarkTests(unittest.TestCase):
             self.run_cases()
         self.assertTrue((self.output / "run.lock").exists())
 
+    def test_symlinked_journal_cannot_write_back_into_the_target_repository(self):
+        self.output.mkdir()
+        target = self.repo / "untracked-journal.jsonl"
+        target.write_text("", encoding="utf-8")
+        journal = self.output / "events.jsonl"
+        try:
+            journal.symlink_to(target)
+        except OSError:
+            self.skipTest("Creating symlinks is unavailable on this host")
+        with self.assertRaisesRegex(RepoLensError, "symbolic links"):
+            self.run_cases()
+        self.assertEqual(target.read_bytes(), b"")
+        self.assertFalse((self.output / "run.lock").exists())
+        self.assertFalse((self.output / "manifest.json").exists())
+
     def test_invalid_budgets_versions_and_categories_are_rejected_before_output(self):
         for options in ({"max_calls": True}, {"context_tokens": 0}, {"output_tokens": 9000}):
             with self.subTest(options=options), self.assertRaises(RepoLensError):
