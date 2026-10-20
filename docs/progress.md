@@ -1,5 +1,68 @@
 # 进度与交接
 
+## 2026-10-20：M4 候选仓库只读核验与开发集排除
+
+### 已完成
+
+- 用户提供 `Book Manager V1`、`HSI-SVM`，随后补充 `Hyperspectral-classification-deeplearning` 的本地路径。用户同时明确确认：`AgentGuide` 与 `all-in-rag` 保持仅学习约定，不用于 M4；允许公开最终选定仓库的名称、固定提交号和评测结果，不公开源码和本机路径。
+- 三个所选路径均为独立 Git root。通过现有只读 `GitRepository` API 解析 HEAD、tree inventory、至多 100 条历史，并比较操作前后的 tracked status；三者状态均保持一致。未读取目标源码、密钥或 env 内容，未建索引、检索、运行目标代码或测试。
+- `HSI-SVM`：HEAD `616a42249247db5c7008e9825a6e2543b1400960`，24 个常规 tracked 文件、13 个 Python 文件（39,844 字节）、1 个 Markdown、11 条可读本地历史；未发现常规测试路径或许可证文件，许可暂记 `NOASSERTION`。
+- `Hyperspectral-classification-deeplearning`：HEAD `5b8641c2cf16f473393fc0cdd39475c3520c8e4d`，38 个常规 tracked 文件、6 个 Python 文件（33,768 字节）、2 个 Markdown、5 条可读本地历史；未发现常规测试路径或许可证文件，许可暂记 `NOASSERTION`。
+- `Book Manager V1`：HEAD `1e747f22254a254fbf90d1a2631165e79a675a4d`，5 个 Python 文件、1 个 Markdown、2 条历史。本文件既有 V4.0.3/V4.1.0 记录证明它已用于中文检索开发验证，因此只作回归对象，不算新的盲测仓库。
+- 将上述固定 SHA、许可限制和候选/排除状态记录到 `docs/target-repositories.md`，其中不包含本机路径。更新 M4 协议与预检排除规则，覆盖 Book Manager 的名称及声明路径，防止仅改计划中的仓库 ID 就误计为新盲测对象。
+- 用户另补充 `hello-agents-1.0.3` 本地目录。目录存在但没有 `.git`，安全 Git wrapper 无法解析仓库/HEAD；只检查顶层名称、README 中的 `datawhalechina/hello-agents` 上游链接及本地 `LICENSE.txt`（CC BY-NC-SA 4.0）。尚无完整 Git SHA，不能因目录名含版本号就计入 M4。没有在目标目录初始化 Git 或修改文件。
+
+### 验证
+
+- 设置 `PYTHONPATH=src`，通过内联 Python 依次执行 `GitRepository(path)`、`commit('HEAD')`、`inventory(commit.sha)`、`history(commit.sha, max_count=100)`；前后各执行既有安全 Git wrapper 的 `status --porcelain=v1 -z --untracked-files=no`。两批核验命令均退出码 0，三个 root 匹配请求路径、tracked status 前后相同。未跟随 symlink 读取目标文件，未联网获取 Git objects。
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests -p test_m4_preflight.py -v`：11 项通过，0.143 秒，退出码 0。日志 `data/m4-repository-screening-tests.log`，SHA-256 `6186798C6299AF9023287B9D01AAFAC91FD38D2C6C9D5D01368C786ACC9B9F9D`。
+- `$env:PYTHONPATH='src'; python scripts/v6_regression.py`：退出码 0，冻结 policy/view 契约通过；本轮未传 `--index`，没有重放真实检索。
+- `python -m compileall -q experiments/m4_preflight.py tests/test_m4_preflight.py`、`git -c safe.directory=D:/RAG/RepoLens diff --check`：均通过。
+- hello-agents 目录核验内联命令退出码 0，结构化结果为 `not_eligible_yet`、`git_marker_exists=false`；底层 Git 失败如实作为不合格状态记录，不计为固定 snapshot 验收通过。`Test-Path -LiteralPath 'D:\RAG\RepoLens\data\repositories\hello-agents'` 为 False，可用于后续获授权后的独立 Git 副本，不覆盖用户源码目录。
+
+### 限制与未执行
+
+- 当前仅两个新候选，尚不足三个；两者均属高光谱分类领域，目录/规模差异和源码/关系仍待审阅。常规测试路径按 `test/tests`、`test_*.py` 和 `*_test.py` 初筛为零，不代表已对所有测试内容作人工结论。
+- 未发现 license/licence/copying/notice 文件，不等于已确认其他位置不存在许可声明；只读评测授权及元数据公开授权不授予源码再分发许可。
+- 未标注或冻结真实题集、未运行 M4 benchmark、未调用真实模型、未下载目标、未执行目标代码、未修改学习参考项目、未 commit/push。现有未提交准备工作保留。
+
+### 下一步
+
+- 已请求用户再补至少一个不同领域、同时有文档和测试的本地 Python Git 仓库。沿用已确认的元数据公开范围，无需重复询问。
+- 对 hello-agents，可请求用户明确授权从 README 对应上游获取独立 Git 副本，先核实 1.0.3 对应 tag/ref 再固定完整 SHA；找不到对应版本时不静默改用 main。规划禁止自行下载，因此本轮未 clone；获取后仍须核验 Python/文档/测试、许可与盲测资格，不能提前计入合格数量。
+- 收到路径后只读核验 Git/SHA、Python/文档/测试和许可，确认至少三个合格目标，再按 M4 协议审阅源码、标注 gold、实现和验证 runner，首次检索前冻结 manifest。
+
+## 2026-10-20：M4 外部盲测输入预检与协议准备
+
+### 已完成
+
+- 核对 `main` HEAD 为 `39e2859bde3b04188cf6fadc9f5e4bf69867b01b`，开始前工作树干净。按计划从已验收的 M3 进入 M4 准备阶段，没有跳到检索调参、多语言或新框架。
+- 新增 `experiments/m4_preflight.py`：只读计划 JSON/题集 JSONL，检查 3–5 个声明的 Python 外部仓库、完整 SHA 格式、授权/公开范围字段、每仓库至少 15 题、六类覆盖、全局题目 ID、版本绑定及源码/历史/拒答 gold 结构。返回输入字节 hash；不打开目标 Git、不建索引、不检索、不写文件。
+- 新增中文 `docs/evaluation-m4.md`、空白 `eval/m4-input.example.json` 和 10 项离线合成契约测试，更新既有数据集说明和仓库清单入口。模板不能直接通过，避免把示例或 fixture 当真实盲测。正式含本机路径的输入计划应保存在忽略的 `data/m4/`。
+- 区分源码 locator、历史提交和拒答 gold；明确 file/symbol/locator 分母、历史题与拒答题分开报告，full-context 作为回答对照，不冒充检索排名。现有 `evaluation.py`、默认 hybrid、冻结 gold 和历史结果均未改。
+- 自检修正预检的排除规则：只检查仓库标识及声明路径末段，不能因为新目标存放在 `RepoLens/data/` 下而误拒；新增回归覆盖。真实规范 root、别名、仓库内容、许可、语义和授权仍须在正式输入确认后核验。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests -p test_m4_preflight.py -v`：10 项通过，unittest 耗时 0.122 秒，退出码 0。日志 `data/m4-preflight-tests.log`，SHA-256 `4A4182B74D191AE20C2FBD169903446FB13A9D137A7223B43F55E7840BCB5EE8`。
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests -p test_evaluation.py -v`：10 项通过，unittest 耗时 7.975 秒，退出码 0。日志 `data/m4-existing-evaluation-tests.log`，SHA-256 `51C9BE7F4AE643177B57818925A7A5281751153EE1C857A7276EE4A35A439163`。
+- `$env:PYTHONPATH='src'; python scripts/v6_regression.py`：退出码 0，原始策略及三个窄扩展、6 个冻结视图和 90 条历史评测记录的 hash/契约通过。本轮没有传入 `--index`，因此不称本轮重新执行了 90 次检索。
+- `python -m compileall -q experiments/m4_preflight.py tests/test_m4_preflight.py`：退出码 0。
+- `$env:PYTHONPATH='src'; python -m experiments.m4_preflight --plan eval/m4-input.example.json`：按设计返回 `input_rejected`、退出码 1，空模板未被当成有效输入。
+- `git -c safe.directory=D:/RAG/RepoLens diff --check`：通过。改动限于 M4 实验预检、专项测试、输入模板及文档，未改运行时、前端或依赖；本轮未重复全量/Web/容器验收。
+
+### 限制与未执行
+
+- 当前没有用户提供的 3–5 个新本地 Python 目标。规划第 8 节明确“不得自行下载。向用户请求三个至五个已授权、本地存在的 Python 仓库及固定 commit”，已请求用户给路径和评测元数据公开范围；SHA 可在收到路径后只读解析，无需用户手工查询。
+- `input_shape_validated` 只证明声明/题集结构，报告中 `benchmark_ready` 始终为 false。配置中授权、external_blind 和 license 不能代替用户授权、许可核验和人工审阅。
+- 未完成真实仓库登记、题集标注/语义审阅、source/history 验证、冻结 manifest、M4 执行与分层评分 runner 或 full-context 可用性审计；不声称 M4 完成或跨仓库质量提升。
+- 未下载新仓库、访问/索引学习参考项目、调用真实模型、读取 Key、增加依赖、添加 LICENSE、commit/push 或发布 tag/release。本轮保留为可审阅工作树。
+
+### 下一步
+
+- 收到用户提供的 3–5 个本地 Python Git 仓库路径及元数据公开范围后，先只读核验规范 root、HEAD/commit、Python/文档/测试目录及许可证据，登记固定 SHA；人工标注每仓库至少 15 题，再实现/验证 M4 runner、校验 locator/history，并在首次检索前冻结 manifest。
+- full-context 若涉及真实模型或源码外发，仍须按 M5 的 provider、允许仓库和预算停点确认；未获授权时如实记录 unavailable。
+
 ## 2026-10-19：M3 修复 CI 并完成全绿验收
 
 ### 已完成
