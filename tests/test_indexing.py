@@ -88,6 +88,36 @@ class IndexingTests(unittest.TestCase):
             self.assertTrue(store.search("underscoreonly", snapshot))
         self.assertEqual(self.git("status", "--porcelain=v1"), status)
 
+    def test_git_hooks_and_smudge_filters_are_not_run_during_ingestion(self):
+        marker = self.base / "hook-or-filter-ran"
+        hook = self.repo / ".git" / "hooks" / "post-checkout"
+        hook.parent.mkdir(exist_ok=True)
+        hook.write_text("#!/bin/sh\nprintf unsafe > '" + marker.as_posix() + "'\n", encoding="utf-8")
+        hook.chmod(0o755)
+        self.write(".gitattributes", "*.py filter=must-not-run\n")
+        commit = self.commit()
+        self.git("config", "filter.must-not-run.smudge", "sh '" + hook.as_posix() + "'")
+        self.git("config", "filter.must-not-run.clean", "cat")
+        self.git("config", "filter.must-not-run.required", "true")
+        status = self.git("status", "--porcelain=v1")
+        snapshot = ingest(self.repo, self.data, commit)["snapshot_id"]
+        with IndexStore(self.data) as store:
+            self.assertTrue(store.search("oldexclusive", snapshot))
+        self.assertFalse(marker.exists())
+        self.assertEqual(self.git("status", "--porcelain=v1"), status)
+
+    def test_git_replace_refs_cannot_substitute_snapshot_source_or_history(self):
+        self.write("src/service.py", "def dispatch():\n    return 'replacementexclusive'\n")
+        replacement = self.commit()
+        self.git("replace", self.first, replacement)
+        snapshot = ingest(self.repo, self.data, self.first)["snapshot_id"]
+        with IndexStore(self.data) as store:
+            evidence = store.search("oldexclusive", snapshot)[0]
+            self.assertEqual(evidence["commit_sha"], self.first)
+            self.assertIn("oldexclusive", evidence["text"])
+            self.assertFalse(store.search("replacementexclusive", snapshot))
+            self.assertNotIn(replacement, {item["commit_sha"] for item in store.history(snapshot)})
+
     def test_snapshot_scope_and_evidence_scope_do_not_leak_versions(self):
         old = ingest(self.repo, self.data, self.first)
         self.write("src/service.py", 'def dispatch():\n    """newexclusive sharedtoken"""\n    return 2\n')
