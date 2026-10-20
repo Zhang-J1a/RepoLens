@@ -2,7 +2,7 @@
 
 日期：2026-10-19。对照原始路线图第 10 节实施，包版本仍为 4.1.0。
 
-当前状态（2026-10-20 更新）：V6 本地实现、跨平台远程 CI 及 CI 容器验收已通过。[运行 39273995176](https://github.com/Zhang-J1a/RepoLens/actions/runs/39273995176) 对应提交 `39e2859bde3b04188cf6fadc9f5e4bf69867b01b`，六个 job 全绿，包含 Windows/Linux Python 3.12/3.13、LangChain、Web/浏览器、Docker build/start/Demo 和只读挂载。宿主机仍未安装 Docker，不声称本机容器验收。真实 DeepSeek 生成/Agent 质量尚无独立标注评测。
+当前状态（2026-10-20 更新）：V6 本地实现、跨平台远程 CI 及 CI 容器验收已通过。[运行 39374918498](https://github.com/Zhang-J1a/RepoLens/actions/runs/39374918498) 对应本轮提交 `a1893aa2b5fb5ef863e2b8ca4b81b0c827f7ce56`，六个 job 全绿，包含 Windows/Linux Python 3.12/3.13、LangChain、Web/浏览器、Docker build/start/Demo 和只读挂载。本轮本地完整可选环境的 215 项测试零跳过通过；新增只读 MCP 与离线评测准备的边界见 [ADR 0026](adr/0026-offline-benchmark-and-readonly-mcp.md)。宿主机仍未安装 Docker，不声称本机容器验收。真实 DeepSeek 生成/Agent 质量尚无独立标注评测。
 
 后续用户授权的可选 LangChain 接入也已完成本地验收：184 项 Python、11 项最终安装包专项、8 项浏览器、实际 Retriever 的 90 次冻结重放通过。当前 wheel 与 8772 服务以 [LangChain 接入记录](langchain-integration.md) 和 `eval/v6-langchain-acceptance.json` 为准；下方的 170 项/410ac2... hash/8771 地址保留为本次适配前的 V6 原始验收记录。
 

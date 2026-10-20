@@ -48,7 +48,7 @@ docker compose -f docker-compose.yml -f compose.repository.yml up --build -d --w
 
 在工作台填容器路径 `/workspace/repository`，不是 Windows 路径。容器仅允许该目录和自带 Demo；连带的 Git objects 也必须位于授权根内。linked worktree 的 Git 目录若在挂载之外，需要运维明确授权对应目录，不能自动越界读取。Docker Desktop 需要允许共享源盘符。
 
-当前宿主机未安装 Docker；远程 [CI 运行 39273995176](https://github.com/Zhang-J1a/RepoLens/actions/runs/39273995176) 已实际通过镜像构建、干净启动、Demo、可选挂载导入和挂载只读属性检查。本机状态与 GitHub runner 的容器验收分别记录，详见 [V6 验收](v6-release.md)。
+当前宿主机未安装 Docker；远程 [CI 运行 39374918498](https://github.com/Zhang-J1a/RepoLens/actions/runs/39374918498) 已实际通过本轮镜像构建、干净启动、Demo、可选挂载导入和挂载只读属性检查。本机状态与 GitHub runner 的容器验收分别记录，详见 [V6 验收](v6-release.md)。
 
 默认镜像只安装 Web 依赖。需要 LangChain provider 时可执行 `docker compose build --build-arg REPOLENS_LANGCHAIN=1`，再 `docker compose up -d --no-build`；该构建参数只选择依赖锁文件，不包含 API Key，也不改变仓库挂载权限。本机同样未执行这条可选镜像构建，不能把配置存在当作 Docker 验收通过。
 

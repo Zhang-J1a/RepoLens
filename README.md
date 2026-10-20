@@ -87,7 +87,7 @@ Linux/macOS 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。Demo �
 三项可核对的工程证据：
 
 1. **90 次冻结检索回放**：两套题集、三种策略，逐题 Recall / MRR / nDCG 与冻结记录一致，见[回放报告](eval/v6-retrieval-regression.json)。
-2. **跨平台 CI 已通过**：Windows / Ubuntu × Python 3.12 / 3.13，以及可选 LangChain、Web / 浏览器 / Docker，见[已通过的运行记录](https://github.com/Zhang-J1a/RepoLens/actions/runs/39273995176)。
+2. **跨平台 CI 已通过**：Windows / Ubuntu × Python 3.12 / 3.13，以及可选 LangChain、Web / 浏览器 / Docker，见[已通过的运行记录](https://github.com/Zhang-J1a/RepoLens/actions/runs/39374918498)。
 3. **容器实际验证只读挂载**：CI 包含镜像构建、启动、合成 Demo、挂载导入及 `RW=false` 检查，见[工作流](.github/workflows/ci.yml)与[验收状态](docs/v6-release.md)。
 
 这些是检索与工程验收证据。**多仓库外部盲测、真实模型回答正确率、引用语义支持度和真实负载性能仍未完成。** 当前按作者安排暂缓 M4 选仓，不以合成题或已参与开发的仓库补足数量。
@@ -95,16 +95,15 @@ Linux/macOS 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。Demo �
 ## 架构
 
 ```mermaid
-flowchart LR
-    Git[本地 Git 固定 commit] --> Parse[Git objects / Python AST / Markdown]
-    Parse --> Store[SQLite / FTS5 / TF-IDF / 静态图]
+flowchart TB
+    Git[本地 Git / 固定 commit] --> Store["Git objects / Python AST / Markdown<br/>SQLite / FTS5 / TF-IDF / 静态图"]
     Store --> Search[Hybrid 默认 / Graph 可选]
-    Search --> Pack[有界上下文 / Evidence]
-    Pack --> Model[Mock / DeepSeek / 可选 LangChain]
-    Model --> Check[Schema / Citation 校验]
-    Check --> UI[Web / CLI / Trace]
+    Search --> Answer["有界 Evidence / Mock 或 DeepSeek<br/>Schema / Citation 校验"]
     Store --> Diff[Base / Head 变更分析]
+    Search --> MCP[宿主固定版本的只读 MCP]
+    Answer --> UI[Web / CLI / Trace]
     Diff --> UI
+    MCP --> Client[外部 coding agent]
 ```
 
 | 层 | 技术 | 选择原因 |
@@ -114,6 +113,7 @@ flowchart LR
 | 模型 | DeepSeek API；可选 LangChain Core / LCEL / Retriever | 模型适配与版本、证据、权限边界分离 |
 | 后端 | 可选 FastAPI、Pydantic、SSE | 封闭 API schema 与后台任务进度 |
 | 前端 | React、TypeScript、TanStack Query、Monaco、React Flow | 仓库、diff、图、问答、Trace 与评测六页面 |
+| Agent 接口 | MCP stdio / JSON-RPC、现有受控工具 | 固定版本、只读权限与进程预算复用 |
 | 验证与部署 | unittest、Playwright、GitHub Actions、Docker | 离线契约、安装包、浏览器与容器分别验收 |
 
 Agent 使用现有显式状态机与固定工具；LangChain 负责可选模型编排及 Document 适配。架构边界与取舍见[架构说明](docs/architecture.md)及 [ADR 目录](docs/adr/)。
