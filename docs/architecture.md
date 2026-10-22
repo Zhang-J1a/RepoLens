@@ -61,7 +61,7 @@ Python 包版本为 4.1.0，路线图阶段为 V6；两者编号独立，V6 是�
 | `agent` | 八个固定只读工具、显式状态机、共享预算、spawn 超时终止、模型降级和 task/trace 记录 | V3 |
 | `observability` | 请求/任务关联、metadata-only JSON 日志、有界 metrics 和 Prometheus 文本端点 | V6 |
 | `generation_evaluation` | 对保存回答和独立审阅标签计算引用支持度、正确率和拒答指标 | V6 |
-| `benchmark` | Mock 离线评测准备、冻结输入、预算预留与断点日志；真实模型仍待授权和后续实现 | M5 准备 |
+| `benchmark` | Mock/真实 provider 评测执行、冻结输入、重试预算、断点日志与独立审阅导出 | M5 准备 |
 | `mcp_service` / `mcp_server` | 复用受控工具的固定 snapshot 证据服务与 MCP stdio 最小传输 | M7 最小切片 |
 
 表中只列出实际存在的模块。`ask/chat` 的仓库与 snapshot 工作流位于 `cli.py`，问答编排位于 `pipeline.py`；路径、citation、Agent 参数和 Web 请求的验证分别由 `config.py`、`answer.py`、`agent/` 与 `workbench/schemas.py` 承担，不存在独立的 `workflow.py` 或 `validation.py`。

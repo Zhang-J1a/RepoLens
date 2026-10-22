@@ -1,4 +1,4 @@
-"""Run the offline Mock benchmark preparation; no real provider is available here."""
+"""Run a bounded offline or explicitly authorized model generation benchmark."""
 
 import argparse
 import json
@@ -6,6 +6,7 @@ from pathlib import Path
 
 from repolens.benchmark import STRATEGIES, run_benchmark
 from repolens.domain import RepoLensError
+from repolens.provider import DeepSeekProvider, MockProvider
 
 
 def main(argv=None):
@@ -15,13 +16,26 @@ def main(argv=None):
     parser.add_argument("--snapshot", required=True)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--strategies", nargs="+", choices=STRATEGIES, default=list(STRATEGIES))
+    parser.add_argument("--provider", choices=("mock", "deepseek", "langchain"), default="mock")
+    parser.add_argument("--model")
+    parser.add_argument("--context-tokens", type=int, default=2400)
+    parser.add_argument("--output-tokens", type=int, default=768)
     parser.add_argument("--max-calls", type=int, default=32)
     parser.add_argument("--max-planned-tokens", type=int, default=200000)
     args = parser.parse_args(argv)
     try:
+        if args.provider == "mock":
+            provider = MockProvider()
+        elif args.provider == "deepseek":
+            provider = DeepSeekProvider.from_environment(model=args.model)
+        else:
+            from repolens.langchain_integration import LangChainDeepSeekProvider
+            provider = LangChainDeepSeekProvider.from_environment(model=args.model)
         report = run_benchmark(args.dataset, args.index, args.snapshot, args.output_dir,
                                strategies=args.strategies, max_calls=args.max_calls,
-                               max_planned_tokens=args.max_planned_tokens)
+                               max_planned_tokens=args.max_planned_tokens,
+                               context_tokens=args.context_tokens, output_tokens=args.output_tokens,
+                               provider=provider, export_responses=args.provider != "mock")
     except (RepoLensError, OSError):
         print(json.dumps({"error_code": "benchmark_failed", "hint": "Check inputs, frozen policy and output permissions."}))
         return 1

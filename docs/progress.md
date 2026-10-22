@@ -1,5 +1,30 @@
 # 进度与交接
 
+## 2026-10-22：M5 真实模型评测执行器准备
+
+### 已完成
+
+- 在既有 `QuestionAnswerPipeline` 上增加显式 provider 入口：默认仍为离线 Mock，可选 `deepseek` 或 `langchain`；没有复制检索、上下文打包或 citation 校验逻辑。
+- 固定 manifest 记录 provider、model、snapshot、commit、index corpus、策略、上下文/输出预算和 provider 最大重试次数；每题预算按最大尝试次数预留。
+- 增加 `responses.json` 导出：完成事件只记录 evidence 定位和结构化 telemetry，导出时从同一 snapshot 恢复 evidence 正文，供独立人工评分器使用。输出与标签仍分离，未自动判定语义正确性。
+- 真实 provider 运行仍受授权停点约束：本轮未读取 API key、未调用 DeepSeek、未发送仓库源码、未产生真实费用。M4 多仓库盲测继续按用户决定暂缓。
+
+### 验证
+
+- `$env:PYTHONPATH='src'; python -m unittest tests.test_generation_benchmark tests.test_generation_evaluation -v`：13 项中 12 项通过、1 项因本机无创建 symlink 权限跳过，9.454 秒，退出码 0。
+- `$env:PYTHONPATH='src'; python -m unittest discover -s tests -q`：218 项通过、28 项按当前环境条件跳过，239.585 秒，退出码 0；跳过项属于可选依赖、平台能力或真实外部服务门禁，未改测试以制造全绿。
+- `$env:PYTHONPATH='src'; python -m compileall -q src tests experiments scripts`：通过；`npm run format:check --prefix apps/web`、`npm run build --prefix apps/web`：通过。
+- `$env:PYTHONPATH='src'; data/v5-web-venv/Scripts/python.exe scripts/export_api.py --check`：通过；同环境 LangChain 专项 11 项通过。`python scripts/project_audit.py --check-links --output data/current-audit.json`：46 个模块、76 个本地链接、无断链。
+- `python scripts/build_release.py --output data/current-package.json`：wheel `repolens-4.1.0-py3-none-any.whl` 构建通过，SHA-256 `ce9dd22f360038e24459830874516a038c3a00f75d0ba2ed0f5340e269bd60cf`，15 个前端资源、0 个 stale assets。
+- 本轮未调用真实 DeepSeek、未读取或保存 API key；`responses.json` 的源码正文导出只在显式调用 API 时启用，未生成或提交真实评测产物。
+- `$env:PYTHONPATH='src'; python -m py_compile src/repolens/benchmark.py scripts/run_generation_benchmark.py`：通过；脚本 `--help` 已显示 `mock/deepseek/langchain` 三种 provider。
+- `git diff --check`：通过。专项新增测试确认 journal 不包含源码正文，`responses.json` 可以恢复完整 evidence 并被现有生成评测器消费。
+
+### 限制与下一步
+
+- 尚未形成真实模型质量报告；仍需用户明确 provider/model/endpoint、最多请求数、token/费用上限和允许外发的固定仓库后执行。
+- 下一项先补齐“真实评测结果的独立人工审阅输入与报告汇总”，完成后再提交并推送；本轮只完成执行器准备，不把 Mock 结果称为模型质量。
+
 ## 2026-10-20：修复 Windows CI 冷索引超时与兼容 HTTP 断连处理
 
 ### 已完成

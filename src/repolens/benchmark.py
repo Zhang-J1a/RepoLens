@@ -28,10 +28,57 @@ def _append(path: Path, value: dict) -> None:
         os.fsync(stream.fileno())
 
 
+def _responses_from_events(events, tasks, store, snapshot_id, *, scope, provider, model):
+    """Rehydrate scoreable responses without putting source text in the journal."""
+    cases = []
+    for identity, event in events.items():
+        if event.get("status") != "completed":
+            continue
+        strategy, case_id = identity
+        source_case = tasks[identity]
+        context = event.get("context")
+        if not isinstance(context, dict) or not isinstance(context.get("items"), list):
+            raise RepoLensError("Completed benchmark event has invalid context metadata.")
+        evidence = []
+        for item in context["items"]:
+            if not isinstance(item, dict) or not isinstance(item.get("evidence_id"), str):
+                raise RepoLensError("Completed benchmark event has invalid evidence metadata.")
+            evidence.append(store.evidence(item["evidence_id"], snapshot_id))
+        telemetry = event.get("telemetry")
+        if not isinstance(telemetry, dict):
+            raise RepoLensError("Completed benchmark event has invalid telemetry metadata.")
+        usage = telemetry.get("usage", {})
+        total_tokens = usage.get("total_tokens") if isinstance(usage, dict) else None
+        cases.append({
+            "id": f"{strategy}:{case_id}",
+            "strategy": strategy,
+            "question": source_case["query"],
+            "category": source_case["category"],
+            "answerable": source_case["answerable"],
+            "evidence": evidence,
+            "output": event["output"],
+            "latency_ms": telemetry.get("duration_ms"),
+            "total_tokens": total_tokens,
+        })
+    cases.sort(key=lambda item: item["id"])
+    return {
+        "schema_version": "repolens.generation-responses.v1",
+        "scope": scope,
+        "provider": provider,
+        "model": model,
+        "cases": cases,
+        "limitations": (
+            "Responses contain local evidence text so the independent reviewer can inspect semantic support. "
+            "Keep this file private and do not publish it without source and output review."
+        ),
+    }
+
+
 def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
                   strategies=STRATEGIES, max_calls=32, max_planned_tokens=200000,
-                  context_tokens=2400, output_tokens=768) -> dict:
-    """Run only Mock; reserve before each case and never retry uncertain attempts."""
+                  context_tokens=2400, output_tokens=768, provider=None,
+                  export_responses=False) -> dict:
+    """Run a bounded benchmark; real providers are opt-in and never retry uncertain cases."""
     for name, value, upper in (("max_calls", max_calls, 10000),
                                ("max_planned_tokens", max_planned_tokens, 100000000),
                                ("context_tokens", context_tokens, 16000),
@@ -64,6 +111,13 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
         target = Path(output_directory).resolve()
         validate_data_directory(target, git.root)
         validate_data_directory(target, git.git_directory)
+        active_provider = provider if provider is not None else MockProvider()
+        offline = isinstance(active_provider, MockProvider)
+        provider_name = getattr(active_provider, "name", "unknown")
+        model_name = getattr(active_provider, "model", "unknown")
+        max_attempts = 1 + getattr(active_provider, "max_retries", 0)
+        if type(max_attempts) is not int or not 1 <= max_attempts <= 6:
+            raise RepoLensError("Benchmark provider retry budget must be between 0 and 5.")
         corpus = [dict(row) for row in store.connection.execute(
             "SELECT id, repository_id, commit_sha, policy FROM snapshots ORDER BY id"
         )]
@@ -72,19 +126,20 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
             path.read_bytes().replace(b"\r\n", b"\n")
         ).hexdigest() for path in sorted(source.rglob("*.py")) if "fixtures" not in path.parts}
         expected = {
-            "schema_version": "repolens.generation-benchmark.v1",
-            "scope": "offline-mock-contract-not-model-quality", "provider": "mock",
-            "model": "mock-deterministic-v1", "dataset_sha256": dataset_hash,
+            "schema_version": "repolens.generation-benchmark.v2",
+            "scope": "offline-mock-contract-not-model-quality" if offline else "model-quality-candidate",
+            "provider": provider_name, "model": model_name, "max_attempts": max_attempts,
+            "dataset_sha256": dataset_hash,
             "snapshot_id": snapshot_id, "commit_sha": snapshot["commit_sha"],
             "index_policy": snapshot["policy"], "index_corpus": corpus,
             "implementation_sha256_lf": implementation, "strategies": list(strategies),
             "top_k": 5, "follow_up_searches": 0, "max_calls": max_calls,
             "max_planned_tokens": max_planned_tokens, "context_tokens": context_tokens,
             "output_tokens": output_tokens, "case_count": len(cases),
-            "full_context": {"status": "unavailable", "reason": "No authorized real-model comparison in offline runner."},
+            "full_context": {"status": "unavailable", "reason": "Full-context arm is a separate experiment."},
         }
         target.mkdir(parents=True, exist_ok=True)
-        for name in ("manifest.json", "events.jsonl", "run.lock"):
+        for name in ("manifest.json", "events.jsonl", "run.lock", "responses.json"):
             artifact = target / name
             if artifact.is_symlink() or artifact.resolve().parent != target:
                 raise RepoLensError("Benchmark artifacts must not be symbolic links or leave the output directory.")
@@ -129,7 +184,8 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
                     raise RepoLensError("Benchmark journal contains an unknown case.")
                 if event.get("status") == "started" and identity not in started:
                     reservation = event.get("planned_tokens")
-                    if type(reservation) is not int or reservation != context_tokens + output_tokens + 2048:
+                    expected_reservation = (context_tokens + output_tokens + 2048) * max_attempts
+                    if type(reservation) is not int or reservation != expected_reservation:
                         raise RepoLensError("Benchmark journal has an invalid reservation.")
                     started[identity] = event
                 elif event.get("status") in ("completed", "failed") and identity in started and identity not in terminal:
@@ -146,7 +202,7 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
             for identity, case in tasks.items():
                 if identity in started:
                     continue
-                reservation = context_tokens + output_tokens + 2048
+                reservation = (context_tokens + output_tokens + 2048) * max_attempts
                 if len(started) >= max_calls or reserved_tokens + reservation > max_planned_tokens:
                     stop_reason = "planned_budget_exhausted"
                     break
@@ -158,7 +214,7 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
                 reserved_tokens += reservation
                 try:
                     result = QuestionAnswerPipeline(
-                        store, snapshot_id, MockProvider(), retrieval_strategy=strategy,
+                        store, snapshot_id, active_provider, retrieval_strategy=strategy,
                         context_packer=EvidenceContextPacker(context_tokens), max_output_tokens=output_tokens,
                     ).answer(case["query"], limit=5)
                     answer = result.answer.to_dict()
@@ -173,13 +229,27 @@ def run_benchmark(dataset, directory, snapshot_id, output_directory, *,
                     event = common | {"status": "failed", "error_code": "case_failed"}
                 _append(journal, event)
                 terminal[identity] = event
+            if export_responses:
+                responses = _responses_from_events(
+                    terminal, tasks, store, snapshot_id,
+                    scope=expected["scope"], provider=expected["provider"], model=expected["model"],
+                )
+                responses_path = target / "responses.json"
+                with responses_path.open("w", encoding="utf-8", newline="\n") as stream:
+                    json.dump(responses, stream, ensure_ascii=False, indent=2, allow_nan=False)
+                    stream.write("\n")
             return {
                 "scope": expected["scope"], "manifest_sha256": manifest_hash,
+                "provider": expected["provider"], "model": expected["model"],
                 "started": len(started), "completed": sum(item["status"] == "completed" for item in terminal.values()),
                 "failed": sum(item["status"] == "failed" for item in terminal.values()),
                 "uncertain": len(started) - len(terminal), "remaining": len(tasks) - len(started),
                 "reserved_planned_tokens": reserved_tokens, "stop_reason": stop_reason,
-                "actual_billed_tokens": None, "cost": None, "full_context": expected["full_context"],
+                "actual_billed_tokens": sum(
+                    event.get("telemetry", {}).get("usage", {}).get("total_tokens", 0)
+                    for event in terminal.values() if event.get("status") == "completed"
+                ) or None,
+                "cost": None, "full_context": expected["full_context"],
             }
         finally:
             lock.unlink()

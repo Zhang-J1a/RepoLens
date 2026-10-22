@@ -55,6 +55,17 @@ class GenerationBenchmarkTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(raw, (self.output / "events.jsonl").read_bytes())
 
+    def test_real_runner_export_is_scoreable_but_journal_omits_source(self):
+        report = run_benchmark(self.dataset, self.directory, self.snapshot, self.output,
+                               strategies=("hybrid",), export_responses=True)
+        self.assertEqual(report["completed"], 2)
+        journal = (self.output / "events.jsonl").read_text(encoding="utf-8")
+        responses = json.loads((self.output / "responses.json").read_text(encoding="utf-8"))
+        self.assertNotIn("private-source-marker", journal)
+        self.assertEqual(len(responses["cases"]), 2)
+        self.assertIn("private-source-marker", json.dumps(responses, ensure_ascii=False))
+        self.assertEqual(responses["cases"][0]["evidence"][0]["snapshot_id"], self.snapshot)
+
     def test_failure_is_recorded_without_exception_text_and_is_not_retried(self):
         with patch("repolens.benchmark.QuestionAnswerPipeline.answer", side_effect=RuntimeError("secret-error-marker")):
             report = self.run_cases()

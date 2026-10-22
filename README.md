@@ -131,7 +131,7 @@ Agent 使用现有显式状态机与固定工具；LangChain 负责可选模型�
 |---|---|
 | 跨平台 CI、独立 wheel、容器与只读挂载 | 已有实际验收记录；本机无 Docker，容器证据来自 CI |
 | 多仓库外部盲测 M4 | 输入预检已实现，选仓与真实盲测暂缓 |
-| 真实模型评测 M5 | 离线评分器与 Mock 断点执行器已实现；真实调用及独立质量评测待完成 |
+| 真实模型评测 M5 | 已补齐 DeepSeek/LangChain 显式运行入口、断点预算和独立审阅导出；真实调用与人工质量标签待完成 |
 | Dense embedding / reranker / 检索路由 M6 | 等待 M4 / M5 基线，当前未启用 |
 | 只读 MCP 接口 M7 | stdio 最小服务与子进程测试已实现；第三方客户端互操作待验收 |
 | 多语言 M8 | 待独立决策与真实仓库验证 |
@@ -152,7 +152,7 @@ python scripts/v6_regression.py
 | [部署与回滚](docs/deployment.md) | 源码构建、Docker、只读挂载与排障 |
 | [架构与 ADR](docs/architecture.md) | 模块职责、版本身份与设计决策 |
 | [评测协议](docs/evaluation-dataset.md) | 数据集、指标分母、冻结与复现 |
-| [模型评测准备](docs/generation-benchmark.md) | 离线执行器、断点恢复与日志限制 |
+| [模型评测准备](docs/generation-benchmark.md) | Mock/真实 provider 执行器、断点恢复、预算与独立审阅导出 |
 | [只读 MCP](docs/mcp.md) | 外部 Agent 接入、固定版本与工具预算 |
 | [维护性审查](docs/maintenance-review.md) | 模块测量、兼容取舍与质量门禁 |
 | [验收记录](docs/v6-release.md) | 本地、安装包、CI 与容器证据 |
