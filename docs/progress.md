@@ -1,5 +1,30 @@
 # 进度与交接
 
+## 2026-10-22：M5 第二项：独立审阅模板与评分汇总
+
+### 已完成
+
+- 修复中断工作树中的重复拒答 TP 计数；拒答 precision/recall/F1 使用同一组 TP/FP/FN，零 TP 且存在误拒/漏拒时 F1 为 0，无分母时为 null。非法输出不算成功拒答，应拒答题中的非法输出计为 FN。
+- 新增 `create_review_template`，复用原 schema/citation validator，为合法输出的 claim/citation pair 生成空白标签，所有 case 绑定确切 `output_sha256`。非法输出的 pair 留空但仍作为结构失败参与总分；未完成的 null 标签不能评分，不自动生成正确性/语义支持标签。
+- 修复 CLI 模板模式：`--create-review-template` 与 `--judgments` 二选一，模板不再读取不存在的 judgment 文件；评分报告同时记录两份输入原始字节的 SHA-256，模板只记录 responses SHA-256。输出继续独占创建，不覆盖人工材料。
+- 报告升级到 `repolens.generation-evaluation.v2`，增加拒答 F1、unsupported-answer rate、answerable/unanswerable 题数及 strategy/category 分组。unsupported-answer 明确定义为合法 answered 输出中至少有一个 citation 被标为 unsupported；不是跨仓库/真实模型质量结论。
+- 修改范围：`generation_evaluation.py`、`scripts/evaluate_generation.py`、专项测试及 README/架构/生成评测/V6 使用说明。没有修改 runner、检索策略、冻结 gold、历史结果、provider、依赖或前端。
+
+### 验证
+
+- 环境：Windows，Python 3.12.8。`$env:PYTHONPATH='src'; python -m unittest tests.test_generation_evaluation tests.test_generation_benchmark -v`：18 项，17 通过、1 项 symlink 权限跳过，9.983 秒，退出码 0。日志 `data/m5-review-targeted-tests.log`，SHA-256 `db773f71f1480046ee469c45c4f45daa458a96c1c7ed980fca05ac89895c8a01`。
+- `$env:PYTHONPATH='src'; data/v5-web-venv/Scripts/python.exe -m unittest discover -s tests -v`：223 项，222 通过、1 项 symlink 权限跳过，225.384 秒，退出码 0。包含可选 LangChain、Web/API、Agent/MCP 及 CLI；日志 `data/m5-review-full-tests.log`，SHA-256 `f22fd71eab04d557944162c04e000dee4c326ca961260f96bc043deb2e825aae`。
+- `$env:PYTHONPATH='src'; python -m compileall -q src tests experiments scripts`、`python scripts/v6_regression.py`、`python scripts/project_audit.py --check-links --output data/m5-review-audit.json`、Web 环境的 `python scripts/export_api.py --check` 和 `git diff --check`：通过。46 个模块、76 个本地文档链接、无断链；冻结检查没有传 `--index`，不算 90 次实际检索重放。
+- `$env:PYTHONPATH='src'; python scripts/build_release.py --output data/m5-review-package.json`：通过，退出码 0，3.891 秒。wheel SHA-256 `f2c93ca68c82b9d46c0e35437035d8406b9ba93c0ac76cd89c27a4d9d00809b0`，15 个前端资源一致、stale assets=0。首次漏设 PYTHONPATH 的构建在收尾 import 失败，修正命令环境后重跑，不改构建脚本掩盖失败。
+- `python -m pip --python data/portfolio-polish-venv/Scripts/python.exe install --no-index --no-deps --force-reinstall dist/repolens-4.1.0-py3-none-any.whl` 后，以 `data/portfolio-polish-venv/Scripts/python.exe -I -m unittest discover -s tests -p test_generation_evaluation.py -v` 复验：8 项全部通过，0.019 秒，退出码 0。日志 `data/m5-review-installed-tests.log`，SHA-256 `3c0aeb81772b18eb1195790e686abbbcba520485301c35998c916b1d4e9489f6`。只离线安装当前项目 wheel，没有新增第三方依赖。
+- 实际运行 `python scripts/evaluate_generation.py --responses eval/v6-generation-responses.json --create-review-template --reviewer fixture-review --output data/m5-review-template.json` 及 `python scripts/evaluate_generation.py --responses eval/v6-generation-responses.json --judgments eval/v6-generation-judgments.json --output data/m5-review-replay.json`：均退出码 0。五个 scripted 反例得到拒答 precision=0.5、recall=1、F1=2/3、unsupported-answer rate=0.5。报告 SHA-256 `d033c23bf2db3b5159d2f30a490ca3814c1bc5b96f57342e66e00d74f1bbb017`，仅是评分器契约，不是 DeepSeek 质量。
+
+### 限制与下一步
+
+- 本轮没有读取 API key、调用真实模型、发送目标源码、引入新依赖、索引学习参考仓库、改 LICENSE 或发布 tag/release。M4 继续暂缓；M5 仅完成评测工具准备，尚无真实模型固定题集加独立标签质量报告、费用硬门禁或多审阅者一致性分析。
+- 已核实第一项提交 `ccdf2c9` 的 [CI 39731273779](https://github.com/Zhang-J1a/RepoLens/actions/runs/39731273779) 最终为 failure：5 个 job 成功；Windows Python 3.13 的 `test_impact_and_in_memory_settings` 在冷启动 impact 请求的客户端 10 秒超时，随后清理遇到 SQLite 文件仍占用。不能把该运行称为全绿；本轮未混入独立的兼容 Web 修复。本机本轮同用例与全量回归通过，不替代远程结论。
+- 按用户既有授权，验收后提交并推送第二项，再核验新 CI。下一个安全任务是单独修复/验收上述 Web 冷启动与清理生命周期问题；真实模型评测须先确认 provider/model/endpoint、固定仓库源码外发范围及请求/token/费用上限。
+
 ## 2026-10-22：M5 真实模型评测执行器准备
 
 ### 已完成

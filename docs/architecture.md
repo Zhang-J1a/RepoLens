@@ -60,7 +60,7 @@ Python 包版本为 4.1.0，路线图阶段为 V6；两者编号独立，V6 是�
 | `graph` | 持久化静态节点/边、增量语法事实、重新连边、一至两跳查询和版本隔离的可选图检索 | V4 |
 | `agent` | 八个固定只读工具、显式状态机、共享预算、spawn 超时终止、模型降级和 task/trace 记录 | V3 |
 | `observability` | 请求/任务关联、metadata-only JSON 日志、有界 metrics 和 Prometheus 文本端点 | V6 |
-| `generation_evaluation` | 对保存回答和独立审阅标签计算引用支持度、正确率和拒答指标 | V6 |
+| `generation_evaluation` | 为保存回答生成 hash 绑定的独立审阅模板；计算引用支持度、正确率、拒答 F1、unsupported-answer rate 及策略/类别分组 | V6 / M5 准备 |
 | `benchmark` | Mock/真实 provider 评测执行、冻结输入、重试预算、断点日志与独立审阅导出 | M5 准备 |
 | `mcp_service` / `mcp_server` | 复用受控工具的固定 snapshot 证据服务与 MCP stdio 最小传输 | M7 最小切片 |
 

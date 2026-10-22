@@ -54,6 +54,18 @@ LangChain 适配器可以替换 provider：`--provider langchain`。它仍然复
 
 真实模型运行前仍需确认 provider/model/endpoint、允许发送的仓库及请求/token/费用上限。执行器记录 provider usage 和延迟；真实费用仍保持 `cost: null`，因为价格、折扣和账单不由 RepoLens 猜测。
 
-人工审阅标签必须另存并绑定 `output_sha256`。`responses.json` 已按同一 snapshot 恢复 evidence 正文，可直接与独立标签组装后交给 `scripts/evaluate_generation.py`；执行器不会自动生成语义标签，也不把 schema 通过误报为答案正确。
+人工审阅标签必须另存并绑定 `output_sha256`。先生成独立审阅模板，再由审阅者填写标签；模板生成不需要预先存在 judgment 文件：
+
+```powershell
+python scripts/evaluate_generation.py `
+  --responses <responses.json> --create-review-template `
+  --reviewer reviewer-1 --output <judgments.json>
+```
+
+审阅时为每个回答填写 `answer_correct`，并为模板列出的每个 claim/citation pair 填 `supported`；不得改动 `output_sha256`。随后以 `--judgments <judgments.json>` 运行同一脚本生成评分报告。脚本以独占创建方式写输出，避免覆盖已有人工材料。执行器和模板都不会自动生成语义标签，也不把 schema 通过误报为答案正确。
+
+模板复用同一个 schema/citation validator；非法输出不列语义引用标签，评分时仍记为结构失败，不允许靠补标签将伪造 citation 算成合法。空白 `null` 标签不能直接评分，须由审阅者填写布尔值。标签中的 `failure_type` 留给审阅者描述错误，当前不作自动错误分类或多审阅者一致性分析。
+
+拒答按 `answerable=false` 定义为应拒答；非法结构或 citation 输出按未拒答计，因此会成为应拒答题的漏拒。unsupported-answer rate 是合法 `answered` 输出中至少一个 citation 被标为 unsupported 的回答数，除以合法 `answered` 输出数。两项均报告总体、strategy 和 category 分组；无分母时返回 `null`。这些结果依赖独立人工标签。
 
 专项测试覆盖恢复不重试、预算跨恢复保留、失败脱敏、未完成任务、输入/日志/输出 hash 损坏、并发锁和输出目录越界。真实模型正确率、引用支持度与拒答质量仍需在授权后运行并由独立标签评分。

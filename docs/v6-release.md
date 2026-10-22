@@ -11,7 +11,7 @@
 | 原始要求 | 实现与证据 | 当前状态 |
 |---|---|---|
 | 离线检索评测与回归 | 冻结题集、策略实现 hash、逐题 Recall/MRR/nDCG/条数，`eval/v6-retrieval-regression.json` | 90 次查询实际重放通过 |
-| 引用与生成独立评测 | `generation_evaluation.py` 与保存回答/独立审阅标签，审阅绑定确切输出 hash | 评分器 3 项测试通过；5 个反例回放，真实模型未测 |
+| 引用与生成独立评测 | 独立审阅模板、保存回答/标签 hash 绑定、拒答 F1 与策略/类别汇总 | 评分器/模板安装包 8 项测试通过；5 个反例回放，真实模型未测 |
 | Agent 与端到端 | 独立安装包的 Mock 正常与预算降级、工具成功率、重复调用、Trace 完整性、任务耗时 | `eval/v6-workbench-smoke.json` 通过，属于契约演示 |
 | 可观测性 | request ID、后台任务上下文、task/trace 关联、JSON 日志、JSON/Prometheus metrics | API、日志脱敏、有界指标测试通过 |
 | 安全限制 | Host/Origin、JSON/128 KiB、CSP、目录授权、历史证据限制、只读 Git、Agent 工具权限 | 既有安全测试与新增 V6 测试通过 |
@@ -73,6 +73,17 @@ python -m venv data/v6-acceptance-venv
 固定 Flask commit 上另跑正常 Mock 与模拟 provider 故障，分别 completed/answered 和 degraded/abstained，均保留规则报告和证据。见 `eval/flask-agent-v6-smoke.json`，SHA-256 为 `e3e32bcc08fe310253aa807f60080b8e9c1c8bd93c37fcc4764e3f0ef2458623`；这是实际代码仓库上的离线契约 smoke，不是真实模型质量。
 
 ## 生成质量的使用方式
+
+先从原始响应生成空白人工审阅模板；该模式不需要已有 judgments 文件：
+
+```powershell
+python scripts/evaluate_generation.py `
+  --responses eval/v6-generation-responses.json `
+  --create-review-template --reviewer reviewer-1 `
+  --output data/v6-generation-judgments-template.json
+```
+
+填写模板中的 `answer_correct` 和每个 citation 的 `supported` 后，再运行评分：
 
 ```powershell
 python scripts/evaluate_generation.py `

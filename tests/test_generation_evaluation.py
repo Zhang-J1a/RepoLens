@@ -1,10 +1,18 @@
 """Explicit counterexamples separate citation validity from semantic support."""
 
 import copy
+import hashlib
+import io
+import json
+from contextlib import redirect_stderr, redirect_stdout
+from pathlib import Path
+import runpy
+import tempfile
 import unittest
+from unittest.mock import patch
 
 from repolens.domain import RepoLensError
-from repolens.generation_evaluation import evaluate_responses, output_hash
+from repolens.generation_evaluation import create_review_template, evaluate_responses, output_hash
 
 
 def evaluation_fixture():
@@ -26,7 +34,8 @@ def evaluation_fixture():
     )
     for identity, answerable, output, correct, support in scenarios:
         cases.append({"id": identity, "question": "What is the timeout?", "answerable": answerable,
-                      "evidence": [evidence], "output": output})
+                      "evidence": [evidence], "output": output,
+                      "strategy": "hybrid", "category": "answerability"})
         judgments.append({"id": identity, "output_sha256": output_hash(output), "answer_correct": correct,
                           "citation_support": [] if support is None else [
                               {"claim_index": 0, "citation_id": "E1", "supported": support}]})
@@ -43,6 +52,10 @@ class GenerationEvaluationTests(unittest.TestCase):
         self.assertEqual(result["metrics"]["citation_precision_valid_outputs"], .5)
         self.assertEqual(result["metrics"]["abstention_precision"], .5)
         self.assertEqual(result["metrics"]["abstention_recall"], 1)
+        self.assertEqual(result["metrics"]["abstention_f1"], 2 / 3)
+        self.assertEqual(result["metrics"]["unsupported_answer_rate"], .5)
+        self.assertEqual(result["by_strategy"]["hybrid"]["abstention_f1"], 2 / 3)
+        self.assertEqual(result["by_category"]["answerability"]["case_count"], 5)
         self.assertIsNone(result["metrics"]["latency_ms"]["p95"])
         self.assertIsNone(result["metrics"]["total_tokens"])
 
@@ -61,3 +74,83 @@ class GenerationEvaluationTests(unittest.TestCase):
         responses["cases"][0]["latency_ms"] = float("nan")
         with self.assertRaises(RepoLensError):
             evaluate_responses(responses, judgments)
+
+    def test_review_template_binds_hash_and_expands_citation_pairs(self):
+        responses, _ = evaluation_fixture()
+        template = create_review_template(responses, reviewer="independent reviewer")
+        self.assertEqual(template["reviewer"], "independent reviewer")
+        self.assertEqual(len(template["cases"]), len(responses["cases"]))
+        first = template["cases"][0]
+        self.assertEqual(first["output_sha256"], output_hash(responses["cases"][0]["output"]))
+        self.assertEqual(first["citation_support"], [
+            {"claim_index": 0, "citation_id": "E1", "supported": None}])
+        self.assertIsNone(first["answer_correct"])
+
+    def test_completed_template_scores_invalid_outputs_without_editing_pairs(self):
+        responses, judgments = evaluation_fixture()
+        template = create_review_template(responses, reviewer="reviewer")
+        self.assertEqual(template["cases"][2]["citation_support"], [])
+        for label, completed in zip(template["cases"], judgments["cases"]):
+            label["answer_correct"] = completed["answer_correct"]
+            for pair, reviewed in zip(label["citation_support"], completed["citation_support"]):
+                pair["supported"] = reviewed["supported"]
+        result = evaluate_responses(responses, template)
+        self.assertEqual(result["metrics"]["answer_accuracy"], .4)
+
+    def test_zero_true_positive_f1_and_invalid_abstention(self):
+        responses, judgments = evaluation_fixture()
+        responses["cases"] = [responses["cases"][2], responses["cases"][4]]
+        judgments["cases"] = [judgments["cases"][2], judgments["cases"][4]]
+        responses["cases"][0]["answerable"] = False
+        result = evaluate_responses(responses, judgments)
+        self.assertEqual(result["metrics"]["abstention_f1"], 0)
+        self.assertEqual(result["metrics"]["abstention_recall"], 0)
+        self.assertEqual(result["by_strategy"]["hybrid"]["abstention_f1"], 0)
+        self.assertIsNone(result["metrics"]["unsupported_answer_rate"])
+
+    def test_groups_keep_separate_denominators_and_missing_labels_fail(self):
+        responses, judgments = evaluation_fixture()
+        responses["cases"][0].update(strategy="keyword", category="symbol")
+        report = evaluate_responses(responses, judgments)
+        self.assertEqual(report["by_strategy"]["keyword"]["case_count"], 1)
+        self.assertEqual(report["by_strategy"]["keyword"]["unsupported_answer_rate"], 0)
+        self.assertIsNone(report["by_category"]["symbol"]["abstention_f1"])
+        template = create_review_template(responses, reviewer="reviewer")
+        with self.assertRaises(RepoLensError):
+            evaluate_responses(responses, template)
+
+    def test_cli_template_and_scoring_provenance_and_no_overwrite(self):
+        main = runpy.run_path(str(Path(__file__).resolve().parents[1] / "scripts/evaluate_generation.py"))["main"]
+
+        responses, judgments = evaluation_fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            response_path, judgment_path = root / "responses.json", root / "judgments.json"
+            template_path, report_path = root / "template.json", root / "report.json"
+            response_path.write_text(json.dumps(responses), encoding="utf-8")
+            judgment_path.write_text(json.dumps(judgments), encoding="utf-8")
+            arguments = ["evaluate_generation", "--responses", str(response_path)]
+            template_arguments = arguments + ["--create-review-template", "--output", str(template_path)]
+            with patch("sys.argv", template_arguments), redirect_stdout(io.StringIO()):
+                main()
+            template_bytes = template_path.read_bytes()
+            template = json.loads(template_bytes)
+            self.assertEqual(template["provenance"], {
+                "responses_sha256": hashlib.sha256(response_path.read_bytes()).hexdigest()})
+            with patch("sys.argv", template_arguments), self.assertRaises(FileExistsError):
+                main()
+            self.assertEqual(template_path.read_bytes(), template_bytes)
+            with patch("sys.argv", arguments + ["--judgments", str(judgment_path),
+                                                "--output", str(report_path)]), redirect_stdout(io.StringIO()):
+                main()
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(report["provenance"]["judgments_sha256"],
+                             hashlib.sha256(judgment_path.read_bytes()).hexdigest())
+            self.assertEqual(report["case_count"], 5)
+            for modes in ([], ["--judgments", str(judgment_path), "--create-review-template"]):
+                rejected_path = root / "rejected.json"
+                with patch("sys.argv", arguments + modes + ["--output", str(rejected_path)]), \
+                        redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as caught:
+                    main()
+                self.assertEqual(caught.exception.code, 2)
+                self.assertFalse(rejected_path.exists())
